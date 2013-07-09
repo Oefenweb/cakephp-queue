@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2013-07-02 11:44+0200\n"
+"POT-Creation-Date: 2013-07-09 14:41+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,107 +14,111 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Console/Command/QueueShell.php:76;79
+#: Console/Command/QueueShell.php:85;88
 msgid "Tries to call the cli `add()` function on a task."
 msgstr ""
 
-#: Console/Command/QueueShell.php:80
+#: Console/Command/QueueShell.php:89
 msgid "Tasks may or may not provide this functionality."
 msgstr ""
 
-#: Console/Command/QueueShell.php:84
+#: Console/Command/QueueShell.php:93
 msgid "Name of the task."
 msgstr ""
 
-#: Console/Command/QueueShell.php:91
+#: Console/Command/QueueShell.php:100
 msgid "Run a queue worker."
 msgstr ""
 
-#: Console/Command/QueueShell.php:93
+#: Console/Command/QueueShell.php:102
 msgid "Run a queue worker, which will look for a pending task it can execute."
 msgstr ""
 
-#: Console/Command/QueueShell.php:96;98
+#: Console/Command/QueueShell.php:105;107
 msgid "Display general statistics."
 msgstr ""
 
-#: Console/Command/QueueShell.php:101;103
+#: Console/Command/QueueShell.php:110;112
 msgid "Manually call cleanup function to delete task data of completed tasks."
 msgstr ""
 
-#: Console/Command/QueueShell.php:105
+#: Console/Command/QueueShell.php:114
 msgid "CakePHP Queue Plugin."
 msgstr ""
 
-#: Console/Command/QueueShell.php:141
+#: Console/Command/QueueShell.php:155
 msgid "Looking for a job."
 msgstr ""
 
-#: Console/Command/QueueShell.php:150
+#: Console/Command/QueueShell.php:164
 msgid "Running job of task '%s' '%d'."
 msgstr ""
 
-#: Console/Command/QueueShell.php:158
+#: Console/Command/QueueShell.php:172
 msgid "Job '%d' finished (took %s)."
 msgstr ""
 
-#: Console/Command/QueueShell.php:172
+#: Console/Command/QueueShell.php:186
 msgid "Job '%d' did not finish, requeued."
 msgstr ""
 
-#: Console/Command/QueueShell.php:175
+#: Console/Command/QueueShell.php:189
 msgid "Nothing to do, exiting."
 msgstr ""
 
-#: Console/Command/QueueShell.php:179
+#: Console/Command/QueueShell.php:193
 msgid "Nothing to do, sleeping for %d second(s)."
 msgstr ""
 
-#: Console/Command/QueueShell.php:189
+#: Console/Command/QueueShell.php:203
 msgid "Reached runtime of %s seconds (max. %s), terminating."
 msgstr ""
 
-#: Console/Command/QueueShell.php:197
+#: Console/Command/QueueShell.php:211
 msgid "Performing old job cleanup."
 msgstr ""
 
-#: Console/Command/QueueShell.php:210
+#: Console/Command/QueueShell.php:224
 msgid "Deleting old Jobs, that have finished before %s."
 msgstr ""
 
-#: Console/Command/QueueShell.php:223
+#: Console/Command/QueueShell.php:237
 msgid "Jobs currenty in the queue:"
 msgstr ""
 
-#: Console/Command/QueueShell.php:231
+#: Console/Command/QueueShell.php:245
 msgid "Total unfinished jobs      : %s"
 msgstr ""
 
-#: Console/Command/QueueShell.php:233
+#: Console/Command/QueueShell.php:247
 msgid "Finished job statistics:"
 msgstr ""
 
-#: Console/Command/QueueShell.php:237
+#: Console/Command/QueueShell.php:251
 msgid " %s: "
 msgstr ""
 
-#: Console/Command/QueueShell.php:238
+#: Console/Command/QueueShell.php:252
 msgid "   Finished jobs in database: %s"
 msgstr ""
 
-#: Console/Command/QueueShell.php:239
+#: Console/Command/QueueShell.php:253
 msgid "   Average job existence    : %ss"
 msgstr ""
 
-#: Console/Command/QueueShell.php:240
+#: Console/Command/QueueShell.php:254
 msgid "   Average execution delay  : %ss"
 msgstr ""
 
-#: Console/Command/QueueShell.php:241
+#: Console/Command/QueueShell.php:255
 msgid "   Average execution time   : %ss"
 msgstr ""
 
-#: Console/Command/QueueShell.php:162
+#: Console/Command/QueueShell.php:294;299
+msgid "Caught %s signal, exiting."
+msgstr ""
+
+#: Console/Command/QueueShell.php:176
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] ""

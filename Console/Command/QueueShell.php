@@ -2,6 +2,8 @@
 App::uses('QueuedTask', 'Model');
 App::uses('AppShell', 'Console/Command');
 
+declare(ticks = 1);
+
 /**
  * Queue Shell
  *
@@ -22,6 +24,13 @@ class QueueShell extends AppShell {
  * @var array
  */
 	private $__taskConf;
+
+/**
+ * Indicates whether or not the worker should exit on next the iteration.
+ *
+ * @var boolean
+ */
+	private $__exit;
 
 /**
  * Overwrite shell initialize to dynamically load all queue related tasks.
@@ -134,15 +143,20 @@ class QueueShell extends AppShell {
 			gc_enable();
 		}
 
-		$exit = false;
+		// Register signal handler(s)
+		pcntl_signal(SIGTERM, array($this, '__signalHandler'));
+		pcntl_signal(SIGINT, array($this, '__signalHandler'));
+
+		$this->__exit = false;
+
 		$starttime = time();
-		while (!$exit) {
+		while (!$this->__exit) {
 			if ($this->params['verbose']) {
 				$this->out(__d('queue', 'Looking for a job.'));
 			}
 			$data = $this->QueuedTask->requestJob($this->__getTaskConf());
 			if ($this->QueuedTask->exit === true) {
-				$exit = true;
+				$this->__exit = true;
 			} else {
 				if ($data !== false) {
 					$jobId = $data['id'];
@@ -173,7 +187,7 @@ class QueueShell extends AppShell {
 					}
 				} elseif (Configure::read('Queue.exitWhenNothingToDo')) {
 					$this->out(__d('queue', 'Nothing to do, exiting.'));
-					$exit = true;
+					$this->__exit = true;
 				} else {
 					if ($this->params['verbose']) {
 						$this->out(__d('queue', 'Nothing to do, sleeping for %d second(s).', Configure::read('Queue.sleepTime')));
@@ -185,7 +199,7 @@ class QueueShell extends AppShell {
 				if (Configure::read('Queue.workerMaxRuntime') != 0
 						&& (time() - $starttime) >= Configure::read('Queue.workerMaxRuntime')
 				) {
-					$exit = true;
+					$this->__exit = true;
 					$this->out(__d('queue',
 						'Reached runtime of %s seconds (max. %s), terminating.',
 						(time() - $starttime),
@@ -193,7 +207,7 @@ class QueueShell extends AppShell {
 					));
 				}
 
-				if ($exit || rand(0, 100) > (100 - Configure::read('Queue.gcprop'))) {
+				if ($this->__exit || rand(0, 100) > (100 - Configure::read('Queue.gcprop'))) {
 					$this->out(__d('queue', 'Performing old job cleanup.'));
 					$this->QueuedTask->cleanOldJobs();
 				}
@@ -266,6 +280,27 @@ class QueueShell extends AppShell {
 		}
 
 		return $this->__taskConf;
+	}
+
+/**
+ * Signal handler (for SIGTERM and SIGINT signal)
+ *
+ * @param int $signalNumber A signal number
+ * @return void
+ */
+	private function __signalHandler($signalNumber) {
+		switch($signalNumber) {
+			case SIGTERM:
+				$this->out(__d('queue', 'Caught %s signal, exiting.', sprintf('SIGTERM (%d)', SIGTERM)));
+
+				$this->__exit = true;
+				break;
+			case SIGINT:
+				$this->out(__d('queue', 'Caught %s signal, exiting.', sprintf('SIGINT (%d)', SIGINT)));
+
+				$this->__exit = true;
+				break;
+		}
 	}
 
 }
