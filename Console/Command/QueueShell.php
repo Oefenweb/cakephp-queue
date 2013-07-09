@@ -42,7 +42,10 @@ class QueueShell extends AppShell {
 		$plugins = App::objects('plugin');
 		$plugins[] = '';
 		foreach ($plugins as $plugin) {
-			if (!empty($plugin)) $plugin .= '.';
+			if (!empty($plugin)) {
+				$plugin .= '.';
+			}
+
 			foreach (App::objects($plugin . 'Console/Command/Task') as $task) {
 				if (strpos($task, 'Queue') === 0 && substr($task, -4) === 'Task') {
 					$this->Tasks->load($plugin . substr($task, 0, -4));
