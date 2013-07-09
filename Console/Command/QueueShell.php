@@ -152,7 +152,7 @@ class QueueShell extends AppShell {
 
 		$this->__exit = false;
 
-		$starttime = time();
+		$workerStartTime = time();
 		while (!$this->__exit) {
 			if ($this->params['verbose']) {
 				$this->out(__d('queue', 'Looking for a job.'));
@@ -166,9 +166,9 @@ class QueueShell extends AppShell {
 					$taskname = 'Queue' . $data['task'];
 					$this->out(__d('queue', 'Running job of task \'%s\' \'%d\'.', $data['task'], $jobId));
 
-					$startTime = time();
+					$taskStartTime = time();
 					$return = $this->{$taskname}->run(unserialize($data['data']));
-					$took = time() - $startTime;
+					$took = time() - $taskStartTime;
 					if ($return) {
 						$this->QueuedTask->markJobDone($jobId);
 						$this->out(
@@ -200,12 +200,12 @@ class QueueShell extends AppShell {
 
 				// Check if we are over the maximum runtime and end processing if so.
 				if (Configure::read('Queue.workerMaxRuntime') != 0
-						&& (time() - $starttime) >= Configure::read('Queue.workerMaxRuntime')
+						&& (time() - $workerStartTime) >= Configure::read('Queue.workerMaxRuntime')
 				) {
 					$this->__exit = true;
 					$this->out(__d('queue',
 						'Reached runtime of %s seconds (max. %s), terminating.',
-						(time() - $starttime),
+						(time() - $workerStartTime),
 						Configure::read('Queue.workerMaxRuntime')
 					));
 				}
