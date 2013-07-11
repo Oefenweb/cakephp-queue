@@ -154,9 +154,8 @@ class QueueShell extends AppShell {
 
 		$workerStartTime = time();
 		while (!$this->__exit) {
-			if ($this->params['verbose']) {
-				$this->out(__d('queue', 'Looking for a job.'));
-			}
+			$this->out(__d('queue', 'Looking for a job.'), 1, Shell::VERBOSE);
+
 			$data = $this->QueuedTask->requestJob($this->__getTaskConf());
 			if ($this->QueuedTask->exit === true) {
 				$this->__exit = true;
@@ -192,9 +191,11 @@ class QueueShell extends AppShell {
 					$this->out(__d('queue', 'Nothing to do, exiting.'));
 					$this->__exit = true;
 				} else {
-					if ($this->params['verbose']) {
-						$this->out(__d('queue', 'Nothing to do, sleeping for %d second(s).', Configure::read('Queue.sleepTime')));
-					}
+					$this->out(
+						__d('queue', 'Nothing to do, sleeping for %d second(s).', Configure::read('Queue.sleepTime')),
+						1, Shell::VERBOSE
+					);
+
 					sleep(Configure::read('Queue.sleepTime'));
 				}
 
