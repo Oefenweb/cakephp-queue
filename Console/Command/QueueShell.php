@@ -147,8 +147,8 @@ class QueueShell extends AppShell {
 		}
 
 		// Register signal handler(s)
-		pcntl_signal(SIGTERM, array($this, '__signalHandler'));
-		pcntl_signal(SIGINT, array($this, '__signalHandler'));
+		pcntl_signal(SIGTERM, array($this, 'signalHandler'));
+		pcntl_signal(SIGINT, array($this, 'signalHandler'));
 
 		$this->__exit = false;
 
@@ -292,7 +292,7 @@ class QueueShell extends AppShell {
  * @param int $signalNumber A signal number
  * @return void
  */
-	private function __signalHandler($signalNumber) {
+	public function signalHandler($signalNumber) {
 		switch($signalNumber) {
 			case SIGTERM:
 				$this->out(__d('queue', 'Caught %s signal, exiting.', sprintf('SIGTERM (%d)', SIGTERM)));
