@@ -238,25 +238,33 @@ class QueueShell extends AppShell {
  * @return void
  */
 	public function stats() {
+		$this->hr();
 		$this->out(__d('queue', 'Jobs currenty in the queue:'));
+		$this->hr();
 
 		$types = $this->QueuedTask->getTypes();
 		foreach ($types as $type) {
-			$this->out('      ' . str_pad($type, 20, ' ', STR_PAD_RIGHT) . ': ' . $this->QueuedTask->getLength($type));
+			$this->out(sprintf('- %s: %s', $type, $this->QueuedTask->getLength($type)));
 		}
+		$this->out();
 
 		$this->hr();
-		$this->out(__d('queue', 'Total unfinished jobs      : %s', $this->QueuedTask->getLength()));
+		$this->out(__d('queue', 'Total unfinished jobs: %s', $this->QueuedTask->getLength()));
+		$this->hr();
+		$this->out();
+
 		$this->hr();
 		$this->out(__d('queue', 'Finished job statistics:'));
+		$this->hr();
 
 		$data = $this->QueuedTask->getStats();
 		foreach ($data as $item) {
-			$this->out(__d('queue', ' %s: ', $item['QueuedTask']['task']));
-			$this->out(__d('queue', '   Finished jobs in database: %s', $item[0]['num']));
-			$this->out(__d('queue', '   Average job existence    : %ss', $item[0]['alltime']));
-			$this->out(__d('queue', '   Average execution delay  : %ss', $item[0]['fetchdelay']));
-			$this->out(__d('queue', '   Average execution time   : %ss', $item[0]['runtime']));
+			$this->out(sprintf('- %s: ', $item['QueuedTask']['task']));
+			$this->out(sprintf('  - %s', __d('queue', 'Finished jobs in database: %s', $item[0]['num'])));
+			$this->out(sprintf('  - %s', __d('queue', 'Average job existence: %ss', $item[0]['alltime'])));
+			$this->out(sprintf('  - %s', __d('queue', 'Average execution delay: %ss', $item[0]['fetchdelay'])));
+			$this->out(sprintf('  - %s', __d('queue', 'Average execution time: %ss', $item[0]['runtime'])));
+			$this->out();
 		}
 	}
 
