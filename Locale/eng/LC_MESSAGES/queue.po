@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Queue Plugin\n"
 "POT-Creation-Date: 2013-07-12 16:59+0200\n"
-"PO-Revision-Date: 2013-07-12 17:00+0100\n"
+"PO-Revision-Date: 2013-07-21 08:00+0100\n"
 "Last-Translator: Mischa ter Smitten <mischa.ter.smitten@gmail.com>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -88,7 +88,7 @@ msgstr "Jobs currenty in the queue:"
 
 #: Console/Command/QueueShell.php:252
 msgid "Total unfinished jobs: %s"
-msgstr "Tries to call the cli `add()` function on a task."
+msgstr "Total unfinished jobs: %s"
 
 #: Console/Command/QueueShell.php:257
 msgid "Finished job statistics:"
