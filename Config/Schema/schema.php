@@ -1,4 +1,4 @@
-<?php
+<?php 
 class QueueSchema extends CakeSchema {
 
 	public function before($event = array()) {
@@ -10,14 +10,14 @@ class QueueSchema extends CakeSchema {
 
 	public $queued_tasks = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary'),
-		'task' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'task' => array('type' => 'string', 'null' => false, 'default' => null, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'data' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'not_before' => array('type' => 'datetime', 'null' => false, 'default' => null),
-		'fetched' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'completed' => array('type' => 'datetime', 'null' => true, 'default' => null),
+		'not_before' => array('type' => 'datetime', 'null' => false, 'default' => null, 'key' => 'index'),
+		'fetched' => array('type' => 'datetime', 'null' => true, 'default' => null, 'key' => 'index'),
+		'completed' => array('type' => 'datetime', 'null' => true, 'default' => null, 'key' => 'index'),
 		'failed_count' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10),
 		'failure_message' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'worker_key' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 40, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'worker_key' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 40, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
