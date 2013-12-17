@@ -1,4 +1,6 @@
-# Queue plugin for CakePHP [![Build Status](https://travis-ci.org/Oefenweb/cakephp-queue.png?branch=master)](https://travis-ci.org/Oefenweb/cakephp-queue)
+# Queue plugin for CakePHP
+
+[![Build Status](https://travis-ci.org/Oefenweb/cakephp-queue.png?branch=master)](https://travis-ci.org/Oefenweb/cakephp-queue) [![Coverage Status](https://coveralls.io/repos/Oefenweb/cakephp-queue/badge.png)](https://coveralls.io/r/Oefenweb/cakephp-queue)
 
 ## Requirements
 
