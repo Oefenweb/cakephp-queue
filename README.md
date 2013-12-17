@@ -1,4 +1,4 @@
-# Queue plugin for CakePHP
+# Queue plugin for CakePHP [![Build Status](https://travis-ci.org/Oefenweb/cakephp-queue.png?branch=master)](https://travis-ci.org/Oefenweb/cakephp-queue)
 
 ## Requirements
 
