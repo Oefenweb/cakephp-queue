@@ -33,7 +33,7 @@ before_script:
   - git clone https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
   - ../travis/before_script.sh
   - cd ../cakephp/app
-  - Console/cake schema update --plugin ${PLUGIN_NAME}
+  - Console/cake schema create --plugin ${PLUGIN_NAME}
 
 script:
   - ../travis/script.sh
