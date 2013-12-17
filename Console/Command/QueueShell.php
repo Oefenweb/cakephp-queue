@@ -50,6 +50,7 @@ class QueueShell extends AppShell {
 				if (strpos($task, 'Queue') === 0 && substr($task, -4) === 'Task') {
 					$taskName = substr($task, 0, -4);
 					$this->{$plugin . $taskName} = $this->Tasks->load($plugin . $taskName);
+					$this->{$plugin . $taskName}->initialize();
 					$this->tasks[] = $taskName;
 				}
 			}
