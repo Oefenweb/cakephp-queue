@@ -32,7 +32,7 @@ matrix:
 before_script:
   - git clone https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
   - ../travis/before_script.sh
-  - echo $(pwd) && ls ../../
+  - cd /home/travis && ls -R
   - Console/cake schema update --plugin PLUGIN_NAME
 
 script:
