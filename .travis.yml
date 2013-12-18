@@ -32,9 +32,6 @@ matrix:
 before_script:
   - git clone https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
   - ../travis/before_script.sh
-  - ls && cd ../cakephp/app
-  - mysql cakephp_test < Plugin/${PLUGIN_NAME}/Config/Schema/schema.sql
-  - cd ../../${REPO_NAME} && ls
 
 script:
   - ../travis/script.sh
