@@ -48,10 +48,8 @@ class QueueShell extends AppShell {
 
 			foreach (App::objects($plugin . 'Console/Command/Task') as $task) {
 				if (strpos($task, 'Queue') === 0 && substr($task, -4) === 'Task') {
-					$taskName = substr($task, 0, -4);
-					$this->{$plugin . $taskName} = $this->Tasks->load($plugin . $taskName);
-					$this->{$plugin . $taskName}->initialize();
-					$this->tasks[] = $taskName;
+					$this->Tasks->load($plugin . substr($task, 0, -4));
+					$this->tasks[] = substr($task, 0, -4);
 				}
 			}
 		}
