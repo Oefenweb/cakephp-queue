@@ -55,6 +55,7 @@ class QueuedTask extends AppModel {
 		$idlist = array();
 		$wasFetched = array();
 
+		$this->virtualFields['age'] = 'IFNULL(TIMESTAMPDIFF(SECOND, NOW(), not_before), 0)';
 		$conditions = array(
 			'completed' => null,
 			'OR' => array()
@@ -62,18 +63,19 @@ class QueuedTask extends AppModel {
 		$fields = array(
 			'id',
 			'fetched',
-			'TIMEDIFF(NOW(), not_before) AS age'
+			'age'
 		);
 		$order = array(
-			'age' => 'DESC',
+			'age' => 'ASC',
 			'id' => 'ASC'
 		);
 		$limit = 3;
 
 		// Generate the job specific conditions.
 		foreach ($capabilities as $task) {
+			list($plugin, $name) = pluginSplit($task['name']);
 			$tmp = array(
-				'task' => str_replace('Queue', '', $task['name']),
+				'task' => $name,
 				'AND' => array(
 					'not_before <=' => date('Y-m-d H:i:s'),
 					array(
@@ -91,7 +93,7 @@ class QueuedTask extends AppModel {
 		// First, find a list of a few of the oldest unfinished jobs.
 		$data = $this->find('all', compact('conditions', 'fields', 'order', 'limit'));
 
-		if (is_array($data) && count($data) > 0) {
+		if (!empty($data)) {
 			// Generate a list of their ids
 			foreach ($data as $item) {
 				$idlist[] = $item[$this->name]['id'];
@@ -109,7 +111,7 @@ class QueuedTask extends AppModel {
 				'", fetched = "' . date('Y-m-d H:i:s') . '" WHERE ' .
 				'id IN(' . implode(',', $idlist) . ') AND ' .
 				'(worker_key IS NULL OR fetched <= "' . date('Y-m-d H:i:s', time() - $task['timeout']) . '") ' .
-				'ORDER BY TIMEDIFF(NOW(), not_before) DESC LIMIT 1'
+				'ORDER BY ' . $this->virtualFields['age'] . ' ASC LIMIT 1'
 			);
 
 			// Read which one actually got updated, which is the job we are supposed to execute.

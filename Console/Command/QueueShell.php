@@ -1,4 +1,5 @@
 <?php
+App::uses('Folder', 'Utility');
 App::uses('QueuedTask', 'Model');
 App::uses('AppShell', 'Console/Command');
 
@@ -23,7 +24,7 @@ class QueueShell extends AppShell {
  *
  * @var array
  */
-	private $__taskConf;
+	protected $_taskConf;
 
 /**
  * Indicates whether or not the worker should exit on next the iteration.
@@ -39,18 +40,29 @@ class QueueShell extends AppShell {
  */
 	public function initialize() {
 		// Check for tasks inside plugins and application
-		$plugins = App::objects('plugin');
-		$plugins[] = '';
-		foreach ($plugins as $plugin) {
-			if (!empty($plugin)) {
-				$plugin .= '.';
+		$paths = App::path('Console/Command/Task');
+
+		foreach ($paths as $path) {
+			$Folder = new Folder($path);
+			$res = array_merge($this->tasks, $Folder->find('Queue.*\.php'));
+			foreach ($res as &$r) {
+				$r = basename($r, 'Task.php');
 			}
 
-			foreach (App::objects($plugin . 'Console/Command/Task') as $task) {
-				if (strpos($task, 'Queue') === 0 && substr($task, -4) === 'Task') {
-					$this->Tasks->load($plugin . substr($task, 0, -4));
-					$this->tasks[] = substr($task, 0, -4);
+			$this->tasks = $res;
+		}
+
+		$plugins = App::objects('plugin');
+		foreach ($plugins as $plugin) {
+			$pluginPaths = App::path('Console/Command/Task', $plugin);
+			foreach ($pluginPaths as $pluginPath) {
+				$Folder = new Folder($pluginPath);
+				$res = $Folder->find('Queue.*Task\.php');
+				foreach ($res as &$r) {
+					$r = $plugin . '.' . basename($r, 'Task.php');
 				}
+
+				$this->tasks = array_merge($this->tasks, $res);
 			}
 		}
 
@@ -127,9 +139,34 @@ class QueueShell extends AppShell {
  * @return void
  */
 	public function add() {
-		if (in_array($this->args[0], $this->taskNames)) {
-			$this->{$this->args[0]}->add();
+		$name = Inflector::camelize($this->args[0]);
+
+		if (in_array($name, $this->taskNames)) {
+			$this->{$name}->add();
+		} elseif (in_array('Queue' . $name, $this->taskNames)) {
+			$this->{'Queue' . $name}->add();
+		} else {
+			$this->out(__d('queue', 'Error: Task not Found: %s', $name));
+			$this->out('Available Tasks:');
+			foreach ($this->taskNames as $loadedTask) {
+				$this->out(' * ' . $this->_taskName($loadedTask));
+			}
 		}
+	}
+
+/**
+ * Output the task without Queue or Task
+ * example: QueueImageTask becomes Image on display
+ *
+ * @param string $taskName
+ * @return string Cleaned task name
+ */
+	protected function _taskName($task) {
+		if (strpos($task, 'Queue') === 0) {
+			return substr($task, 5);
+		}
+
+		return $task;
 	}
 
 /**
@@ -156,7 +193,7 @@ class QueueShell extends AppShell {
 		while (!$this->__exit) {
 			$this->out(__d('queue', 'Looking for a job.'), 1, Shell::VERBOSE);
 
-			$data = $this->QueuedTask->requestJob($this->__getTaskConf());
+			$data = $this->QueuedTask->requestJob($this->_getTaskConf());
 			if ($this->QueuedTask->exit === true) {
 				$this->__exit = true;
 			} else {
@@ -178,7 +215,6 @@ class QueueShell extends AppShell {
 								__dn('queue', '%d second', '%d seconds', $took, $took)
 							)
 						);
-
 					} else {
 						$failureMessage = null;
 						if (isset($this->{$taskname}->failureMessage) && !empty($this->{$taskname}->failureMessage)) {
@@ -273,25 +309,29 @@ class QueueShell extends AppShell {
  *
  * @return array A list of available queue tasks and their individual configurations
  */
-	private function __getTaskConf() {
-		if (!is_array($this->__taskConf)) {
-			$this->__taskConf = array();
+	protected function _getTaskConf() {
+		if (!is_array($this->_taskConf)) {
+			$this->_taskConf = array();
 			foreach ($this->tasks as $task) {
-				$this->__taskConf[$task]['name'] = $task;
-				if (property_exists($this->{$task}, 'timeout')) {
-					$this->__taskConf[$task]['timeout'] = $this->{$task}->timeout;
+				list($pluginName, $taskName) = pluginSplit($task);
+
+				$this->_taskConf[$taskName]['name'] = substr($taskName, 5);
+				$this->_taskConf[$taskName]['plugin'] = $pluginName;
+
+				if (property_exists($this->{$taskName}, 'timeout')) {
+					$this->_taskConf[$taskName]['timeout'] = $this->{$taskName}->timeout;
 				} else {
-					$this->__taskConf[$task]['timeout'] = Configure::read('Queue.defaultWorkerTimeout');
+					$this->_taskConf[$taskName]['timeout'] = Configure::read('Queue.defaultworkertimeout');
 				}
-				if (property_exists($this->{$task}, 'retries')) {
-					$this->__taskConf[$task]['retries'] = $this->{$task}->retries;
+				if (property_exists($this->{$taskName}, 'retries')) {
+					$this->_taskConf[$taskName]['retries'] = $this->{$taskName}->retries;
 				} else {
-					$this->__taskConf[$task]['retries'] = Configure::read('Queue.defaultWorkerRetries');
+					$this->_taskConf[$taskName]['retries'] = Configure::read('Queue.defaultworkerretries');
 				}
 			}
 		}
 
-		return $this->__taskConf;
+		return $this->_taskConf;
 	}
 
 /**

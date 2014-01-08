@@ -4,6 +4,7 @@ App::uses('QueuedTask', 'Queue.Model');
 /**
  * QueuedTask Test
  *
+ * @property Queue.QueuedTask $QueuedTask
  */
 class QueuedTaskTest extends CakeTestCase {
 
@@ -12,9 +13,7 @@ class QueuedTaskTest extends CakeTestCase {
  *
  * @var array
  */
-	public $fixtures = array(
-		'plugin.queue.queued_task'
-	);
+	public $fixtures = array('plugin.queue.queued_task');
 
 /**
  * setUp method

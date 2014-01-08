@@ -56,7 +56,7 @@ class QueueExampleTask extends Shell {
 		$this->out(' ');
 
 		// Adding a task of type 'example' with no additionally passed data
-		if ($this->QueuedTask->createJob('example', null)) {
+		if ($this->QueuedTask->createJob('Example', null)) {
 			$this->out(__d('queue', 'OK, job created, now run the worker'));
 		} else {
 			$this->err(__d('queue', 'Could not create Job'));
