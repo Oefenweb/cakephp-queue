@@ -23,24 +23,6 @@ class TestQueueShell extends QueueShell {
 	protected $_out = array();
 
 /**
- * Overload get for lazy building of tasks
- *
- * @param string $name
- * @return Shell Object of Task
- */
-	public function __get($name) {
-		if (empty($this->{$name}) && in_array($name, $this->taskNames)) {
-			$properties = $this->_taskMap[$name];
-			$this->{$name} = $this->Tasks->load($properties['class'], $properties['settings']);
-			$this->{$name}->args =& $this->args;
-			$this->{$name}->params =& $this->params;
-			$this->{$name}->initialize();
-			$this->{$name}->loadTasks();
-		}
-		return $this->{$name};
-	}
-
-/**
  * Test double of `parent::err`.
  *
  * @return void
