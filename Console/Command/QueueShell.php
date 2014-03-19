@@ -66,6 +66,23 @@ class QueueShell extends AppShell {
 			}
 		}
 
+		// TODO: Remove when CakePHP 2.4.2 is not supported anymore
+		if (version_compare(Configure::version(), '2.4.2', '<')) {
+			foreach ($this->tasks as &$task) {
+				list($p, $t) = pluginSplit($task);
+
+				// Load task
+				$this->{$t} = $this->Tasks->load($task);
+				$this->{$t}->initialize();
+
+				// Fix `$this->tasks`
+				$task = $t;
+			}
+
+			// Set `$this->taskNames`
+			$this->loadTasks();
+		}
+
 		$conf = Configure::read('Queue');
 		if (!is_array($conf)) {
 			$conf = array();
