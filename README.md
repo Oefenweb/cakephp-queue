@@ -4,7 +4,7 @@
 
 ## Requirements
 
-* CakePHP 2.0 or greater.
+* CakePHP 2.4.2 or greater.
 * PHP 5.3.10 or greater.
 
 ## Installation

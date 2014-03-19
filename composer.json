@@ -1,6 +1,6 @@
 {
   "name": "oefenweb/cakephp-queue",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A minimalistic Queue Plugin for CakePHP",
   "type": "cakephp-plugin",
   "keywords": [
