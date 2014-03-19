@@ -8,12 +8,6 @@ App::uses('AppModel', 'Model');
 class QueuedTask extends AppModel {
 
 /**
- *
- * @var boolean
- */
-	public $exit = false;
-
-/**
  * Adds a new Job to the queue
  *
  * @param string $taskName A queue task name
@@ -35,14 +29,6 @@ class QueuedTask extends AppModel {
 		$this->create();
 
 		return $this->save($data);
-	}
-
-/**
- *
- * @return void
- */
-	public function onError() {
-		$this->exit = true;
 	}
 
 /**
@@ -159,7 +145,7 @@ class QueuedTask extends AppModel {
 			'failure_message' => $this->getDataSource()->value($failureMessage, 'failure_message')
 		);
 
-		return ($this->updateAll($fields, $conditions));
+		return $this->updateAll($fields, $conditions);
 	}
 
 /**
