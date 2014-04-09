@@ -8,6 +8,13 @@ App::uses('AppModel', 'Model');
 class QueuedTask extends AppModel {
 
 /**
+ * The (translation) domain to be used for extracted validation messages in models.
+ *
+ * @var string
+ */
+	public $validationDomain = 'queue';
+
+/**
  * Adds a new Job to the queue
  *
  * @param string $taskName A queue task name
