@@ -1,28 +1,27 @@
 {
-  "name": "oefenweb/cakephp-queue",
-  "version": "1.0.0",
-  "description": "A minimalistic Queue Plugin for CakePHP",
-  "type": "cakephp-plugin",
-  "keywords": [
-    "cakephp", "queue"
-  ],
-  "homepage": "http://github.com/Oefenweb/cakephp-queue",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Oefenweb",
-      "homepage": "https://github.com/Oefenweb/cakephp-queue/contributors"
-    }
-  ],
-  "require": {
-    "php": ">=5.3.10",
-    "composer/installers": "*"
-  },
-  "support": {
-    "issues": "https://github.com/Oefenweb/cakephp-queue/issues",
-    "source": "https://github.com/Oefenweb/cakephp-queue"
-  },
-  "extra": {
-    "installer-name": "Queue"
-  }
+	"name": "oefenweb/cakephp-queue",
+	"description": "A minimalistic Queue Plugin for CakePHP",
+	"type": "cakephp-plugin",
+	"keywords": [
+		"cakephp", "queue"
+	],
+	"homepage": "http://github.com/Oefenweb/cakephp-queue",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Oefenweb.nl BV team",
+			"homepage": "https://github.com/Oefenweb/cakephp-queue/contributors"
+		}
+	],
+	"require": {
+		"php": ">=5.3.10",
+		"composer/installers": "~1.0"
+	},
+	"support": {
+		"issues": "https://github.com/Oefenweb/cakephp-queue/issues",
+		"source": "https://github.com/Oefenweb/cakephp-queue"
+	},
+	"extra": {
+		"installer-name": "Queue"
+	}
 }
