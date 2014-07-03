@@ -19,7 +19,7 @@ class QueuedTask extends AppModel {
  *
  * @param string $taskName A queue task name
  * @param mixed $data Any data
- * @param $notBefore A datetime which indicates when the job may be executed
+ * @param string $notBefore A datetime which indicates when the job may be executed
  * @return boolean Success
  */
 	public function createJob($taskName, $data, $notBefore = null) {

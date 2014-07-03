@@ -158,7 +158,7 @@ class QueueShell extends AppShell {
  * Output the task without Queue or Task
  * example: QueueImageTask becomes Image on display
  *
- * @param string $taskName
+ * @param string $task A task name
  * @return string Cleaned task name
  */
 	protected function _taskName($task) {
