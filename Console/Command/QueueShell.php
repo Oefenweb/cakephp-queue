@@ -321,12 +321,12 @@ class QueueShell extends AppShell {
 				if (property_exists($this->{$taskName}, 'timeout')) {
 					$this->_taskConf[$taskName]['timeout'] = $this->{$taskName}->timeout;
 				} else {
-					$this->_taskConf[$taskName]['timeout'] = Configure::read('Queue.defaultworkertimeout');
+					$this->_taskConf[$taskName]['timeout'] = Configure::read('Queue.defaultWorkerTimeout');
 				}
 				if (property_exists($this->{$taskName}, 'retries')) {
 					$this->_taskConf[$taskName]['retries'] = $this->{$taskName}->retries;
 				} else {
-					$this->_taskConf[$taskName]['retries'] = Configure::read('Queue.defaultworkerretries');
+					$this->_taskConf[$taskName]['retries'] = Configure::read('Queue.defaultWorkerRetries');
 				}
 			}
 		}
