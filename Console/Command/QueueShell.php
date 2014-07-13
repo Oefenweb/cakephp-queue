@@ -184,8 +184,10 @@ class QueueShell extends AppShell {
 		}
 
 		// Register signal handler(s)
-		pcntl_signal(SIGTERM, array($this, 'signalHandler'));
-		pcntl_signal(SIGINT, array($this, 'signalHandler'));
+		if (function_exists('pcntl_signal')) {
+			pcntl_signal(SIGTERM, array($this, 'signalHandler'));
+			pcntl_signal(SIGINT, array($this, 'signalHandler'));
+		}
 
 		$this->__exit = false;
 
