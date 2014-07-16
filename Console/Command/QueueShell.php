@@ -258,7 +258,7 @@ class QueueShell extends AppShell {
 	}
 
 /**
- * Triggers manual job cleanup.
+ * Triggers manual job cleanup of completed jobs.
  *
  * @return void
  */
@@ -268,6 +268,19 @@ class QueueShell extends AppShell {
 			date('Y-m-d H:i:s', time() - Configure::read('Queue.cleanupTimeout'))
 		));
 		$this->QueuedTask->cleanOldJobs();
+	}
+
+/**
+ * Triggers manual job cleanup of failed jobs.
+ *
+ * @return void
+ */
+	public function clean_failed() {
+		$this->out(__d('queue',
+			'Deleting failed Jobs, that have had %s retries.',
+			Configure::read('Queue.defaultWorkerRetries')
+		));
+		$this->QueuedTask->cleanFailedJobs();
 	}
 
 /**

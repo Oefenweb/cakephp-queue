@@ -216,4 +216,17 @@ class QueuedTask extends AppModel {
 		return $this->deleteAll($conditions);
 	}
 
+/**
+ * Cleanups / delete failed jobs after maximum retries.
+ *
+ * @return boolean Success
+ */
+	public function cleanFailedJobs() {
+		$conditions = array(
+			'failed_count >' => Configure::read('Queue.defaultWorkerRetries')
+		);
+
+		return $this->deleteAll($conditions);
+	}
+
 }
