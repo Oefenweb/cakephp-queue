@@ -34,8 +34,6 @@ class QueueSchema extends CakeSchema {
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1),
 			'completed' => array('column' => 'completed', 'unique' => 0),
-			'not_before' => array('column' => 'not_before', 'unique' => 0),
-			'fetched' => array('column' => 'fetched', 'unique' => 0),
 			'worker_key' => array('column' => 'worker_key', 'unique' => 0),
 			'task' => array('column' => 'task', 'unique' => 0)
 		),
