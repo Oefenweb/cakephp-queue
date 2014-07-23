@@ -276,11 +276,8 @@ class QueueShell extends AppShell {
  * @return void
  */
 	public function clean_failed() {
-		$this->out(__d('queue',
-			'Deleting failed Jobs, that have had %s retries.',
-			Configure::read('Queue.defaultWorkerRetries')
-		));
-		$this->QueuedTask->cleanFailedJobs();
+		$this->out(__d('queue', 'Deleting failed Jobs, that have had maximum worker retries.'));
+		$this->QueuedTask->cleanFailedJobs($this->_getTaskConf());
 	}
 
 /**

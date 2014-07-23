@@ -217,14 +217,22 @@ class QueuedTask extends AppModel {
 	}
 
 /**
- * Cleanups / delete failed jobs after maximum retries.
+ * Cleanups / delete failed jobs with given capabilities after maximum retries.
  *
+ * @param array $capabilities Available queue worker tasks.
  * @return boolean Success
  */
-	public function cleanFailedJobs() {
-		$conditions = array(
-			'failed_count >' => Configure::read('Queue.defaultWorkerRetries')
-		);
+	public function cleanFailedJobs($capabilities) {
+		$conditions = array();
+
+		// Generate the job specific conditions.
+		foreach ($capabilities as $task) {
+			list($plugin, $name) = pluginSplit($task['name']);
+			$conditions['OR'][] = array(
+				'task' => $name,
+				'failed_count >' => $task['retries']
+			);
+		}
 
 		return $this->deleteAll($conditions);
 	}
