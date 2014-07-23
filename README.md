@@ -62,3 +62,8 @@ Console/cake Queue.queue stats;
 # Manually call cleanup function to delete task data of completed tasks.
 Console/cake Queue.queue clean;
 ```
+
+```
+# Manually call cleanup_failed function to delete task data of failed tasks.
+Console/cake Queue.queue clean_failed;
+```
