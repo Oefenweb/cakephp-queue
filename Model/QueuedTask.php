@@ -213,7 +213,7 @@ class QueuedTask extends AppModel {
 			'completed <' => date('Y-m-d H:i:s', time() - Configure::read('Queue.cleanupTimeout'))
 		);
 
-		return $this->deleteAll($conditions);
+		return $this->deleteAll($conditions, false);
 	}
 
 /**
@@ -234,7 +234,7 @@ class QueuedTask extends AppModel {
 			);
 		}
 
-		return $this->deleteAll($conditions);
+		return $this->deleteAll($conditions, false);
 	}
 
 }
