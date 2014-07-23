@@ -216,4 +216,25 @@ class QueuedTask extends AppModel {
 		return $this->deleteAll($conditions);
 	}
 
+/**
+ * Cleanups / delete failed jobs with given capabilities after maximum retries.
+ *
+ * @param array $capabilities Available queue worker tasks.
+ * @return boolean Success
+ */
+	public function cleanFailedJobs($capabilities) {
+		$conditions = array();
+
+		// Generate the job specific conditions.
+		foreach ($capabilities as $task) {
+			list($plugin, $name) = pluginSplit($task['name']);
+			$conditions['OR'][] = array(
+				'task' => $name,
+				'failed_count >' => $task['retries']
+			);
+		}
+
+		return $this->deleteAll($conditions);
+	}
+
 }
