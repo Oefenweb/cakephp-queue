@@ -20,7 +20,7 @@ class QueuedTask extends AppModel {
  * @param string $taskName A queue task name
  * @param mixed $data Any data
  * @param string $notBefore A datetime which indicates when the job may be executed
- * @return boolean Success
+ * @return mixed On success `Model::$data` if its not empty or true, false on failure
  */
 	public function createJob($taskName, $data, $notBefore = null) {
 		$data = array(
@@ -129,7 +129,7 @@ class QueuedTask extends AppModel {
  * Marks a job as completed, removing it from the queue.
  *
  * @param integer $id A job id
- * @return boolean Success
+ * @return mixed On success `Model::$data` if its not empty or true, false on failure
  */
 	public function markJobDone($id) {
 		$this->id = $id;
