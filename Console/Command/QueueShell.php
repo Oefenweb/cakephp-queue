@@ -126,6 +126,11 @@ class QueueShell extends AppShell {
 			'parser' => array(
 				'description' => __d('queue', 'Manually call cleanup function to delete task data of completed tasks.')
 			)
+		))->addSubcommand('clean_failed', array(
+			'help' => __d('queue', 'Manually call cleanup function to delete task data of failed tasks.'),
+			'parser' => array(
+				'description' => __d('queue', 'Manually call cleanup function to delete task data of failed tasks.')
+			)
 		))->description(__d('queue', 'CakePHP Queue Plugin.'));
 
 		return $parser;
