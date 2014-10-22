@@ -5,7 +5,7 @@ class QueueSchema extends CakeSchema {
  * Before callback.
  *
  * @param array $event Schema object properties
- * @return boolean Always true
+ * @return bool Always true
  */
 	public function before($event = array()) {
 		return true;
