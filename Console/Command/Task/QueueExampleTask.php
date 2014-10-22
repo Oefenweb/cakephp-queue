@@ -16,14 +16,14 @@ class QueueExampleTask extends Shell {
 /**
  * Timeout for run, after which the task is reassigned to a new worker.
  *
- * @var integer
+ * @var int
  */
 	public $timeout = 10;
 
 /**
  * Number of times a failed instance of this task should be restarted before giving up.
  *
- * @var integer
+ * @var int
  */
 	public $retries = 0;
 
@@ -70,7 +70,7 @@ class QueueExampleTask extends Shell {
  *	The return parameter will determine, if the task will be marked completed, or be requeued.
  *
  * @param mixed $data Job data (passed on creation)
- * @return boolean Success
+ * @return bool Success
  */
 	public function run($data) {
 		$this->hr();

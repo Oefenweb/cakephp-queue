@@ -29,7 +29,7 @@ class QueueShell extends AppShell {
 /**
  * Indicates whether or not the worker should exit on next the iteration.
  *
- * @var boolean
+ * @var bool
  */
 	private $__exit;
 

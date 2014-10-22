@@ -128,7 +128,7 @@ class QueuedTask extends AppModel {
 /**
  * Marks a job as completed, removing it from the queue.
  *
- * @param integer $id A job id
+ * @param int $id A job id
  * @return mixed On success `Model::$data` if its not empty or true, false on failure
  */
 	public function markJobDone($id) {
@@ -140,9 +140,9 @@ class QueuedTask extends AppModel {
 /**
  * Marks a job as failed, incrementing the failed-counter and requeueing it.
  *
- * @param integer $id A job id
+ * @param int $id A job id
  * @param string $failureMessage A message to append to the failure message field (optional)
- * @return boolean Success
+ * @return bool Success
  * @todo Remove / reimplement getDataSource()->value
  */
 	public function markJobFailed($id, $failureMessage = null) {
@@ -161,7 +161,7 @@ class QueuedTask extends AppModel {
  *	Either returns the number of ALL pending jobs, or the number of pending jobs of the passed task.
  *
  * @param string $taskName A task name to count
- * @return integer The number of pending jobs
+ * @return int The number of pending jobs
  */
 	public function getLength($taskName = null) {
 		$conditions = array('completed' => null);
@@ -206,7 +206,7 @@ class QueuedTask extends AppModel {
 /**
  * Cleanups / delete completed jobs.
  *
- * @return boolean Success
+ * @return bool Success
  */
 	public function cleanOldJobs() {
 		$conditions = array(
@@ -220,7 +220,7 @@ class QueuedTask extends AppModel {
  * Cleanups / delete failed jobs with given capabilities after maximum retries.
  *
  * @param array $capabilities Available queue worker tasks.
- * @return boolean Success
+ * @return bool Success
  */
 	public function cleanFailedJobs($capabilities) {
 		$conditions = array();
