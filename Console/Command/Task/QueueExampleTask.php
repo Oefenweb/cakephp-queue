@@ -21,11 +21,11 @@ class QueueExampleTask extends Shell {
 	public $timeout = 10;
 
 /**
- * Timeout for cleanup, after which completed jobs are deleted.
+ * Timeout for cleanup, after which completed jobs are deleted (in seconds).
  *
  * @var int
  */
-	public $cleanupTimeout = 10;
+	public $cleanupTimeout = 600;
 
 /**
  * Number of times a failed instance of this task should be restarted before giving up.
