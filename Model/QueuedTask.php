@@ -212,7 +212,7 @@ class QueuedTask extends AppModel {
 	public function cleanOldJobs($capabilities) {
 		$conditions = array();
 
-		// Generate the job specific conditions.
+		// Generate the job specific conditions
 		foreach ($capabilities as $task) {
 			list($plugin, $name) = pluginSplit($task['name']);
 			$conditions['OR'][] = array(
