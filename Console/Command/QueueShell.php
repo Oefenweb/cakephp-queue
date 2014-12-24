@@ -6,7 +6,7 @@ App::uses('AppShell', 'Console/Command');
 declare(ticks = 1);
 
 /**
- * Queue Shell
+ * Queue Shell.
  *
  * @property Queue.QueuedTask $QueuedTask
  */
@@ -188,10 +188,12 @@ class QueueShell extends AppShell {
 			gc_enable();
 		}
 
-		// Register signal handler(s)
+		// Register signal handler(s) if possible
 		if (function_exists('pcntl_signal')) {
 			pcntl_signal(SIGTERM, array($this, 'signalHandler'));
 			pcntl_signal(SIGINT, array($this, 'signalHandler'));
+		} else {
+			$this->err(__d('queue', 'Signal handler(s) could not be registered.'));
 		}
 
 		$this->__exit = false;
