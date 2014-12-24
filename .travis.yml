@@ -44,3 +44,5 @@ notifications:
   hipchat:
     rooms:
       secure: bTreDxMYliZtwL5N4MjGrf7Zfu/Wi934vFgtZ2TNxoV3ZRWmoSqoWI7TW/SmMYgnSVHEifPutYFA6H6jKMzNaEyqiH8Fq/7ZIVuRb9pfGyXj8+qGBfXyGnPUnqz+ra2j1AewCjfxAJtx7yNi2LBm7eDze8g5j/g0EblkQP7LkzY=
+
+sudo : false
