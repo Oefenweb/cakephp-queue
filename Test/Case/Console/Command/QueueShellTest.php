@@ -150,7 +150,7 @@ class QueueShellTest extends CakeTestCase {
 
 		$result = $this->QueueShell->runworker();
 
-		$this->assertTrue(in_array(__d('queue', 'Running job of task \'%s\' \'%d\'.', 'Example', 1), $this->QueueShell->_out));
+		$this->assertTrue(in_array(__d('queue', 'Running job of task \'%s\' \'%d\'.', 'Example', 5), $this->QueueShell->_out));
 
 		Configure::write('Queue.exitWhenNothingToDo', $restore);
 	}
@@ -171,6 +171,19 @@ class QueueShellTest extends CakeTestCase {
 		$this->assertTrue(in_array(__d('queue', 'Looking for a job.'), $this->QueueShell->_out));
 
 		Configure::write('Queue.exitWhenNothingToDo', $restore);
+	}
+
+/**
+ * Tests `QueueShell::clean`.
+ *
+ * @return void
+ */
+	public function testClean() {
+		$countBefore = $this->QueueShell->QueuedTask->find('count');
+		$result = $this->QueueShell->clean();
+		$expected = $countBefore - 2;
+		$count = $this->QueueShell->QueuedTask->find('count');
+		$this->assertEquals($expected, $count);
 	}
 
 }

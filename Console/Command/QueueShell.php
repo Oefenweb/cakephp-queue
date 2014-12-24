@@ -256,7 +256,7 @@ class QueueShell extends AppShell {
 
 				if ($this->__exit || rand(0, 100) > (100 - Configure::read('Queue.gcprop'))) {
 					$this->out(__d('queue', 'Performing old job cleanup.'));
-					$this->QueuedTask->cleanOldJobs();
+					$this->QueuedTask->cleanOldJobs($this->_getTaskConf());
 				}
 			}
 		}
@@ -268,11 +268,8 @@ class QueueShell extends AppShell {
  * @return void
  */
 	public function clean() {
-		$this->out(__d('queue',
-			'Deleting old Jobs, that have finished before %s.',
-			date('Y-m-d H:i:s', time() - Configure::read('Queue.cleanupTimeout'))
-		));
-		$this->QueuedTask->cleanOldJobs();
+		$this->out(__d('queue', 'Deleting old completed jobs, that have had cleanup timeout.'));
+		$this->QueuedTask->cleanOldJobs($this->_getTaskConf());
 	}
 
 /**
@@ -344,6 +341,11 @@ class QueueShell extends AppShell {
 					$this->_taskConf[$taskName]['retries'] = $this->{$taskName}->retries;
 				} else {
 					$this->_taskConf[$taskName]['retries'] = Configure::read('Queue.defaultWorkerRetries');
+				}
+				if (property_exists($this->{$taskName}, 'cleanupTimeout')) {
+					$this->_taskConf[$taskName]['cleanupTimeout'] = $this->{$taskName}->cleanupTimeout;
+				} else {
+					$this->_taskConf[$taskName]['cleanupTimeout'] = Configure::read('Queue.cleanupTimeout');
 				}
 			}
 		}

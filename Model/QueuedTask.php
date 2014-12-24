@@ -204,14 +204,22 @@ class QueuedTask extends AppModel {
 	}
 
 /**
- * Cleanups / delete completed jobs.
+ * Cleanups / delete completed jobs with given capabilities after cleanup timeout.
  *
+ * @param array $capabilities Available queue worker tasks.
  * @return bool Success
  */
-	public function cleanOldJobs() {
-		$conditions = array(
-			'completed <' => date('Y-m-d H:i:s', time() - Configure::read('Queue.cleanupTimeout'))
-		);
+	public function cleanOldJobs($capabilities) {
+		$conditions = array();
+
+		// Generate the job specific conditions
+		foreach ($capabilities as $task) {
+			list($plugin, $name) = pluginSplit($task['name']);
+			$conditions['OR'][] = array(
+				'task' => $name,
+				'completed <' => date('Y-m-d H:i:s', time() - $task['cleanupTimeout'])
+			);
+		}
 
 		return $this->deleteAll($conditions, false);
 	}

@@ -87,7 +87,9 @@ class QueuedTaskTest extends CakeTestCase {
 			'x3' => 'y3',
 			'x4' => 'y4'
 		);
+
 		// start off empty.
+		$this->QueuedTask->deleteAll(array('1 = 1'));
 
 		$this->assertEqual($this->QueuedTask->find('all'), array());
 		// at first, the queue should contain 0 items.
@@ -99,7 +101,7 @@ class QueuedTaskTest extends CakeTestCase {
 
 		// fetch and check the first task.
 		$data = $this->QueuedTask->requestJob($capabilities);
-		$this->assertEqual($data['id'], 1);
+		$this->assertEqual($data['id'], 5);
 		$this->assertEqual('task1', $data['task']);
 		$this->assertEqual($data['failed_count'], 0);
 		$this->assertNull($data['completed']);
@@ -111,8 +113,8 @@ class QueuedTaskTest extends CakeTestCase {
 		// queue length is still 1 since the first task did not finish.
 		$this->assertEqual($this->QueuedTask->getLength(), 1);
 
-		// Now mark Task1 as done
-		$this->assertTrue((bool)$this->QueuedTask->markJobDone(1));
+		// Now mark Task 5 as done
+		$this->assertTrue((bool)$this->QueuedTask->markJobDone(5));
 		// Should be 0 again.
 		$this->assertEqual($this->QueuedTask->getLength(), 0);
 	}
@@ -149,7 +151,7 @@ class QueuedTaskTest extends CakeTestCase {
 		}
 		// now mark them as done
 		foreach (range(0, 4) as $num) {
-			$this->assertTrue((bool)$this->QueuedTask->markJobDone($num + 1));
+			$this->assertTrue((bool)$this->QueuedTask->markJobDone($num + 5));
 			$this->assertEqual($this->QueuedTask->getLength(), 9 - $num);
 		}
 
@@ -172,9 +174,9 @@ class QueuedTaskTest extends CakeTestCase {
 		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', null, '+ 1 Day'));
 		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', null, '2009-07-01 12:00:00'));
 		$data = $this->QueuedTask->find('all');
-		$this->assertEqual($data[0]['QueuedTask']['not_before'], date('Y-m-d H:i:s', strtotime('+ 1 Min')));
-		$this->assertEqual($data[1]['QueuedTask']['not_before'], date('Y-m-d H:i:s', strtotime('+ 1 Day')));
-		$this->assertEqual($data[2]['QueuedTask']['not_before'], '2009-07-01 12:00:00');
+		$this->assertEqual($data[4]['QueuedTask']['not_before'], date('Y-m-d H:i:s', strtotime('+ 1 Min')));
+		$this->assertEqual($data[5]['QueuedTask']['not_before'], date('Y-m-d H:i:s', strtotime('+ 1 Day')));
+		$this->assertEqual($data[6]['QueuedTask']['not_before'], '2009-07-01 12:00:00');
 	}
 
 /**
