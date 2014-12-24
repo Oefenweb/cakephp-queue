@@ -1,12 +1,12 @@
 <?php
 /**
- * QueuedTaskFixture
+ * QueuedTask Fixture.
  *
  */
 class QueuedTaskFixture extends CakeTestFixture {
 
 /**
- * Fields
+ * Fields.
  *
  * @var array
  */
@@ -31,7 +31,7 @@ class QueuedTaskFixture extends CakeTestFixture {
 	);
 
 /**
- * Records
+ * Records.
  *
  * @var array
  */
@@ -50,6 +50,13 @@ class QueuedTaskFixture extends CakeTestFixture {
 		),
 	);
 
+/**
+ * Constructor.
+ *
+ *  Generates dynamic records.
+ *
+ * @return void
+ */
 	public function __construct() {
 		$this->records[] = array(
 			'id' => 2,
