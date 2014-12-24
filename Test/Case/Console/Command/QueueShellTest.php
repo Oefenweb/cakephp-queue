@@ -174,7 +174,7 @@ class QueueShellTest extends CakeTestCase {
 	}
 
 /**
- * testRunworker method
+ * Tests `QueueShell::clean`.
  *
  * @return void
  */

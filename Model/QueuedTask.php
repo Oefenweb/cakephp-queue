@@ -204,7 +204,7 @@ class QueuedTask extends AppModel {
 	}
 
 /**
- * Cleanups / delete completed jobs with given capabilities after cleanup timeout..
+ * Cleanups / delete completed jobs with given capabilities after cleanup timeout.
  *
  * @param array $capabilities Available queue worker tasks.
  * @return bool Success
