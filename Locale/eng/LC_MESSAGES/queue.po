@@ -4,9 +4,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Queue Plugin\n"
-"POT-Creation-Date: 2014-09-11 15:31+0200\n"
-"PO-Revision-Date: 2014-09-11 15:33+0100\n"
-"Last-Translator: Mischa ter Smitten <m.tersmitten@oefenweb.nl>\n"
+"POT-Creation-Date: 2014-12-24 15:35+0100\n"
+"PO-Revision-Date: 2014-12-24 15:36+0100\n"
+"Last-Translator: Mischa ter Smitten <mischa.ter.smitten@gmail.com>\n"
 "Language-Team: \n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -51,130 +51,137 @@ msgid "CakePHP Queue Plugin."
 msgstr "CakePHP Queue Plugin."
 
 #: /Console/Command/QueueShell.php:154
-#: /Test/Case/Console/Command/QueueShellTest.php:127
+#: /Test/Case/Console/Command/QueueShellTest.php:131
 msgid "Error: Task not Found: %s"
 msgstr "Error: Task not Found: %s"
 
-#: /Console/Command/QueueShell.php:201
-#: /Test/Case/Console/Command/QueueShellTest.php:171
+#: /Console/Command/QueueShell.php:196
+msgid "Signal handler(s) could not be registered."
+msgstr "Signal handler(s) could not be registered."
+
+#: /Console/Command/QueueShell.php:203
+#: /Test/Case/Console/Command/QueueShellTest.php:175
 msgid "Looking for a job."
 msgstr "Looking for a job."
 
-#: /Console/Command/QueueShell.php:210
-#: /Test/Case/Console/Command/QueueShellTest.php:153
+#: /Console/Command/QueueShell.php:212
+#: /Test/Case/Console/Command/QueueShellTest.php:157
 msgid "Running job of task '%s' '%d'."
 msgstr "Running job of task '%s' '%d'."
 
-#: /Console/Command/QueueShell.php:218
+#: /Console/Command/QueueShell.php:220
 msgid "Job '%d' finished (took %s)."
 msgstr "Job '%d' finished (took %s)."
 
-#: /Console/Command/QueueShell.php:231
+#: /Console/Command/QueueShell.php:233
 msgid "Job '%d' did not finish, requeued."
 msgstr "Job '%d' did not finish, requeued."
 
-#: /Console/Command/QueueShell.php:234
+#: /Console/Command/QueueShell.php:236
 msgid "Nothing to do, exiting."
 msgstr "Nothing to do, exiting."
 
-#: /Console/Command/QueueShell.php:238
+#: /Console/Command/QueueShell.php:240
 msgid "Nothing to do, sleeping for %d second(s)."
 msgstr "Nothing to do, sleeping for %d second(s)."
 
-#: /Console/Command/QueueShell.php:250
+#: /Console/Command/QueueShell.php:252
 msgid "Reached runtime of %s seconds (max. %s), terminating."
 msgstr "Reached runtime of %s seconds (max. %s), terminating."
 
-#: /Console/Command/QueueShell.php:258
+#: /Console/Command/QueueShell.php:260
 msgid "Performing old job cleanup."
 msgstr "Performing old job cleanup."
 
-#: /Console/Command/QueueShell.php:271
-msgid "Deleting old Jobs, that have finished before %s."
-msgstr "Deleting old Jobs, that have finished before %s."
+#: /Console/Command/QueueShell.php:273
+msgid "Deleting old completed jobs, that have had cleanup timeout."
+msgstr "Deleting old completed jobs, that have had cleanup timeout."
 
-#: /Console/Command/QueueShell.php:284
+#: /Console/Command/QueueShell.php:283
 msgid "Deleting failed Jobs, that have had maximum worker retries."
 msgstr "Deleting failed Jobs, that have had maximum worker retries."
 
-#: /Console/Command/QueueShell.php:295
+#: /Console/Command/QueueShell.php:294
 msgid "Jobs currenty in the queue:"
 msgstr "Jobs currenty in the queue:"
 
-#: /Console/Command/QueueShell.php:305
-#: /Test/Case/Console/Command/QueueShellTest.php:115
+#: /Console/Command/QueueShell.php:304
+#: /Test/Case/Console/Command/QueueShellTest.php:119
 msgid "Total unfinished jobs: %s"
 msgstr "Total unfinished jobs: %s"
 
-#: /Console/Command/QueueShell.php:310
+#: /Console/Command/QueueShell.php:309
 msgid "Finished job statistics:"
 msgstr "Finished job statistics:"
 
-#: /Console/Command/QueueShell.php:316
+#: /Console/Command/QueueShell.php:315
 msgid "Finished jobs in database: %s"
 msgstr "Finished jobs in database: %s"
 
-#: /Console/Command/QueueShell.php:317
+#: /Console/Command/QueueShell.php:316
 msgid "Average job existence: %ss"
 msgstr "Average job existence: %ss"
 
-#: /Console/Command/QueueShell.php:318
+#: /Console/Command/QueueShell.php:317
 msgid "Average execution delay: %ss"
 msgstr "Average execution delay: %ss"
 
-#: /Console/Command/QueueShell.php:319
+#: /Console/Command/QueueShell.php:318
 msgid "Average execution time: %ss"
 msgstr "Average execution time: %ss"
 
-#: /Console/Command/QueueShell.php:363;368
+#: /Console/Command/QueueShell.php:367;372
 msgid "Caught %s signal, exiting."
 msgstr "Caught %s signal, exiting."
 
-#: /Console/Command/QueueShell.php:222
+#: /Console/Command/QueueShell.php:224
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] "%d second"
 msgstr[1] "%d seconds"
 
-#: /Console/Command/Task/QueueExampleTask.php:45;77
+#: /Console/Command/Task/QueueExampleTask.php:52;84
 msgid "CakePHP Queue Example task."
 msgstr "CakePHP Queue Example task."
 
-#: /Console/Command/Task/QueueExampleTask.php:47
+#: /Console/Command/Task/QueueExampleTask.php:54
 msgid "This is a very simple example of a queueTask."
 msgstr "This is a very simple example of a queueTask."
 
-#: /Console/Command/Task/QueueExampleTask.php:48
+#: /Console/Command/Task/QueueExampleTask.php:55
 msgid "Now adding an example Task Job into the Queue."
 msgstr "Now adding an example Task Job into the Queue."
 
-#: /Console/Command/Task/QueueExampleTask.php:49
+#: /Console/Command/Task/QueueExampleTask.php:56
 msgid "This task will only produce some console output on the worker that it runs on."
 msgstr "This task will only produce some console output on the worker that it runs on."
 
-#: /Console/Command/Task/QueueExampleTask.php:51
+#: /Console/Command/Task/QueueExampleTask.php:58
 msgid "To run a Worker use:"
 msgstr "To run a Worker use:"
 
-#: /Console/Command/Task/QueueExampleTask.php:52
+#: /Console/Command/Task/QueueExampleTask.php:59
 msgid "\tcake queue runworker"
 msgstr "\tcake queue runworker"
 
-#: /Console/Command/Task/QueueExampleTask.php:54
+#: /Console/Command/Task/QueueExampleTask.php:61
 msgid "You can find the sourcecode of this task in: "
 msgstr "You can find the sourcecode of this task in: "
 
-#: /Console/Command/Task/QueueExampleTask.php:60
+#: /Console/Command/Task/QueueExampleTask.php:67
 msgid "OK, job created, now run the worker"
 msgstr "OK, job created, now run the worker"
 
-#: /Console/Command/Task/QueueExampleTask.php:62
+#: /Console/Command/Task/QueueExampleTask.php:69
 msgid "Could not create Job"
 msgstr "Could not create Job"
 
-#: /Console/Command/Task/QueueExampleTask.php:79
+#: /Console/Command/Task/QueueExampleTask.php:86
 msgid " ->Success, the Example Task was run.<-"
 msgstr " ->Success, the Example Task was run.<-"
+
+#~ msgid "Deleting old Jobs, that have finished before %s."
+#~ msgstr "Deleting old Jobs, that have finished before %s."
 
 #~ msgid "CakePHP Queue Execute task."
 #~ msgstr "CakePHP Queue Execute task."
