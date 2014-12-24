@@ -1,11 +1,11 @@
 <?php
 /**
- * All Queue plugin tests
+ * All Queue plugin tests.
  */
 class AllQueueTest extends CakeTestCase {
 
 /**
- * Suite define the tests for this plugin
+ * Defines the tests for this plugin.
  *
  * @return void
  */

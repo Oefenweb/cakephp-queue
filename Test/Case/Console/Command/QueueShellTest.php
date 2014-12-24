@@ -6,7 +6,11 @@ App::uses('Shell', 'Console');
 App::uses('QueueShell', 'Queue.Console/Command');
 App::uses('QueuedTask', 'Queue.Model');
 
-class TestQueueShell extends QueueShell {
+/**
+ * QueueShell Wrapper.
+ *
+ */
+class QueueShellWrapper extends QueueShell {
 
 /**
  * A list with error messages.
@@ -52,21 +56,21 @@ class TestQueueShell extends QueueShell {
 }
 
 /**
- * QueueShell Test
+ * QueueShell Test.
  *
- * @property TestQueueShell $QueueShell
+ * @property QueueShellWrapper $QueueShell
  */
 class QueueShellTest extends CakeTestCase {
 
 /**
- * Fixtures
+ * Fixtures.
  *
  * @var array
  */
 	public $fixtures = array('plugin.queue.queued_task');
 
 /**
- * setUp method
+ * setUp method.
  *
  * @return void
  */
@@ -76,7 +80,7 @@ class QueueShellTest extends CakeTestCase {
 		$out = $this->getMock('ConsoleOutput', array(), array(), '', false);
 		$in = $this->getMock('ConsoleInput', array(), array(), '', false);
 
-		$this->QueueShell = $this->getMock('TestQueueShell',
+		$this->QueueShell = $this->getMock('QueueShellWrapper',
 			array('in'),
 			array($out, $out, $in)
 		);
@@ -84,7 +88,7 @@ class QueueShellTest extends CakeTestCase {
 	}
 
 /**
- * tearDown method
+ * tearDown method.
  *
  * @return void
  */
@@ -95,7 +99,7 @@ class QueueShellTest extends CakeTestCase {
 	}
 
 /**
- * testObject method
+ * Tests `QueueShell` object type.
  *
  * @return void
  */
@@ -105,7 +109,7 @@ class QueueShellTest extends CakeTestCase {
 	}
 
 /**
- * testStats method
+ * Tests `QueueShell::stats`.
  *
  * @return void
  */
@@ -116,11 +120,11 @@ class QueueShellTest extends CakeTestCase {
 	}
 
 /**
- * testAddInexistent method
+ * Tests `QueueShell::add`, non-existing
  *
  * @return void
  */
-	public function testAddInexistent() {
+	public function testAddNonExistent() {
 		$this->QueueShell->args[] = 'Foo';
 		$result = $this->QueueShell->add();
 
@@ -128,7 +132,7 @@ class QueueShellTest extends CakeTestCase {
 	}
 
 /**
- * testAdd method
+ * Tests `QueueShell::add`, existing
  *
  * @return void
  */
@@ -156,7 +160,7 @@ class QueueShellTest extends CakeTestCase {
 	}
 
 /**
- * testRunworker method
+ * Tests `QueueShell::runworker`.
  *
  * @return void
  */

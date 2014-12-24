@@ -2,7 +2,7 @@
 App::uses('AppModel', 'Model');
 
 /**
- * QueuedTask Model
+ * QueuedTask Model.
  *
  */
 class QueuedTask extends AppModel {
@@ -15,7 +15,7 @@ class QueuedTask extends AppModel {
 	public $validationDomain = 'queue';
 
 /**
- * Adds a new Job to the queue
+ * Adds a new Job to the queue.
  *
  * @param string $taskName A queue task name
  * @param mixed $data Any data
