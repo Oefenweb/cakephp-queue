@@ -74,6 +74,7 @@ class QueueShell extends AppShell {
 		// Merge with default configuration vars.
 		Configure::write('Queue', array_merge(
 				array(
+					'workers' => 3,
 					'sleepTime' => 10,
 					'gcprop' => 10,
 					'defaultWorkerTimeout' => 2 * MINUTE,

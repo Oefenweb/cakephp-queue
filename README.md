@@ -22,6 +22,7 @@ CakePlugin::load('Queue');
 Ensure to configure the following lines in `app/Config/bootstrap.php`:
 
 ```
+Configure::write('Queue.workers', 3);
 Configure::write('Queue.sleepTime', 10);
 Configure::write('Queue.gcprop', 10);
 Configure::write('Queue.defaultWorkerTimeout', 2 * MINUTE);
