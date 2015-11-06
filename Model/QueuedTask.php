@@ -62,7 +62,7 @@ class QueuedTask extends AppModel {
 			'age' => 'ASC',
 			'id' => 'ASC'
 		);
-		$limit = 3;
+		$limit = Configure::read('Queue.workers');
 
 		// Generate the job specific conditions.
 		foreach ($capabilities as $task) {
