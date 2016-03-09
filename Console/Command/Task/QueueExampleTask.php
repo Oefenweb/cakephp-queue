@@ -11,7 +11,7 @@ class QueueExampleTask extends Shell {
  *
  * @var array
  */
-	public $uses = array('Queue.QueuedTask');
+	public $uses = ['Queue.QueuedTask'];
 
 /**
  * Timeout for run, after which the task is reassigned to a new worker.
