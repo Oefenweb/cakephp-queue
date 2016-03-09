@@ -17,7 +17,7 @@ class QueueShell extends AppShell {
  *
  * @var array
  */
-	public $uses = array('Queue.QueuedTask');
+	public $uses = ['Queue.QueuedTask'];
 
 /**
  * A list of available queue tasks and their individual configurations.
@@ -68,12 +68,12 @@ class QueueShell extends AppShell {
 
 		$conf = Configure::read('Queue');
 		if (!is_array($conf)) {
-			$conf = array();
+			$conf = [];
 		}
 
 		// Merge with default configuration vars.
 		Configure::write('Queue', array_merge(
-				array(
+				[
 					'workers' => 3,
 					'sleepTime' => 10,
 					'gcprop' => 10,
@@ -82,7 +82,7 @@ class QueueShell extends AppShell {
 					'workerMaxRuntime' => 0,
 					'cleanupTimeout' => DAY,
 					'exitWhenNothingToDo' => false
-				),
+				],
 				$conf
 			)
 		);
@@ -97,42 +97,42 @@ class QueueShell extends AppShell {
  */
 	public function getOptionParser() {
 		$parser = parent::getOptionParser();
-		$parser->addSubcommand('add', array(
+		$parser->addSubcommand('add', [
 			'help' => __d('queue', 'Tries to call the cli `add()` function on a task.'),
-			'parser' => array(
-				'description' => array(
+			'parser' => [
+				'description' => [
 					__d('queue', 'Tries to call the cli `add()` function on a task.'),
 					__d('queue', 'Tasks may or may not provide this functionality.')
-				),
-				'arguments' => array(
-					'taskname' => array(
+				],
+				'arguments' => [
+					'taskname' => [
 						'help' => __d('queue', 'Name of the task.'),
 						'required' => true,
 						'choices' => $this->taskNames
-					)
-				)
-			)
-		))->addSubcommand('runworker', array(
+					]
+				]
+			]
+		])->addSubcommand('runworker', [
 			'help' => __d('queue', 'Run a queue worker.'),
-			'parser' => array(
-				'description' => array(__d('queue', 'Run a queue worker, which will look for a pending task it can execute.'))
-			)
-		))->addSubcommand('stats', array(
+			'parser' => [
+				'description' => [__d('queue', 'Run a queue worker, which will look for a pending task it can execute.')]
+			]
+		])->addSubcommand('stats', [
 			'help' => __d('queue', 'Display general statistics.'),
-			'parser' => array(
+			'parser' => [
 				'description' => __d('queue', 'Display general statistics.'),
-			)
-		))->addSubcommand('clean', array(
+			]
+		])->addSubcommand('clean', [
 			'help' => __d('queue', 'Manually call cleanup function to delete task data of completed tasks.'),
-			'parser' => array(
+			'parser' => [
 				'description' => __d('queue', 'Manually call cleanup function to delete task data of completed tasks.')
-			)
-		))->addSubcommand('clean_failed', array(
+			]
+		])->addSubcommand('clean_failed', [
 			'help' => __d('queue', 'Manually call cleanup function to delete task data of failed tasks.'),
-			'parser' => array(
+			'parser' => [
 				'description' => __d('queue', 'Manually call cleanup function to delete task data of failed tasks.')
-			)
-		))->description(__d('queue', 'CakePHP Queue Plugin.'));
+			]
+		])->description(__d('queue', 'CakePHP Queue Plugin.'));
 
 		return $parser;
 	}
@@ -191,8 +191,8 @@ class QueueShell extends AppShell {
 
 		// Register signal handler(s) if possible
 		if (function_exists('pcntl_signal')) {
-			pcntl_signal(SIGTERM, array($this, 'signalHandler'));
-			pcntl_signal(SIGINT, array($this, 'signalHandler'));
+			pcntl_signal(SIGTERM, [$this, 'signalHandler']);
+			pcntl_signal(SIGINT, [$this, 'signalHandler']);
 		} else {
 			$this->err(__d('queue', 'Signal handler(s) could not be registered.'));
 		}
@@ -328,7 +328,7 @@ class QueueShell extends AppShell {
  */
 	protected function _getTaskConf() {
 		if (!is_array($this->_taskConf)) {
-			$this->_taskConf = array();
+			$this->_taskConf = [];
 			foreach ($this->tasks as $task) {
 				list($pluginName, $taskName) = pluginSplit($task);
 

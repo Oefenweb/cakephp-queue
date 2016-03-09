@@ -17,14 +17,14 @@ class QueueShellWrapper extends QueueShell {
  *
  * @var array
  */
-	protected $_err = array();
+	protected $_err = [];
 
 /**
  * A list with out messages.
  *
  * @var array
  */
-	protected $_out = array();
+	protected $_out = [];
 
 /**
  * Test double of `parent::err`.
@@ -67,7 +67,7 @@ class QueueShellTest extends CakeTestCase {
  *
  * @var array
  */
-	public $fixtures = array('plugin.queue.queued_task');
+	public $fixtures = ['plugin.queue.queued_task'];
 
 /**
  * setUp method.
@@ -77,12 +77,12 @@ class QueueShellTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$out = $this->getMock('ConsoleOutput', array(), array(), '', false);
-		$in = $this->getMock('ConsoleInput', array(), array(), '', false);
+		$out = $this->getMock('ConsoleOutput', [], [], '', false);
+		$in = $this->getMock('ConsoleInput', [], [], '', false);
 
 		$this->QueueShell = $this->getMock('QueueShellWrapper',
-			array('in'),
-			array($out, $out, $in)
+			['in'],
+			[$out, $out, $in]
 		);
 		$this->QueueShell->initialize();
 	}

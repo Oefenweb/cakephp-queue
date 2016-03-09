@@ -23,11 +23,11 @@ class QueuedTask extends AppModel {
  * @return mixed On success `Model::$data` if its not empty or true, false on failure
  */
 	public function createJob($taskName, $data, $notBefore = null) {
-		$data = array(
+		$data = [
 			'task' => $taskName,
 			'data' => serialize($data),
 			'not_before' => date('Y-m-d H:i:s'),
-		);
+		];
 
 		if (!empty($notBefore)) {
 			$data['not_before'] = date('Y-m-d H:i:s', strtotime($notBefore));
@@ -45,41 +45,41 @@ class QueuedTask extends AppModel {
  * @return mixed Job data or false.
  */
 	public function requestJob($capabilities) {
-		$idlist = array();
-		$wasFetched = array();
+		$idlist = [];
+		$wasFetched = [];
 
 		$this->virtualFields['age'] = 'IFNULL(TIMESTAMPDIFF(SECOND, NOW(), not_before), 0)';
-		$conditions = array(
+		$conditions = [
 			'completed' => null,
-			'OR' => array()
-		);
-		$fields = array(
+			'OR' => []
+		];
+		$fields = [
 			'id',
 			'fetched',
 			'age'
-		);
-		$order = array(
+		];
+		$order = [
 			'age' => 'ASC',
 			'id' => 'ASC'
-		);
+		];
 		$limit = Configure::read('Queue.workers');
 
 		// Generate the job specific conditions.
 		foreach ($capabilities as $task) {
 			list($plugin, $name) = pluginSplit($task['name']);
-			$tmp = array(
+			$tmp = [
 				'task' => $name,
-				'AND' => array(
+				'AND' => [
 					'not_before <=' => date('Y-m-d H:i:s'),
-					array(
-						'OR' => array(
+					[
+						'OR' => [
 							'fetched <' => date('Y-m-d H:i:s', time() - $task['timeout']),
 							'fetched' => null
-						)
-					)
-				),
+						]
+					]
+				],
 				'failed_count <' => ($task['retries'] + 1)
-			);
+			];
 			$conditions['OR'][] = $tmp;
 		}
 
@@ -108,7 +108,7 @@ class QueuedTask extends AppModel {
 			);
 
 			// Read which one actually got updated, which is the job we are supposed to execute.
-			$conditions = array('worker_key' => $key);
+			$conditions = ['worker_key' => $key];
 			$data = $this->find('first', compact('conditions'));
 			if (!empty($data)) {
 				// If the job had an existing fetched timestamp, increment the failure counter.
@@ -147,10 +147,10 @@ class QueuedTask extends AppModel {
  */
 	public function markJobFailed($id, $failureMessage = null) {
 		$conditions = compact('id');
-		$fields = array(
+		$fields = [
 			'failed_count' => 'failed_count + 1',
 			'failure_message' => $this->getDataSource()->value($failureMessage, 'failure_message')
-		);
+		];
 
 		return $this->updateAll($fields, $conditions);
 	}
@@ -164,7 +164,7 @@ class QueuedTask extends AppModel {
  * @return int The number of pending jobs
  */
 	public function getLength($taskName = null) {
-		$conditions = array('completed' => null);
+		$conditions = ['completed' => null];
 		if (!empty($taskName)) {
 			$conditions['task'] = $taskName;
 		}
@@ -178,8 +178,8 @@ class QueuedTask extends AppModel {
  * @return array A list of task names
  */
 	public function getTypes() {
-		$fields = array('task');
-		$group = array('task');
+		$fields = ['task'];
+		$group = ['task'];
 
 		return $this->find('list', compact('fields', 'group'));
 	}
@@ -190,15 +190,15 @@ class QueuedTask extends AppModel {
  * @return array An array with statistics
  */
 	public function getStats() {
-		$fields = array(
+		$fields = [
 			'task',
 			'COUNT(id) AS num',
 			'AVG(UNIX_TIMESTAMP(completed) - UNIX_TIMESTAMP(created)) AS alltime',
 			'AVG(UNIX_TIMESTAMP(completed) - UNIX_TIMESTAMP(fetched)) AS runtime',
 			'AVG(UNIX_TIMESTAMP(fetched) - IF(not_before IS NULL, UNIX_TIMESTAMP(created), UNIX_TIMESTAMP(not_before))) AS fetchdelay'
-		);
-		$conditions = array('NOT' => array('completed' => null));
-		$group = array('task');
+		];
+		$conditions = ['NOT' => ['completed' => null]];
+		$group = ['task'];
 
 		return $this->find('all', compact('fields', 'conditions', 'group'));
 	}
@@ -210,15 +210,15 @@ class QueuedTask extends AppModel {
  * @return bool Success
  */
 	public function cleanOldJobs($capabilities) {
-		$conditions = array();
+		$conditions = [];
 
 		// Generate the job specific conditions
 		foreach ($capabilities as $task) {
 			list($plugin, $name) = pluginSplit($task['name']);
-			$conditions['OR'][] = array(
+			$conditions['OR'][] = [
 				'task' => $name,
 				'completed <' => date('Y-m-d H:i:s', time() - $task['cleanupTimeout'])
-			);
+			];
 		}
 
 		return $this->deleteAll($conditions, false);
@@ -231,15 +231,15 @@ class QueuedTask extends AppModel {
  * @return bool Success
  */
 	public function cleanFailedJobs($capabilities) {
-		$conditions = array();
+		$conditions = [];
 
 		// Generate the job specific conditions.
 		foreach ($capabilities as $task) {
 			list($plugin, $name) = pluginSplit($task['name']);
-			$conditions['OR'][] = array(
+			$conditions['OR'][] = [
 				'task' => $name,
 				'failed_count >' => $task['retries']
-			);
+			];
 		}
 
 		return $this->deleteAll($conditions, false);
