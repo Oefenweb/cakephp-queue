@@ -1,6 +1,6 @@
 # Queue plugin for CakePHP
 
-[![Build Status](https://travis-ci.org/Oefenweb/cakephp-queue.png?branch=master)](https://travis-ci.org/Oefenweb/cakephp-queue) [![Coverage Status](https://coveralls.io/repos/Oefenweb/cakephp-queue/badge.png)](https://coveralls.io/r/Oefenweb/cakephp-queue) [![Packagist downloads](http://img.shields.io/packagist/dt/Oefenweb/cakephp-queue.svg)](https://packagist.org/packages/oefenweb/cakephp-queue) [![Code Climate](https://codeclimate.com/github/Oefenweb/cakephp-queue/badges/gpa.svg)](https://codeclimate.com/github/Oefenweb/cakephp-queue)
+[![Build Status](https://travis-ci.org/Oefenweb/cakephp-queue.png?branch=master)](https://travis-ci.org/Oefenweb/cakephp-queue) [![PHP 7 ready](http://php7ready.timesplinter.ch/Oefenweb/cakephp-queue/badge.svg)](https://travis-ci.org/Oefenweb/cakephp-queue) [![Coverage Status](https://coveralls.io/repos/Oefenweb/cakephp-queue/badge.png)](https://coveralls.io/r/Oefenweb/cakephp-queue) [![Packagist downloads](http://img.shields.io/packagist/dt/Oefenweb/cakephp-queue.svg)](https://packagist.org/packages/oefenweb/cakephp-queue) [![Code Climate](https://codeclimate.com/github/Oefenweb/cakephp-queue/badges/gpa.svg)](https://codeclimate.com/github/Oefenweb/cakephp-queue)
 
 ## Requirements
 
