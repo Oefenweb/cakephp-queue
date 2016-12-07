@@ -109,6 +109,10 @@ class QueueShell extends AppShell {
 						'help' => __d('queue', 'Name of the task.'),
 						'required' => true,
 						'choices' => $this->taskNames
+					],
+					'taskdata' => [
+						'help' => __d('queue', 'Data needed by task.'),
+						'required' => false,
 					]
 				]
 			]
