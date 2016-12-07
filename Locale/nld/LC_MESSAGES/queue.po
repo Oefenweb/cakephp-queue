@@ -4,179 +4,198 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Queue Plugin\n"
-"POT-Creation-Date: 2014-12-24 15:35+0100\n"
-"PO-Revision-Date: 2014-12-24 15:45+0100\n"
-"Last-Translator: Mischa ter Smitten <mischa.ter.smitten@gmail.com>\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2016-12-07 23:48+0100\n"
+"Last-Translator: Mischa ter Smitten <mtersmitten@oefenweb.nl>\n"
 "Language-Team: \n"
-"Language: \n"
+"Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
-#: /Console/Command/QueueShell.php:100;103
+#: Console/Command/QueueShell.php:101;104
 msgid "Tries to call the cli `add()` function on a task."
 msgstr "Probeert de cli `add()` function op een task aan te roepen."
 
-#: /Console/Command/QueueShell.php:104
+#: Console/Command/QueueShell.php:105
 msgid "Tasks may or may not provide this functionality."
 msgstr "Tasks kunnen deze functionaliteit wel of niet aanbieden."
 
-#: /Console/Command/QueueShell.php:108
+#: Console/Command/QueueShell.php:109
 msgid "Name of the task."
 msgstr "Naam van de task."
 
-#: /Console/Command/QueueShell.php:115
+#: Console/Command/QueueShell.php:114
+msgid "Data needed by task."
+msgstr "Vereiste task data."
+
+#: Console/Command/QueueShell.php:120
 msgid "Run a queue worker."
 msgstr "Start een queue worker."
 
-#: /Console/Command/QueueShell.php:117
+#: Console/Command/QueueShell.php:122
 msgid "Run a queue worker, which will look for a pending task it can execute."
-msgstr "Start een queue worker, die op zoek zal gaan naar een pending task om uit te voeren."
+msgstr ""
+"Start een queue worker, die op zoek zal gaan naar een pending task om uit te "
+"voeren."
 
-#: /Console/Command/QueueShell.php:120;122
+#: Console/Command/QueueShell.php:125;127
 msgid "Display general statistics."
 msgstr "Toon algemene statistieken."
 
-#: /Console/Command/QueueShell.php:125;127
+#: Console/Command/QueueShell.php:130;132
 msgid "Manually call cleanup function to delete task data of completed tasks."
-msgstr "Roep de cleanup function handmatig aan om de Task data van voltooide Tasks te verwijderen."
+msgstr ""
+"Roep de cleanup function handmatig aan om de Task data van voltooide Tasks "
+"te verwijderen."
 
-#: /Console/Command/QueueShell.php:130;132
+#: Console/Command/QueueShell.php:135;137
 msgid "Manually call cleanup function to delete task data of failed tasks."
-msgstr "Roep de cleanup function handmatig aan om de Task data van mislukte Tasks te verwijderen."
+msgstr ""
+"Roep de cleanup function handmatig aan om de Task data van mislukte Tasks te "
+"verwijderen."
 
-#: /Console/Command/QueueShell.php:134
+#: Console/Command/QueueShell.php:139
 msgid "CakePHP Queue Plugin."
 msgstr "CakePHP Queue Plugin."
 
-#: /Console/Command/QueueShell.php:154
-#: /Test/Case/Console/Command/QueueShellTest.php:131
+#: Console/Command/QueueShell.php:159
+#: Test/Case/Console/Command/QueueShellTest.php:131
 msgid "Error: Task not Found: %s"
 msgstr "Fout: Taak niet gevonden: %s"
 
-#: /Console/Command/QueueShell.php:196
+#: Console/Command/QueueShell.php:201
 msgid "Signal handler(s) could not be registered."
 msgstr "Signal handler(s) konden niet worden geregistreerd."
 
-#: /Console/Command/QueueShell.php:203
-#: /Test/Case/Console/Command/QueueShellTest.php:175
+#: Console/Command/QueueShell.php:208
+#: Test/Case/Console/Command/QueueShellTest.php:175
 msgid "Looking for a job."
 msgstr "Aan het zoeken naar een job."
 
-#: /Console/Command/QueueShell.php:212
-#: /Test/Case/Console/Command/QueueShellTest.php:157
+#: Console/Command/QueueShell.php:217
+#: Test/Case/Console/Command/QueueShellTest.php:157
 msgid "Running job of task '%s' '%d'."
 msgstr "Job van task '%s' '%d' aan het uitvoeren."
 
-#: /Console/Command/QueueShell.php:220
+#: Console/Command/QueueShell.php:225
 msgid "Job '%d' finished (took %s)."
 msgstr "Job '%d' voltooid (duurde %s)."
 
-#: /Console/Command/QueueShell.php:233
+#: Console/Command/QueueShell.php:238
 msgid "Job '%d' did not finish, requeued."
 msgstr "Job '%d' is niet voltooid, opnieuw in queue gezet."
 
-#: /Console/Command/QueueShell.php:236
+#: Console/Command/QueueShell.php:241
 msgid "Nothing to do, exiting."
 msgstr "Niets te doen, stoppen."
 
-#: /Console/Command/QueueShell.php:240
+#: Console/Command/QueueShell.php:245
 msgid "Nothing to do, sleeping for %d second(s)."
 msgstr "Niets te doen, slapen voor %d seconden."
 
-#: /Console/Command/QueueShell.php:252
+#: Console/Command/QueueShell.php:257
 msgid "Reached runtime of %s seconds (max. %s), terminating."
 msgstr "Uitvoertijd van %s secondes (max. %s) bereikt, stoppen."
 
-#: /Console/Command/QueueShell.php:260
+#: Console/Command/QueueShell.php:265
 msgid "Performing old job cleanup."
 msgstr "Bezig met het opruimen van oude jobs."
 
-#: /Console/Command/QueueShell.php:273
+#: Console/Command/QueueShell.php:278
 msgid "Deleting old completed jobs, that have had cleanup timeout."
-msgstr "Voltooide Jobs, die hun opschoon time out hebben bereikt, worden verwijderd."
+msgstr ""
+"Voltooide Jobs, die hun opschoon time out hebben bereikt, worden verwijderd."
 
-#: /Console/Command/QueueShell.php:283
+#: Console/Command/QueueShell.php:288
 msgid "Deleting failed Jobs, that have had maximum worker retries."
-msgstr "Mislukte Jobs, die hun maximum aantal herkansingen hebben gehad, worden verwijderd."
+msgstr ""
+"Mislukte Jobs, die hun maximum aantal herkansingen hebben gehad, worden "
+"verwijderd."
 
-#: /Console/Command/QueueShell.php:294
+#: Console/Command/QueueShell.php:299
 msgid "Jobs currenty in the queue:"
 msgstr "Jobs op dit moment in de queue:"
 
-#: /Console/Command/QueueShell.php:304
-#: /Test/Case/Console/Command/QueueShellTest.php:119
+#: Console/Command/QueueShell.php:309
+#: Test/Case/Console/Command/QueueShellTest.php:119
 msgid "Total unfinished jobs: %s"
 msgstr "Totaal aantal onvoltooide jobs: %s"
 
-#: /Console/Command/QueueShell.php:309
+#: Console/Command/QueueShell.php:314
 msgid "Finished job statistics:"
 msgstr "Voltooide job statistieken:"
 
-#: /Console/Command/QueueShell.php:315
+#: Console/Command/QueueShell.php:320
 msgid "Finished jobs in database: %s"
 msgstr "Voltooide jobs in database: %s"
 
-#: /Console/Command/QueueShell.php:316
+#: Console/Command/QueueShell.php:321
 msgid "Average job existence: %ss"
 msgstr "Gemiddelde job bestaantijd: %ss"
 
-#: /Console/Command/QueueShell.php:317
+#: Console/Command/QueueShell.php:322
 msgid "Average execution delay: %ss"
 msgstr "Gemiddelde uitvoer vertraging: %ss"
 
-#: /Console/Command/QueueShell.php:318
+#: Console/Command/QueueShell.php:323
 msgid "Average execution time: %ss"
 msgstr "Gemiddelde uitvoertijd: %ss"
 
-#: /Console/Command/QueueShell.php:367;372
+#: Console/Command/QueueShell.php:372;377
 msgid "Caught %s signal, exiting."
 msgstr "Detecteerde %s signaal, stoppen."
 
-#: /Console/Command/QueueShell.php:224
+#: Console/Command/QueueShell.php:229
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] "%d seconde"
 msgstr[1] "%d seconden"
 
-#: /Console/Command/Task/QueueExampleTask.php:52;84
+#: Console/Command/Task/QueueExampleTask.php:52;84
 msgid "CakePHP Queue Example task."
 msgstr "CakePHP Queue Example task."
 
-#: /Console/Command/Task/QueueExampleTask.php:54
+#: Console/Command/Task/QueueExampleTask.php:54
 msgid "This is a very simple example of a queueTask."
 msgstr "Dit is een erg eenvoudig voorbeeld van een Queue Task"
 
-#: /Console/Command/Task/QueueExampleTask.php:55
+#: Console/Command/Task/QueueExampleTask.php:55
 msgid "Now adding an example Task Job into the Queue."
 msgstr "Er wordt nu een voorbeeld Task Job aan de Queue toegevoegd."
 
-#: /Console/Command/Task/QueueExampleTask.php:56
-msgid "This task will only produce some console output on the worker that it runs on."
-msgstr "Deze Task zal alleen console output produceren op de Worker waar deze op uitgevoerd wordt."
+#: Console/Command/Task/QueueExampleTask.php:56
+msgid ""
+"This task will only produce some console output on the worker that it runs "
+"on."
+msgstr ""
+"Deze Task zal alleen console output produceren op de Worker waar deze op "
+"uitgevoerd wordt."
 
-#: /Console/Command/Task/QueueExampleTask.php:58
+#: Console/Command/Task/QueueExampleTask.php:58
 msgid "To run a Worker use:"
 msgstr "Om een Worker te starten gebruik:"
 
-#: /Console/Command/Task/QueueExampleTask.php:59
+#: Console/Command/Task/QueueExampleTask.php:59
 msgid "\tcake queue runworker"
 msgstr "\tcake queue runworker"
 
-#: /Console/Command/Task/QueueExampleTask.php:61
+#: Console/Command/Task/QueueExampleTask.php:61
 msgid "You can find the sourcecode of this task in: "
 msgstr "Je kan de broncode van deze Task vinden in:"
 
-#: /Console/Command/Task/QueueExampleTask.php:67
+#: Console/Command/Task/QueueExampleTask.php:67
 msgid "OK, job created, now run the worker"
 msgstr "Ok, Job aangemaakt, start nu een Worker."
 
-#: /Console/Command/Task/QueueExampleTask.php:69
+#: Console/Command/Task/QueueExampleTask.php:69
 msgid "Could not create Job"
 msgstr "Kon Job niet aanmaken"
 
-#: /Console/Command/Task/QueueExampleTask.php:86
+#: Console/Command/Task/QueueExampleTask.php:86
 msgid " ->Success, the Example Task was run.<-"
 msgstr " ->Gelukt, the Example Task is uitgevoerd.<-"
 
