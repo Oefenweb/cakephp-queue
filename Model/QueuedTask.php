@@ -144,6 +144,7 @@ class QueuedTask extends AppModel {
  * @param string $failureMessage A message to append to the failure message field (optional)
  * @return bool Success
  * @todo Remove / reimplement getDataSource()->value
+ * @suppress PhanUndeclaredMethod
  */
 	public function markJobFailed($id, $failureMessage = null) {
 		$conditions = compact('id');
@@ -169,7 +170,7 @@ class QueuedTask extends AppModel {
 			$conditions['task'] = $taskName;
 		}
 
-		return $this->find('count', compact('conditions'));
+		return (int)$this->find('count', compact('conditions'));
 	}
 
 /**
