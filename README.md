@@ -5,6 +5,7 @@
 [![Coverage Status](https://codecov.io/gh/Oefenweb/cakephp-queue/branch/master/graph/badge.svg)](https://codecov.io/gh/Oefenweb/cakephp-queue)
 [![Packagist downloads](http://img.shields.io/packagist/dt/Oefenweb/cakephp-queue.svg)](https://packagist.org/packages/oefenweb/cakephp-queue)
 [![Code Climate](https://codeclimate.com/github/Oefenweb/cakephp-queue/badges/gpa.svg)](https://codeclimate.com/github/Oefenweb/cakephp-queue)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Oefenweb/cakephp-queue/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Oefenweb/cakephp-queue/?branch=master)
 
 ## Requirements
 
