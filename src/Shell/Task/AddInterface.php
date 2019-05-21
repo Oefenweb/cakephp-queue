@@ -17,5 +17,5 @@ interface AddInterface
      *
      * @return void
      */
-    public function add();
+    public function add(): void;
 }

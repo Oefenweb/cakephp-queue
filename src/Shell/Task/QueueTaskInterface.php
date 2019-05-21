@@ -22,5 +22,5 @@ interface QueueTaskInterface
      *            The id of the QueuedTask entity
      * @return void
      */
-    public function run(array $data, $taskId);
+    public function run(array $data, $taskId): void;
 }
