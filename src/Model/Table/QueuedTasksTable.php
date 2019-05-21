@@ -105,7 +105,7 @@ class QueuedTasksTable extends Table
         $task = [
             'task' => $taskName,
             'data' => serialize($data),
-            'not_before' => $this->getDateTime(date())
+            'not_before' => $this->getDateTime()
         ];
 
         if (! empty($notBefore)) {
@@ -197,12 +197,12 @@ class QueuedTasksTable extends Table
             'fields' => function (Query $query) use ($driverName) {
                 $alltime = $query->func()->avg('UNIX_TIMESTAMP(completed) - UNIX_TIMESTAMP(created)');
                 $runtime = $query->func()->avg('UNIX_TIMESTAMP(completed) - UNIX_TIMESTAMP(fetched)');
-                $fetchdelay = $query->func()->avg('UNIX_TIMESTAMP(fetched) - IF(notbefore is NULL, UNIX_TIMESTAMP(created), UNIX_TIMESTAMP(notbefore))');
+                $fetchdelay = $query->func()->avg('UNIX_TIMESTAMP(fetched) - IF(not_before is NULL, UNIX_TIMESTAMP(created), UNIX_TIMESTAMP(not_before))');
                 switch ($driverName) {
                     case static::DRIVER_SQLSERVER:
                         $alltime = $query->func()->avg("DATEDIFF(s, '1970-01-01 00:00:00', completed) - DATEDIFF(s, '1970-01-01 00:00:00', created)");
                         $runtime = $query->func()->avg("DATEDIFF(s, '1970-01-01 00:00:00', completed) - DATEDIFF(s, '1970-01-01 00:00:00', fetched)");
-                        $fetchdelay = $query->func()->avg("DATEDIFF(s, '1970-01-01 00:00:00', fetched) - (CASE WHEN notbefore IS NULL THEN DATEDIFF(s, '1970-01-01 00:00:00', created) ELSE DATEDIFF(s, '1970-01-01 00:00:00', notbefore) END)");
+                        $fetchdelay = $query->func()->avg("DATEDIFF(s, '1970-01-01 00:00:00', fetched) - (CASE WHEN not_before IS NULL THEN DATEDIFF(s, '1970-01-01 00:00:00', created) ELSE DATEDIFF(s, '1970-01-01 00:00:00', not_before) END)");
                         break;
                 }
                 /**
@@ -324,13 +324,13 @@ class QueuedTasksTable extends Table
         $driverName = $this->_getDriverName();
 
         $query = $this->find();
-        $age = $query->newExpr()->add('IFNULL(TIMESTAMPDIFF(SECOND, "' . $nowStr . '", notbefore), 0)');
+        $age = $query->newExpr()->add('IFNULL(TIMESTAMPDIFF(SECOND, "' . $nowStr . '", not_before), 0)');
         switch ($driverName) {
             case static::DRIVER_SQLSERVER:
-                $age = $query->newExpr()->add('ISNULL(DATEDIFF(SECOND, GETDATE(), notbefore), 0)');
+                $age = $query->newExpr()->add('ISNULL(DATEDIFF(SECOND, GETDATE(), not_before), 0)');
                 break;
             case static::DRIVER_POSTGRES:
-                $age = $query->newExpr()->add('COALESCE((EXTRACT(EPOCH FROM now()) - EXTRACT(EPOCH FROM notbefore)), 0)');
+                $age = $query->newExpr()->add('COALESCE((EXTRACT(EPOCH FROM now()) - EXTRACT(EPOCH FROM not_before)), 0)');
                 break;
         }
         $options = [
@@ -360,8 +360,8 @@ class QueuedTasksTable extends Table
                 'AND' => [
                     [
                         'OR' => [
-                            'notbefore <' => $nowStr,
-                            'notbefore IS' => null
+                            'not_before <' => $nowStr,
+                            'not_before IS' => null
                         ]
                     ],
                     [
@@ -371,7 +371,7 @@ class QueuedTasksTable extends Table
                         ]
                     ]
                 ],
-                'failed <' => ($task['retries'] + 1)
+                'failed_count <' => ($task['retries'] + 1)
             ];
             $options['conditions']['OR'][] = $tmp;
         }

@@ -78,7 +78,7 @@ class QueueExampleTask extends QueueTask implements AddInterface
      *            The id of the QueuedTask entity
      * @return void
      */
-    public function run($data, $taskId)
+    public function run(array $data, $taskId)
     {
         $this->hr();
         $this->out(__d('queue', 'CakePHP Queue Example task.'));
