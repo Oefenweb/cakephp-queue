@@ -26,7 +26,6 @@ declare(ticks = 1);
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  * @link http://github.com/MSeven/cakephp_queue
  * @property \Queue\Model\Table\QueuedTasksTable $QueuedTasks
- * @property \Queue\Model\Table\QueueProcessesTable $QueueProcesses
  */
 class QueueShell extends Shell
 {
@@ -218,7 +217,6 @@ TEXT;
             if ($this->_exit || mt_rand(0, 100) > (100 - (int) Config::gcprob())) {
                 $this->out(__d('queue', 'Performing old job cleanup.'));
                 $this->QueuedTasks->cleanOldJobs();
-                $this->QueueProcesses->cleanEndedProcesses();
             }
             $this->hr();
         }
