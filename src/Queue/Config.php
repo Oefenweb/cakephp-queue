@@ -10,36 +10,36 @@ class Config
      *
      * @return int
      */
-    public static function defaultworkertimeout()
+    public static function defaultWorkerTimeout()
     {
-        return Configure::read('Queue.defaultworkertimeout', 600); // 10min
+        return Configure::read('Queue.defaultWorkerTimeout', 600); // 10min
     }
 
     /**
      *
      * @return int
      */
-    public static function workermaxruntime()
+    public static function workerMaxRuntime()
     {
-        return Configure::read('Queue.workermaxruntime', 120);
+        return Configure::read('Queue.workerMaxRuntime', 120);
     }
 
     /**
      *
      * @return int
      */
-    public static function cleanuptimeout()
+    public static function cleanupTimeout()
     {
-        return Configure::read('Queue.cleanuptimeout', 2592000); // 30 days
+        return Configure::read('Queue.cleanupTimeout', 2592000); // 30 days
     }
 
     /**
      *
      * @return int
      */
-    public static function sleeptime()
+    public static function sleepTime()
     {
-        return Configure::read('Queue.sleeptime', 10);
+        return Configure::read('Queue.sleepTime', 10);
     }
 
     /**
@@ -55,17 +55,17 @@ class Config
      *
      * @return int
      */
-    public static function defaultworkerretries()
+    public static function defaultWorkerRetries()
     {
-        return Configure::read('Queue.defaultworkerretries', 1);
+        return Configure::read('Queue.defaultWorkerRetries', 1);
     }
 
     /**
      *
      * @return int
      */
-    public static function maxworkers()
+    public static function maxWorkers()
     {
-        return Configure::read('Queue.maxworkers', 1);
+        return Configure::read('Queue.maxWorkers', 1);
     }
 }

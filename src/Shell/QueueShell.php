@@ -66,8 +66,6 @@ class QueueShell extends Shell
         $this->tasks = $taskFinder->allAppAndPluginTasks();
 
         parent::initialize();
-
-        $this->loadModel('Queue.QueueProcesses');
     }
 
     /**
@@ -163,7 +161,7 @@ TEXT;
             $pid = $this->_initPid();
         } catch (PersistenceFailedException $exception) {
             $this->err($exception->getMessage());
-            $limit = (int) Configure::read('Queue.maxworkers');
+            $limit = (int) Configure::read('Queue.maxWorkers');
             if ($limit) {
                 $this->out('Cannot start worker: Too many workers already/still running on this server (' . $limit . '/' . $limit . ')');
             }
@@ -204,18 +202,18 @@ TEXT;
 
             if ($QueuedTask) {
                 $this->runJob($QueuedTask, $pid);
-            } elseif (Configure::read('Queue.exitwhennothingtodo')) {
+            } elseif (Configure::read('Queue.exitWhenNothingToDo')) {
                 $this->out('nothing to do, exiting.');
                 $this->_exit = true;
             } else {
                 $this->out('nothing to do, sleeping.');
-                sleep(Config::sleeptime());
+                sleep(Config::sleepTime());
             }
 
             // check if we are over the maximum runtime and end processing if so.
-            if (Configure::readOrFail('Queue.workermaxruntime') && (time() - $startTime) >= Configure::readOrFail('Queue.workermaxruntime')) {
+            if (Configure::readOrFail('Queue.workerMaxRuntime') && (time() - $startTime) >= Configure::readOrFail('Queue.workerMaxRuntime')) {
                 $this->_exit = true;
-                $this->out('queue', 'Reached runtime of ' . (time() - $startTime) . ' Seconds (Max ' . Configure::readOrFail('Queue.workermaxruntime') . '), terminating.');
+                $this->out('queue', 'Reached runtime of ' . (time() - $startTime) . ' Seconds (Max ' . Configure::readOrFail('Queue.workerMaxRuntime') . '), terminating.');
             }
             if ($this->_exit || mt_rand(0, 100) > (100 - (int) Config::gcprob())) {
                 $this->out(__d('queue', 'Performing old job cleanup.'));
@@ -294,11 +292,11 @@ TEXT;
      */
     public function clean()
     {
-        if (! Configure::read('Queue.cleanuptimeout')) {
+        if (! Configure::read('Queue.cleanupTimeout')) {
             $this->abort('You disabled cleanuptimout in config. Aborting.');
         }
 
-        $this->out('Deleting old jobs, that have finished before ' . date('Y-m-d H:i:s', time() - (int) Configure::read('Queue.cleanuptimeout')));
+        $this->out('Deleting old jobs, that have finished before ' . date('Y-m-d H:i:s', time() - (int) Configure::read('Queue.cleanupTimeout')));
         $this->QueuedTasks->cleanOldJobs();
     }
 
@@ -465,17 +463,17 @@ TEXT;
                 if (property_exists($this->{$taskName}, 'timeout')) {
                     $this->_taskConf[$taskName]['timeout'] = $this->{$taskName}->timeout;
                 } else {
-                    $this->_taskConf[$taskName]['timeout'] = Config::defaultworkertimeout();
+                    $this->_taskConf[$taskName]['timeout'] = Config::defaultWorkerTimeout();
                 }
                 if (property_exists($this->{$taskName}, 'retries')) {
                     $this->_taskConf[$taskName]['retries'] = $this->{$taskName}->retries;
                 } else {
-                    $this->_taskConf[$taskName]['retries'] = Config::defaultworkerretries();
+                    $this->_taskConf[$taskName]['retries'] = Config::defaultWorkerRetries();
                 }
                 if (property_exists($this->{$taskName}, 'cleanupTimeout')) {
                     $this->_taskConf[$taskName]['cleanupTimeout'] = $this->{$taskName}->cleanupTimeout;
                 } else {
-                    $this->_taskConf[$taskName]['cleanupTimeout'] = Config::cleanuptimeout();
+                    $this->_taskConf[$taskName]['cleanupTimeout'] = Config::cleanupTimeout();
                 }
             }
         }
