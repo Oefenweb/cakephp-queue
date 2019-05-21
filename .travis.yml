@@ -1,54 +1,45 @@
 language: php
 
+sudo: false
+
 php:
   - 7.0
   - 7.1
-  - 7.2
 
 env:
   global:
-    - REPO_NAME=cakephp-queue
-    - PLUGIN_NAME=Queue
-    - REQUIRE=""
-    - DB=mysql CAKE_VERSION=2
-
-    - secure: "lMvqukdTy45r8VXnIaIKUI7i39dwDQ7u7yPeN019TVZDhYGa3ul9S0PxWYTXvyay+PqnEtCcp/dfwo57pLDfFKOnD6omLZiwFU4F10P8TIm6cnokw/4dnFEsZnK8fuvqDduwrSZwyTk9J1fvOYSOcGkOOm7y5AqSaDYEpQIPtuI="
-
-  matrix:
-    - CAKE_VERSION=2.9
-    - CAKE_VERSION=2.10 PHPUNIT_VERSION=^5.7
+    - CAKE_VERSION=^3.7.0
 
 matrix:
   include:
     - php: 7.1
       env:
-        - CODECOVERAGE=1 PHPUNIT_VERSION=^5.7
+        - PHP_SYNTAX=1
     - php: 7.1
       env:
-        - PHPCS=1
+        - PHP_CS=1
     - php: 7.1
       env:
-        - FOC_VALIDATE=1
-  exclude:
-    - php: 7.2
-      env: CAKE_VERSION=2.9
+        - PHP_CPD=1
+    - php: 7.1
+      env:
+        - PHP_MD=1
+    - php: 7.1
+      env:
+        - PHP_COVERAGE=1
 
 branches:
   only:
     - master
+    - 2.x
+    - 3.x
+    - cakephp-3.x-upgrade
 
 before_script:
-  - git clone -b master https://github.com/Oefenweb/travis --depth 1 ../travis
-  - travis_wait ../travis/before_script.sh
+  - travis_wait ./.travis/before-script.sh
 
 script:
-  - ../travis/script.sh
+  - ./.travis/script.sh
 
 after_success:
-  - ../travis/after_success.sh
-
-notifications:
-  email: false
-  hipchat:
-    rooms:
-      secure: bTreDxMYliZtwL5N4MjGrf7Zfu/Wi934vFgtZ2TNxoV3ZRWmoSqoWI7TW/SmMYgnSVHEifPutYFA6H6jKMzNaEyqiH8Fq/7ZIVuRb9pfGyXj8+qGBfXyGnPUnqz+ra2j1AewCjfxAJtx7yNi2LBm7eDze8g5j/g0EblkQP7LkzY=
+  - ./.travis/after-success.sh
