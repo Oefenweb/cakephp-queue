@@ -18,7 +18,12 @@
 		"cakephp/cakephp": "^3.7"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "^5.7.14|^6.0"
+        "oefenweb/cakephp-codesniffer": "^3.0.0",
+        "phpmd/phpmd": "^2.6",
+        "phpstan/phpstan": "^0.10.3",
+		"phpunit/phpunit": "^5.7.14|^6.0",
+        "psy/psysh": "@stable",
+        "sebastian/phpcpd": "^3.0"
 	},
 	"support": {
 		"issues": "https://github.com/Oefenweb/cakephp-queue/issues",
