@@ -33,7 +33,6 @@ branches:
     - master
     - 2.x
     - 3.x
-    - cakephp-3.x-upgrade
 
 before_script:
   - travis_wait ./.travis/before-script.sh
