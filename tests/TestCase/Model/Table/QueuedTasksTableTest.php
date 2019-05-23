@@ -31,7 +31,7 @@ class QueuedTasksTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.queue.QueuedTasks'
+        'plugin.Queue.QueuedTasks'
     ];
 
     /**
@@ -42,11 +42,8 @@ class QueuedTasksTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-
-        $config = TableRegistry::exists('QueuedTasks') ? [] : [
-            'className' => QueuedTasksTable::class
-        ];
-        $this->QueuedTasks = TableRegistry::get('QueuedTasks', $config);
+        $config = TableRegistry::getTableLocator()->exists('QueuedTasks') ? [] : ['className' => QueuedTasksTable::class];
+        $this->QueuedTasks = TableRegistry::getTableLocator()->get('QueuedTasks', $config);
     }
 
     /**
