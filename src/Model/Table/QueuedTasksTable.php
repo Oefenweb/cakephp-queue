@@ -37,12 +37,6 @@ class QueuedTasksTable extends Table
     const STATS_LIMIT = 100000;
 
     /**
-     *
-     * @var string|null
-     */
-    protected $_key;
-
-    /**
      * Initialize method
      *
      * @param array $config The configuration for the Table.
@@ -111,28 +105,6 @@ class QueuedTasksTable extends Table
         $queuedTask = $this->newEntity($task);
 
         return $this->saveOrFail($queuedTask);
-    }
-
-    /**
-     *
-     * @param string|null $taskName Task name
-     * @return bool
-     */
-    public function isQueued($taskName = null)
-    {
-        $conditions = [
-            'completed IS' => null
-        ];
-        if ($taskName) {
-            $conditions['task'] = $taskName;
-        }
-
-        return (bool)$this->find()
-            ->where($conditions)
-            ->select([
-                'id'
-            ])
-            ->first();
     }
 
     /**
@@ -379,7 +351,7 @@ class QueuedTasksTable extends Table
                 return null;
             }
 
-            $key = $this->key();
+            $key = sha1(microtime());
             $task = $this->patchEntity($task, [
                 'worker_key' => $key,
                 'fetched' => $now
@@ -514,36 +486,6 @@ class QueuedTasksTable extends Table
         }
 
         return 'aborted';
-    }
-
-    /**
-     * Generates a unique Identifier for the current worker thread.
-     *
-     * Useful to identify the currently running processes for this thread.
-     *
-     * @return string Identifier
-     */
-    public function key()
-    {
-        if ($this->_key !== null) {
-            return $this->_key;
-        }
-        $this->_key = sha1(microtime());
-        if (!$this->_key) {
-            throw new RuntimeException('Invalid key generated');
-        }
-
-        return $this->_key;
-    }
-
-    /**
-     * Resets worker Identifier
-     *
-     * @return void
-     */
-    public function clearKey()
-    {
-        $this->_key = null;
     }
 
     /**

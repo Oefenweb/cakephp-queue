@@ -47,7 +47,7 @@ class TaskFinderTest extends TestCase
         $this->taskFinder = new TaskFinder();
 
         $result = $this->taskFinder->allAppAndPluginTasks();
-        $this->assertCount(9, $result);
+        $this->assertCount(1, $result);
         $this->assertArraySubset([
             'QueueFoo'
         ], $result);

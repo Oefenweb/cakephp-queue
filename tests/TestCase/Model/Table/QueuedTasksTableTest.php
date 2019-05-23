@@ -187,7 +187,6 @@ class QueuedTasksTableTest extends TestCase
         // jobs should be fetched in the original sequence.
         $array = [];
         foreach (range(0, 4) as $num) {
-            $this->QueuedTasks->clearKey();
             $array[$num] = $this->QueuedTasks->requestJob($capabilities);
             $jobData = unserialize($array[$num]['data']);
             $this->assertSame($num, $jobData['tasknum']);
@@ -291,136 +290,11 @@ class QueuedTasksTableTest extends TestCase
         ];
 
         foreach ($expected as $item) {
-            $this->QueuedTasks->clearKey();
             $tmp = $this->QueuedTasks->requestJob($capabilities);
-var_dump($tmp);
+
             $this->assertSame($item['name'], $tmp['task']);
             $this->assertEquals($item['data'], unserialize($tmp['data']));
         }
-    }
-
-    /**
-     * Job Rate limiting.
-     * Do not execute jobs of a certain type more often than once every X seconds.
-     *
-     * @return void
-     */
-    public function testRateLimit()
-    {
-        $this->_needsConnection();
-
-        $capabilities = [
-            'task1' => [
-                'name' => 'task1',
-                'timeout' => 101,
-                'retries' => 2,
-                'rate' => 2
-            ],
-            'dummytask' => [
-                'name' => 'dummytask',
-                'timeout' => 101,
-                'retries' => 2
-            ]
-        ];
-
-        // clear out the rate history
-        $this->QueuedTasks->rateHistory = [];
-
-        $data1 = [
-            'key' => 1
-        ];
-        $this->assertTrue((bool)$this->QueuedTasks->createJob('task1', $data1));
-        $data2 = [
-            'key' => 2
-        ];
-        $this->assertTrue((bool)$this->QueuedTasks->createJob('task1', $data2));
-        $data3 = [
-            'key' => 3
-        ];
-        $this->assertTrue((bool)$this->QueuedTasks->createJob('task1', $data3));
-        $this->assertTrue((bool)$this->QueuedTasks->createJob('dummytask'));
-        $this->assertTrue((bool)$this->QueuedTasks->createJob('dummytask'));
-        $this->assertTrue((bool)$this->QueuedTasks->createJob('dummytask'));
-        $this->assertTrue((bool)$this->QueuedTasks->createJob('dummytask'));
-
-        // At first we get task1-1.
-        $this->QueuedTasks->clearKey();
-        $tmp = $this->QueuedTasks->requestJob($capabilities);
-        $this->assertSame('task1', $tmp['task']);
-        $this->assertSame($data1, unserialize($tmp['data']));
-
-        // The rate limit should now skip over task1-2 and fetch a dummytask.
-        $this->QueuedTasks->clearKey();
-        $tmp = $this->QueuedTasks->requestJob($capabilities);
-        $this->assertSame('dummytask', $tmp['task']);
-        $this->assertFalse(unserialize($tmp['data']));
-
-        usleep(100000);
-        // and again.
-        $this->QueuedTasks->clearKey();
-        $tmp = $this->QueuedTasks->requestJob($capabilities);
-        $this->assertSame('dummytask', $tmp['task']);
-        $this->assertFalse(unserialize($tmp['data']));
-
-        // Then some time passes
-        sleep(2);
-
-        // Now we should get task1-2
-        $this->QueuedTasks->clearKey();
-        $tmp = $this->QueuedTasks->requestJob($capabilities);
-        $this->assertSame('task1', $tmp['task']);
-        $this->assertSame($data2, unserialize($tmp['data']));
-
-        // and again rate limit to dummytask.
-        $this->QueuedTasks->clearKey();
-        $tmp = $this->QueuedTasks->requestJob($capabilities);
-        $this->assertSame('dummytask', $tmp['task']);
-        $this->assertFalse(unserialize($tmp['data']));
-
-        // Then some more time passes
-        sleep(2);
-
-        // Now we should get task1-3
-        $this->QueuedTasks->clearKey();
-        $tmp = $this->QueuedTasks->requestJob($capabilities);
-        $this->assertSame('task1', $tmp['task']);
-        $this->assertSame($data3, unserialize($tmp['data']));
-
-        // and again rate limit to dummytask.
-        $this->QueuedTasks->clearKey();
-        $tmp = $this->QueuedTasks->requestJob($capabilities);
-        $this->assertSame('dummytask', $tmp['task']);
-        $this->assertFalse(unserialize($tmp['data']));
-
-        // and now the queue is empty
-        $this->QueuedTasks->clearKey();
-        $tmp = $this->QueuedTasks->requestJob($capabilities);
-        $this->assertNull($tmp);
-    }
-
-    /**
-     *
-     * @return void
-     */
-    public function testIsQueued()
-    {
-        $result = $this->QueuedTasks->isQueued('foo-bar');
-        $this->assertFalse($result);
-
-        $queuedJob = $this->QueuedTasks->newEntity([
-            'key' => 'key',
-            'task' => 'FooBar'
-        ]);
-        $this->QueuedTasks->saveOrFail($queuedJob);
-
-        $result = $this->QueuedTasks->isQueued('foo-bar');
-        $this->assertTrue($result);
-
-        $queuedJob->completed = new FrozenTime();
-        $this->QueuedTasks->saveOrFail($queuedJob);
-
-        $result = $this->QueuedTasks->isQueued('foo-bar');
-        $this->assertFalse($result);
     }
 
     /**
