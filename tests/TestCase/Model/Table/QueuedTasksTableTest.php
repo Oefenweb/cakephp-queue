@@ -293,7 +293,7 @@ class QueuedTasksTableTest extends TestCase
         foreach ($expected as $item) {
             $this->QueuedTasks->clearKey();
             $tmp = $this->QueuedTasks->requestJob($capabilities);
-
+var_dump($tmp);
             $this->assertSame($item['name'], $tmp['task']);
             $this->assertEquals($item['data'], unserialize($tmp['data']));
         }

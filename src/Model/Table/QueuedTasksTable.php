@@ -109,8 +109,6 @@ class QueuedTasksTable extends Table
         }
 
         $queuedTask = $this->newEntity($task);
-        var_dump($task);
-        var_dump($queuedTask);
 
         return $this->saveOrFail($queuedTask);
     }
