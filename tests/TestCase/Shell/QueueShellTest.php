@@ -124,7 +124,7 @@ class QueueShellTest extends TestCase
         $this->_needsConnection();
 
         $this->QueueShell->stats();
-        $this->assertContains('Total unfinished jobs: 0', $this->out);
+        $this->assertContains('Total unfinished jobs: 0', $this->QueueShell->_out);
     }
 
     /**
@@ -134,7 +134,7 @@ class QueueShellTest extends TestCase
     public function testSettings()
     {
         $this->QueueShell->settings();
-        $this->assertContains('* cleanuptimeout: 10', $this->out);
+        $this->assertContains('* cleanuptimeout: 10', $this->QueueShell->_out);
     }
 
     /**
@@ -145,7 +145,7 @@ class QueueShellTest extends TestCase
     {
         $this->QueueShell->args[] = 'FooBar';
         $this->QueueShell->add();
-        $this->assertContains('Error: Task not found: FooBar', $this->out);
+        $this->assertContains('Error: Task not found: FooBar', $this->QueueShell->_out);
     }
 
     /**
@@ -157,7 +157,7 @@ class QueueShellTest extends TestCase
         $this->QueueShell->args[] = 'Example';
         $this->QueueShell->add();
 
-        $this->assertContains('OK, job created, now run the worker', $this->out, print_r($this->out->output, true));
+        $this->assertContains('OK, job created, now run the worker', $this->QueueShell->_out, print_r($this->QueueShell->_out->output, true));
     }
 
     /**
@@ -177,11 +177,11 @@ class QueueShellTest extends TestCase
         $this->QueueShell->add();
 
         $expected = 'This is a very simple example of a QueueTask and how retries work';
-        $this->assertContains($expected, $this->out);
+        $this->assertContains($expected, $this->QueueShell->_out);
 
         $this->QueueShell->runworker();
 
-        $this->assertContains('Job did not finish, requeued after try 1.', $this->out);
+        $this->assertContains('Job did not finish, requeued after try 1.', $this->QueueShell->_out);
     }
 
     /**
