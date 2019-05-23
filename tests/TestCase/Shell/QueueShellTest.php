@@ -48,13 +48,42 @@ class QueueShellWrapper extends QueueShell
     }
 
     /**
-     * Test double of `parent::_stop`.
      *
-     * @return int
+     * {@inheritdoc}
+     * @see \Cake\Console\Shell::_stop()
      */
     protected function _stop($status = 0)
     {
         return $status;
+    }
+
+    /**
+     *
+     * {@inheritDoc}
+     * @see \Queue\Shell\QueueShell::_timeNeeded()
+     */
+    public function timeNeeded()
+    {
+        return parent::_timeNeeded();
+    }
+
+    /**
+     *
+     * {@inheritDoc}
+     * @see \Queue\Shell\QueueShell::_memoryUsage()
+     */
+    public function memoryUsage()
+    {
+        return parent::_memoryUsage();
+    }
+
+    /**
+     *
+     * {@inheritDoc}
+     * @see \Queue\Shell\QueueShell::_stringToArray()
+     */
+    public function stringToArray($param) {
+        return parent::_stringToArray($param);
     }
 }
 
@@ -157,7 +186,7 @@ class QueueShellTest extends TestCase
         $this->QueueShell->args[] = 'Example';
         $this->QueueShell->add();
 
-        $this->assertContains('OK, job created, now run the worker', $this->QueueShell->_out, print_r($this->QueueShell->_out->output, true));
+        $this->assertContains('OK, job created, now run the worker', $this->QueueShell->_out, print_r($this->QueueShell->_out, true));
     }
 
     /**
@@ -208,7 +237,7 @@ class QueueShellTest extends TestCase
             ->method('_time')
             ->withAnyParameters();
 
-        $result = $this->invokeMethod($this->QueueShell, '_timeNeeded');
+        $result = $this->QueueShell->timeNeeded();
         $this->assertSame('3540s', $result);
     }
 
@@ -218,7 +247,7 @@ class QueueShellTest extends TestCase
      */
     public function testMemoryUsage()
     {
-        $result = $this->invokeMethod($this->QueueShell, '_memoryUsage');
+        $result = $this->QueueShell->memoryUsage();
         $this->assertRegExp('/^\d+MB/', $result, 'Should be e.g. `17MB` or `17MB/1GB` etc.');
     }
 
@@ -229,9 +258,7 @@ class QueueShellTest extends TestCase
     public function testStringToArray()
     {
         $string = 'Foo,Bar,';
-        $result = $this->invokeMethod($this->QueueShell, '_stringToArray', [
-            $string
-        ]);
+        $result = $this->QueueShell->stringToArray($string);
 
         $expected = [
             'Foo',
