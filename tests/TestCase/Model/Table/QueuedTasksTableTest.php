@@ -42,7 +42,9 @@ class QueuedTasksTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::getTableLocator()->exists('QueuedTasks') ? [] : ['className' => QueuedTasksTable::class];
+        $config = TableRegistry::getTableLocator()->exists('QueuedTasks') ? [] : [
+            'className' => QueuedTasksTable::class
+        ];
         $this->QueuedTasks = TableRegistry::getTableLocator()->get('QueuedTasks', $config);
     }
 
@@ -247,22 +249,16 @@ class QueuedTasksTableTest extends TestCase
         ];
         $this->assertTrue((bool) $this->QueuedTasks->createJob('dummytask'));
         $this->assertTrue((bool) $this->QueuedTasks->createJob('dummytask'));
-        // create a task with it's execution target some seconds in the past, so it should jump to the top of the list.
+        // create a task with it's execution target some seconds in the past, so it should jump to the top of the testCreateAndFetchlist.
         $this->assertTrue((bool) $this->QueuedTasks->createJob('task1', [
             'three'
-        ], [
-            'notBefore' => '- 3 Seconds'
-        ]));
+        ], '- 3 Seconds'));
         $this->assertTrue((bool) $this->QueuedTasks->createJob('task1', [
             'two'
-        ], [
-            'notBefore' => '- 5 Seconds'
-        ]));
+        ], '- 5 Seconds'));
         $this->assertTrue((bool) $this->QueuedTasks->createJob('task1', [
             'one'
-        ], [
-            'notBefore' => '- 7 Seconds'
-        ]));
+        ], '- 7 Seconds'));
 
         // when using requestJob, the jobs we just created should be delivered in this order, NOT the order in which they where created.
         $expected = [
