@@ -82,7 +82,8 @@ class QueueShellWrapper extends QueueShell
      * {@inheritDoc}
      * @see \Queue\Shell\QueueShell::_stringToArray()
      */
-    public function stringToArray($param) {
+    public function stringToArray($param)
+    {
         return parent::_stringToArray($param);
     }
 }
@@ -163,7 +164,7 @@ class QueueShellTest extends TestCase
     public function testSettings()
     {
         $this->QueueShell->settings();
-        $this->assertContains('* cleanuptimeout: 10', $this->QueueShell->_out);
+        $this->assertContains('* cleanupTimeout: 10', $this->QueueShell->_out);
     }
 
     /**
@@ -193,33 +194,9 @@ class QueueShellTest extends TestCase
      *
      * @return void
      */
-    public function testRetry()
-    {
-        $file = TMP . 'task_retry.txt';
-        if (file_exists($file)) {
-            unlink($file);
-        }
-
-        $this->_needsConnection();
-
-        $this->QueueShell->args[] = 'RetryExample';
-        $this->QueueShell->add();
-
-        $expected = 'This is a very simple example of a QueueTask and how retries work';
-        $this->assertContains($expected, $this->QueueShell->_out);
-
-        $this->QueueShell->runworker();
-
-        $this->assertContains('Job did not finish, requeued after try 1.', $this->QueueShell->_out);
-    }
-
-    /**
-     *
-     * @return void
-     */
     public function testTimeNeeded()
     {
-        $this->QueueShell = $this->getMockBuilder(QueueShell::class)
+        $this->QueueShell = $this->getMockBuilder(QueueShellWrapper::class)
             ->setMethods([
                 '_time'
             ])
