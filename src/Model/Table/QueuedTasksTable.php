@@ -109,17 +109,16 @@ class QueuedTasksTable extends Table
         }
 
         $queuedTask = $this->newEntity($task);
+        var_dump($task);
+        var_dump($queuedTask);
 
         return $this->saveOrFail($queuedTask);
     }
 
     /**
      *
-     * @param string|null $taskName
-     *
+     * @param string|null $taskName Task name
      * @return bool
-     *
-     * @throws \InvalidArgumentException
      */
     public function isQueued($taskName = null)
     {

@@ -404,7 +404,7 @@ TEXT;
      *
      * @param string $message Log type
      * @param string|null $pid PID of the process
-     * @param bool $addDetails
+     * @param bool $addDetails Details
      * @return void
      */
     protected function _log($message, $pid = null, $addDetails = true)
