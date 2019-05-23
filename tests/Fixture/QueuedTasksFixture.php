@@ -8,6 +8,7 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class QueuedTasksFixture extends TestFixture
 {
+
     /**
      * Fields
      *
@@ -47,8 +48,7 @@ class QueuedTasksFixture extends TestFixture
      */
     public function init()
     {
-        $this->records = [
-        ];
+        $this->records = [];
         parent::init();
     }
 }

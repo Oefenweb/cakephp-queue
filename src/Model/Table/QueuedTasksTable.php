@@ -76,9 +76,9 @@ class QueuedTasksTable extends Table
 
     /**
      *
-     * @param \Cake\Event\Event $event
-     * @param \ArrayObject $data
-     * @param \ArrayObject $options
+     * @param \Cake\Event\Event $event Model event
+     * @param \ArrayObject $data The data
+     * @param \ArrayObject $options The options
      * @return void
      */
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
@@ -133,8 +133,8 @@ class QueuedTasksTable extends Table
         return (bool)$this->find()
             ->where($conditions)
             ->select([
-            'id'
-        ])
+                'id'
+            ])
             ->first();
     }
 
@@ -176,6 +176,7 @@ class QueuedTasksTable extends Table
             'keyField' => 'task',
             'valueField' => 'task'
         ];
+
         return $this->find('list', $findCond);
     }
 
@@ -219,6 +220,7 @@ class QueuedTasksTable extends Table
                 'task'
             ]
         ];
+
         return $this->find('all', $options);
     }
 
@@ -230,7 +232,7 @@ class QueuedTasksTable extends Table
      * ]
      * ]
      *
-     * @param string|null $task
+     * @param string|null $taskName The task name
      * @return array
      */
     public function getFullStats($taskName = null)
@@ -433,7 +435,7 @@ class QueuedTasksTable extends Table
     /**
      * Reset current jobs
      *
-     * @param int|null $id
+     * @param int|null $id ID
      *
      * @return int Success
      */
@@ -458,7 +460,7 @@ class QueuedTasksTable extends Table
 
     /**
      *
-     * @param string $taskName
+     * @param string $taskName Task name
      *
      * @return int
      */
@@ -497,8 +499,8 @@ class QueuedTasksTable extends Table
 
     /**
      *
-     * @param \Queue\Model\Entity\QueuedTask $queuedTask
-     * @param array $taskConfiguration
+     * @param \Queue\Model\Entity\QueuedTask $queuedTask Queued task
+     * @param array $taskConfiguration Task configuration
      * @return string
      */
     public function getFailedStatus($queuedTask, array $taskConfiguration)
@@ -575,9 +577,9 @@ class QueuedTasksTable extends Table
 
     /**
      *
-     * @param array $conditions
-     * @param string $key
-     * @param array $values
+     * @param array $conditions Conditions
+     * @param string $key Key
+     * @param array $values Values
      * @return array
      */
     protected function addFilter(array $conditions, $key, array $values)
@@ -607,7 +609,7 @@ class QueuedTasksTable extends Table
      *
      * Without argument this will be "now".
      *
-     * @param int|string|\Cake\I18n\FrozenTime|\Cake\I18n\Time|null $notBefore
+     * @param int|string|\Cake\I18n\FrozenTime|\Cake\I18n\Time|null $notBefore Not before time
      *
      * @return \Cake\I18n\FrozenTime|\Cake\I18n\Time
      */

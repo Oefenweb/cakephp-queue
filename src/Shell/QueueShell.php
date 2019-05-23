@@ -17,6 +17,7 @@ use Queue\Shell\Task\AddInterface;
 use Queue\Shell\Task\QueueTaskInterface;
 use RuntimeException;
 use Throwable;
+
 declare(ticks = 1);
 
 /**
@@ -84,7 +85,7 @@ class QueueShell extends Shell
      *
      * @return string
      */
-    public function _getDescription()
+    public function getDescription()
     {
         $tasks = [];
         foreach ($this->taskNames as $loadedTask) {
@@ -98,6 +99,7 @@ Simple and minimalistic job queue (or deferred-task) system.
 Available Tasks:
 $tasks
 TEXT;
+
         return $text;
     }
 
@@ -143,6 +145,7 @@ TEXT;
         if (strpos($task, 'Queue') === 0) {
             return substr($task, 5);
         }
+
         return $task;
     }
 
@@ -163,6 +166,7 @@ TEXT;
             if ($limit) {
                 $this->out('Cannot start worker: Too many workers already/still running on this server (' . $limit . '/' . $limit . ')');
             }
+
             return static::CODE_ERROR;
         }
 
@@ -229,8 +233,8 @@ TEXT;
 
     /**
      *
-     * @param \Queue\Model\Entity\QueuedTask $QueuedTask
-     * @param string $pid
+     * @param \Queue\Model\Entity\QueuedTask $QueuedTask Queued task
+     * @param string $pid PID of the process
      * @return void
      */
     protected function runJob(QueuedTask $QueuedTask, $pid)
@@ -275,6 +279,7 @@ TEXT;
             $failedStatus = $this->QueuedTasks->getFailedStatus($QueuedTask, $this->_getTaskConf());
             $this->_log('job ' . $QueuedTask->task . ', id ' . $QueuedTask->id . ' failed and ' . $failedStatus, $pid);
             $this->out('Job did not finish, ' . $failedStatus . ' after try ' . $QueuedTask->failed . '.');
+
             return;
         }
 
@@ -354,13 +359,14 @@ TEXT;
     public function getOptionParser()
     {
         $subcommandParser = [
-            'options' => [ /*
-                             * 'dry-run'=> array(
-                             * 'short' => 'd',
-                             * 'help' => 'Dry run the update, no jobs will actually be added.',
-                             * 'boolean' => true
-                             * ),
-                             */
+            'options' => [
+                /*
+                 * 'dry-run'=> array(
+                 * 'short' => 'd',
+                 * 'help' => 'Dry run the update, no jobs will actually be added.',
+                 * 'boolean' => true
+                 * ),
+                 */
             ]
         ];
         $subcommandParserFull = $subcommandParser;
@@ -370,27 +376,27 @@ TEXT;
             'default' => null
         ];
 
-        return parent::getOptionParser()->setDescription($this->_getDescription())
+        return parent::getOptionParser()->setDescription($this->getDescription())
             ->addSubcommand('clean', [
-            'help' => 'Remove old jobs (cleanup)',
-            'parser' => $subcommandParser
-        ])
+                'help' => 'Remove old jobs (cleanup)',
+                'parser' => $subcommandParser
+            ])
             ->addSubcommand('add', [
-            'help' => 'Add Job',
-            'parser' => $subcommandParser
-        ])
+                'help' => 'Add Job',
+                'parser' => $subcommandParser
+            ])
             ->addSubcommand('stats', [
-            'help' => 'Stats',
-            'parser' => $subcommandParserFull
-        ])
+                'help' => 'Stats',
+                'parser' => $subcommandParserFull
+            ])
             ->addSubcommand('settings', [
-            'help' => 'Settings',
-            'parser' => $subcommandParserFull
-        ])
+                'help' => 'Settings',
+                'parser' => $subcommandParserFull
+            ])
             ->addSubcommand('runworker', [
-            'help' => 'Run Worker',
-            'parser' => $subcommandParserFull
-        ]);
+                'help' => 'Run Worker',
+                'parser' => $subcommandParserFull
+            ]);
     }
 
     /**
@@ -423,7 +429,7 @@ TEXT;
 
     /**
      *
-     * @param string $message
+     * @param string $message Message
      * @param string|null $pid PID of the process
      * @return void
      */
@@ -471,13 +477,14 @@ TEXT;
                 }
             }
         }
+
         return $this->_taskConf;
     }
 
     /**
      * Signal handling to queue worker for clean shutdown
      *
-     * @param int $signal
+     * @param int $signal The signal
      * @return void
      */
     protected function _exit($signal)
@@ -505,6 +512,7 @@ TEXT;
     protected function _initPid()
     {
         $this->_pid = $this->_retrievePid();
+
         return $this->_pid;
     }
 
@@ -519,6 +527,7 @@ TEXT;
         } else {
             $pid = $this->QueuedTasks->key();
         }
+
         return $pid;
     }
 
@@ -540,7 +549,7 @@ TEXT;
 
     /**
      *
-     * @param string|null $pid
+     * @param string|null $pid PID of the process
      *
      * @return void
      */
@@ -568,7 +577,7 @@ TEXT;
 
     /**
      *
-     * @param int|null $providedTime
+     * @param int|null $providedTime Provided time
      *
      * @return int
      */
@@ -583,7 +592,7 @@ TEXT;
 
     /**
      *
-     * @param string|null $param
+     * @param string|null $param String to convert
      * @return array
      */
     protected function _stringToArray($param)
