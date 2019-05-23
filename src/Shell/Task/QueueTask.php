@@ -46,8 +46,7 @@ abstract class QueueTask extends Shell implements QueueTaskInterface
 
     /**
      *
-     * @param \Cake\Console\ConsoleIo|null $io
-     *            IO
+     * @param \Cake\Console\ConsoleIo|null $io IO
      */
     public function __construct(ConsoleIo $io = null)
     {
@@ -66,7 +65,7 @@ abstract class QueueTask extends Shell implements QueueTaskInterface
         $class = get_class($this);
 
         preg_match('#\\\\Queue(.+)Task$#', $class, $matches);
-        if (! $matches) {
+        if (!$matches) {
             throw new InvalidArgumentException('Invalid class name: ' . $class);
         }
 

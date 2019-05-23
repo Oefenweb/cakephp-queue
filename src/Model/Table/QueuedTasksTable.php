@@ -45,8 +45,7 @@ class QueuedTasksTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config
-     *            The configuration for the Table.
+     * @param array $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config)
@@ -68,7 +67,7 @@ class QueuedTasksTable extends Table
     public static function defaultConnectionName()
     {
         $connection = Configure::read('Queue.connection');
-        if (! empty($connection)) {
+        if (!empty($connection)) {
             return $connection;
         }
 
@@ -92,12 +91,9 @@ class QueuedTasksTable extends Table
     /**
      * Adds a new job to the queue.
      *
-     * @param string $taskName
-     *            Task name
-     * @param array|null $data
-     *            Array of data
-     * @param string $notBefore
-     *            A datetime which indicates when the job may be executed
+     * @param string $taskName Task name
+     * @param array|null $data Array of data
+     * @param string $notBefore A datetime which indicates when the job may be executed
      * @return \Queue\Model\Entity\QueuedTask Saved job entity
      */
     public function createJob($taskName, array $data = null, string $notBefore = null)
@@ -108,7 +104,7 @@ class QueuedTasksTable extends Table
             'not_before' => $this->getDateTime()
         ];
 
-        if (! empty($notBefore)) {
+        if (!empty($notBefore)) {
             $task['not_before'] = $this->getDateTime(strtotime($notBefore));
         }
 
@@ -134,7 +130,7 @@ class QueuedTasksTable extends Table
             $conditions['task'] = $taskName;
         }
 
-        return (bool) $this->find()
+        return (bool)$this->find()
             ->where($conditions)
             ->select([
             'id'
@@ -146,8 +142,7 @@ class QueuedTasksTable extends Table
      * Returns the number of items in the queue.
      * Either returns the number of ALL pending jobs, or the number of pending jobs of the passed type.
      *
-     * @param string|null $taskName
-     *            Task type to Count
+     * @param string|null $taskName Task type to Count
      * @return int
      */
     public function getLength($taskName = null)
@@ -280,7 +275,7 @@ class QueuedTasksTable extends Table
             /** @var \DateTime $created */
             $created = $task['created'];
             $day = $created->format('Y-m-d');
-            if (! isset($days[$day])) {
+            if (!isset($days[$day])) {
                 $days[$day] = $day;
             }
 
@@ -290,7 +285,7 @@ class QueuedTasksTable extends Table
         foreach ($result as $type => $tasks) {
             foreach ($tasks as $day => $durations) {
                 $average = array_sum($durations) / count($durations);
-                $result[$type][$day] = (int) $average;
+                $result[$type][$day] = (int)$average;
             }
 
             foreach ($days as $day) {
@@ -311,10 +306,8 @@ class QueuedTasksTable extends Table
      * Look for a new job that can be processed with the current abilities and
      * from the specified group (or any if null).
      *
-     * @param array $capabilities
-     *            Available QueueWorkerTasks.
-     * @param array $types
-     *            Request a job from these types (or exclude certain types), or any otherwise.
+     * @param array $capabilities Available QueueWorkerTasks.
+     * @param array $types Request a job from these types (or exclude certain types), or any otherwise.
      * @return \Queue\Model\Entity\QueuedTask|null
      */
     public function requestJob(array $capabilities, array $types = [])
@@ -383,7 +376,7 @@ class QueuedTasksTable extends Table
                 ->epilog('FOR UPDATE')
                 ->first();
 
-            if (! $task) {
+            if (!$task) {
                 return null;
             }
 
@@ -396,7 +389,7 @@ class QueuedTasksTable extends Table
             return $this->saveOrFail($task);
         });
 
-        if (! $task) {
+        if (!$task) {
             return null;
         }
 
@@ -406,8 +399,7 @@ class QueuedTasksTable extends Table
     /**
      * Mark a task as Completed, removing it from the queue.
      *
-     * @param \Queue\Model\Entity\QueuedTask $task
-     *            Task
+     * @param \Queue\Model\Entity\QueuedTask $task Task
      * @return bool Success
      */
     public function markJobDone(QueuedTask $task)
@@ -417,16 +409,14 @@ class QueuedTasksTable extends Table
         ];
         $task = $this->patchEntity($task, $fields);
 
-        return (bool) $this->save($task);
+        return (bool)$this->save($task);
     }
 
     /**
      * Mark a job as Failed, incrementing the failed-counter and Requeueing it.
      *
-     * @param \Queue\Model\Entity\QueuedTask $task
-     *            Task
-     * @param string|null $failureMessage
-     *            Optional message to append to the failure_message field.
+     * @param \Queue\Model\Entity\QueuedTask $task Task
+     * @param string|null $failureMessage Optional message to append to the failure_message field.
      * @return bool Success
      */
     public function markJobFailed(QueuedTask $task, $failureMessage = null)
@@ -437,7 +427,7 @@ class QueuedTasksTable extends Table
         ];
         $task = $this->patchEntity($task, $fields);
 
-        return (bool) $this->save($task);
+        return (bool)$this->save($task);
     }
 
     /**
@@ -496,12 +486,12 @@ class QueuedTasksTable extends Table
      */
     public function cleanOldJobs()
     {
-        if (! Configure::read('Queue.cleanuptimeout')) {
+        if (!Configure::read('Queue.cleanuptimeout')) {
             return;
         }
 
         $this->deleteAll([
-            'completed <' => time() - (int) Configure::read('Queue.cleanuptimeout')
+            'completed <' => time() - (int)Configure::read('Queue.cleanuptimeout')
         ]);
     }
 
@@ -540,7 +530,7 @@ class QueuedTasksTable extends Table
             return $this->_key;
         }
         $this->_key = sha1(microtime());
-        if (! $this->_key) {
+        if (!$this->_key) {
             throw new RuntimeException('Invalid key generated');
         }
 

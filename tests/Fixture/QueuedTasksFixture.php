@@ -39,7 +39,7 @@ class QueuedTasksFixture extends TestFixture
         ],
     ];
     // @codingStandardsIgnoreEnd
-    
+
     /**
      * Init method
      *

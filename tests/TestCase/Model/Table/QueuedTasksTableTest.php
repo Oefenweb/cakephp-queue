@@ -69,7 +69,7 @@ class QueuedTasksTableTest extends TestCase
         $this->assertSame(0, $this->QueuedTasks->getLength());
 
         // create a job
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('test1', [
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('test1', [
             'some' => 'random',
             'test' => 'data'
         ]));
@@ -78,15 +78,15 @@ class QueuedTasksTableTest extends TestCase
         $this->assertSame(1, $this->QueuedTasks->getLength());
 
         // create some more jobs
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('test2', [
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('test2', [
             'some' => 'random',
             'test' => 'data2'
         ]));
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('test2', [
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('test2', [
             'some' => 'random',
             'test' => 'data3'
         ]));
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('test3', [
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('test3', [
             'some' => 'random',
             'test' => 'data4'
         ]));
@@ -132,7 +132,7 @@ class QueuedTasksTableTest extends TestCase
         // there are no jobs, so we cant fetch any.
         $this->assertNull($this->QueuedTasks->requestJob($capabilities));
         // insert one job.
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('task1', $testData));
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('task1', $testData));
 
         // fetch and check the first job.
         $job = $this->QueuedTasks->requestJob($capabilities);
@@ -177,7 +177,7 @@ class QueuedTasksTableTest extends TestCase
         $this->assertSame(0, $this->QueuedTasks->getLength());
         // create some more jobs
         foreach (range(0, 9) as $num) {
-            $this->assertTrue((bool) $this->QueuedTasks->createJob('task1', [
+            $this->assertTrue((bool)$this->QueuedTasks->createJob('task1', [
                 'tasknum' => $num
             ]));
         }
@@ -216,9 +216,9 @@ class QueuedTasksTableTest extends TestCase
      */
     public function testNotBefore()
     {
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('task1', null, '+ 1 Min'));
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('task1', null, '+ 1 Day'));
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('task1', null, '2009-07-01 12:00:00'));
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('task1', null, '+ 1 Min'));
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('task1', null, '+ 1 Day'));
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('task1', null, '2009-07-01 12:00:00'));
         $data = $this->QueuedTasks->find('all')->toArray();
         $this->assertWithinRange((new Time('+ 1 Min'))->toUnixString(), $data[0]['not_before']->toUnixString(), 60);
         $this->assertWithinRange((new Time('+ 1 Day'))->toUnixString(), $data[1]['not_before']->toUnixString(), 60);
@@ -247,16 +247,16 @@ class QueuedTasksTableTest extends TestCase
                 'retries' => 2
             ]
         ];
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('dummytask'));
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('dummytask'));
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('dummytask'));
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('dummytask'));
         // create a task with it's execution target some seconds in the past, so it should jump to the top of the testCreateAndFetchlist.
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('task1', [
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('task1', [
             'three'
         ], '- 3 Seconds'));
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('task1', [
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('task1', [
             'two'
         ], '- 5 Seconds'));
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('task1', [
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('task1', [
             'one'
         ], '- 7 Seconds'));
 
@@ -329,19 +329,19 @@ class QueuedTasksTableTest extends TestCase
         $data1 = [
             'key' => 1
         ];
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('task1', $data1));
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('task1', $data1));
         $data2 = [
             'key' => 2
         ];
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('task1', $data2));
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('task1', $data2));
         $data3 = [
             'key' => 3
         ];
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('task1', $data3));
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('dummytask'));
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('dummytask'));
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('dummytask'));
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('dummytask'));
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('task1', $data3));
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('dummytask'));
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('dummytask'));
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('dummytask'));
+        $this->assertTrue((bool)$this->QueuedTasks->createJob('dummytask'));
 
         // At first we get task1-1.
         $this->QueuedTasks->clearKey();
@@ -396,90 +396,6 @@ class QueuedTasksTableTest extends TestCase
         $this->QueuedTasks->clearKey();
         $tmp = $this->QueuedTasks->requestJob($capabilities);
         $this->assertNull($tmp);
-    }
-
-    /**
-     * Are those tests still valid? //FIXME
-     *
-     * @return void
-     */
-    public function _testRequeueAfterTimeout()
-    {
-        $capabilities = [
-            'task1' => [
-                'name' => 'task1',
-                'timeout' => 1,
-                'retries' => 2,
-                'rate' => 0
-            ]
-        ];
-
-        $data = [
-            'key' => '1'
-        ];
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('task1', $data));
-
-        $this->QueuedTasks->clearKey();
-        $tmp = $this->QueuedTasks->requestJob($capabilities);
-        $this->assertSame('task1', $tmp['task']);
-        $this->assertSame($data, unserialize($tmp['data']));
-        $this->assertSame('0', $tmp['failed']);
-        sleep(2);
-
-        $this->QueuedTasks->clearKey();
-        $tmp = $this->QueuedTasks->requestJob($capabilities);
-        $this->assertSame('task1', $tmp['task']);
-        $this->assertSame($data, unserialize($tmp['data']));
-        $this->assertSame('1', $tmp['failed']);
-        $this->assertSame('Restart after timeout', $tmp['failure_message']);
-    }
-
-    /**
-     * Tests whether the timeout of second tasks doesn't interfere with
-     * requeue of tasks
-     *
-     * Are those tests still valid? //FIXME
-     *
-     * @return void
-     */
-    public function _testRequeueAfterTimeout2()
-    {
-        $capabilities = [
-            'task1' => [
-                'name' => 'task1',
-                'timeout' => 1,
-                'retries' => 2,
-                'rate' => 0
-            ],
-            'task2' => [
-                'name' => 'task2',
-                'timeout' => 100,
-                'retries' => 2,
-                'rate' => 0
-            ]
-        ];
-
-        $this->assertTrue((bool) $this->QueuedTasks->createJob('task1', [
-            '1'
-        ]));
-
-        $this->QueuedTasks->clearKey();
-        $tmp = $this->QueuedTasks->requestJob($capabilities);
-        $this->assertSame('task1', $tmp['task']);
-        $this->assertSame([
-            '1'
-        ], unserialize($tmp['data']));
-        $this->assertSame('0', $tmp['failed']);
-        sleep(2);
-
-        $this->QueuedTasks->clearKey();
-        $tmp = $this->QueuedTasks->requestJob($capabilities);
-        $this->assertSame('task1', $tmp['task']);
-        $this->assertSame([
-            '1'
-        ], unserialize($tmp['data']));
-        $this->assertSame('1', $tmp['failed']);
-        $this->assertSame('Restart after timeout', $tmp['failure_message']);
     }
 
     /**

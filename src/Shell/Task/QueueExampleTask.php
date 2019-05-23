@@ -72,10 +72,8 @@ class QueueExampleTask extends QueueTask implements AddInterface
      * This function is executed, when a worker is executing a task.
      * The return parameter will determine, if the task will be marked completed, or be requeued.
      *
-     * @param array $data
-     *            The array passed to QueuedTasksTable::createJob()
-     * @param int $taskId
-     *            The id of the QueuedTask entity
+     * @param array $data The array passed to QueuedTasksTable::createJob()
+     * @param int $taskId The id of the QueuedTask entity
      * @return void
      */
     public function run(array $data, $taskId): void

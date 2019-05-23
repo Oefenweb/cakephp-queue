@@ -121,7 +121,7 @@ TEXT;
         if (in_array('Queue' . $name, $this->taskNames, true)) {
             /** @var \Queue\Shell\Task\QueueTask|\Queue\Shell\Task\AddInterface $task */
             $task = $this->{'Queue' . $name};
-            if (! ($task instanceof AddInterface)) {
+            if (!($task instanceof AddInterface)) {
                 $this->abort('This task does not support adding via CLI call');
             }
             $task->add();
@@ -135,8 +135,7 @@ TEXT;
      * Output the task without Queue or Task
      * example: QueueImageTask becomes Image on display
      *
-     * @param string $task
-     *            Task name
+     * @param string $task Task name
      * @return string Cleaned task name
      */
     protected function _taskName($task)
@@ -160,7 +159,7 @@ TEXT;
             $pid = $this->_initPid();
         } catch (PersistenceFailedException $exception) {
             $this->err($exception->getMessage());
-            $limit = (int) Configure::read('Queue.maxWorkers');
+            $limit = (int)Configure::read('Queue.maxWorkers');
             if ($limit) {
                 $this->out('Cannot start worker: Too many workers already/still running on this server (' . $limit . '/' . $limit . ')');
             }
@@ -194,7 +193,7 @@ TEXT;
         $startTime = time();
         $types = $this->_stringToArray($this->param('type'));
 
-        while (! $this->_exit) {
+        while (!$this->_exit) {
             $this->out(__d('queue', 'Looking for a job.'), 1, Shell::VERBOSE);
 
             $QueuedTask = $this->QueuedTasks->requestJob($this->_getTaskConf(), $types);
@@ -214,7 +213,7 @@ TEXT;
                 $this->_exit = true;
                 $this->out('queue', 'Reached runtime of ' . (time() - $startTime) . ' Seconds (Max ' . Configure::readOrFail('Queue.workerMaxRuntime') . '), terminating.');
             }
-            if ($this->_exit || mt_rand(0, 100) > (100 - (int) Config::gcprob())) {
+            if ($this->_exit || mt_rand(0, 100) > (100 - (int)Config::gcprob())) {
                 $this->out(__d('queue', 'Performing old job cleanup.'));
                 $this->QueuedTasks->cleanOldJobs();
             }
@@ -246,11 +245,11 @@ TEXT;
             $data = unserialize($QueuedTask->data);
             /** @var \Queue\Shell\Task\QueueTask $task */
             $task = $this->{$taskName};
-            if (! $task instanceof QueueTaskInterface) {
+            if (!$task instanceof QueueTaskInterface) {
                 throw new RuntimeException('Task must implement ' . QueueTaskInterface::class);
             }
 
-            $return = $task->run((array) $data, $QueuedTask->id);
+            $return = $task->run((array)$data, $QueuedTask->id);
             if ($return !== null) {
                 trigger_error('run() should be void and throw exception in error case now.', E_USER_DEPRECATED);
             }
@@ -259,7 +258,7 @@ TEXT;
             $return = false;
 
             $failureMessage = get_class($e) . ': ' . $e->getMessage();
-            if (! ($e instanceof QueueException)) {
+            if (!($e instanceof QueueException)) {
                 $failureMessage .= "\n" . $e->getTraceAsString();
             }
 
@@ -290,11 +289,11 @@ TEXT;
      */
     public function clean()
     {
-        if (! Configure::read('Queue.cleanupTimeout')) {
+        if (!Configure::read('Queue.cleanupTimeout')) {
             $this->abort('You disabled cleanuptimout in config. Aborting.');
         }
 
-        $this->out('Deleting old jobs, that have finished before ' . date('Y-m-d H:i:s', time() - (int) Configure::read('Queue.cleanupTimeout')));
+        $this->out('Deleting old jobs, that have finished before ' . date('Y-m-d H:i:s', time() - (int)Configure::read('Queue.cleanupTimeout')));
         $this->QueuedTasks->cleanOldJobs();
     }
 
@@ -306,7 +305,7 @@ TEXT;
     public function settings()
     {
         $this->out('Current Settings:');
-        $conf = (array) Configure::read('Queue');
+        $conf = (array)Configure::read('Queue');
         foreach ($conf as $key => $val) {
             if ($val === false) {
                 $val = 'no';
@@ -397,16 +396,14 @@ TEXT;
     /**
      * Timestamped log.
      *
-     * @param string $message
-     *            Log type
-     * @param string|null $pid
-     *            PID of the process
+     * @param string $message Log type
+     * @param string|null $pid PID of the process
      * @param bool $addDetails
      * @return void
      */
     protected function _log($message, $pid = null, $addDetails = true)
     {
-        if (! Configure::read('Queue.log')) {
+        if (!Configure::read('Queue.log')) {
             return;
         }
 
@@ -427,8 +424,7 @@ TEXT;
     /**
      *
      * @param string $message
-     * @param string|null $pid
-     *            PID of the process
+     * @param string|null $pid PID of the process
      * @return void
      */
     protected function _logError($message, $pid = null)
@@ -451,7 +447,7 @@ TEXT;
      */
     protected function _getTaskConf()
     {
-        if (! is_array($this->_taskConf)) {
+        if (!is_array($this->_taskConf)) {
             $this->_taskConf = [];
             foreach ($this->tasks as $task) {
                 list ($pluginName, $taskName) = pluginSplit($task);
@@ -519,7 +515,7 @@ TEXT;
     protected function _retrievePid()
     {
         if (function_exists('posix_getpid')) {
-            $pid = (string) posix_getpid();
+            $pid = (string)posix_getpid();
         } else {
             $pid = $this->QueuedTasks->key();
         }
@@ -550,10 +546,10 @@ TEXT;
      */
     protected function _deletePid($pid)
     {
-        if (! $pid) {
+        if (!$pid) {
             $pid = $this->_pid;
         }
-        if (! $pid) {
+        if (!$pid) {
             return;
         }
     }
@@ -592,7 +588,7 @@ TEXT;
      */
     protected function _stringToArray($param)
     {
-        if (! $param) {
+        if (!$param) {
             return [];
         }
 

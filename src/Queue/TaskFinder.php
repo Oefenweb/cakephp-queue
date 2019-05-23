@@ -49,7 +49,7 @@ class TaskFinder
 
     /**
      *
-     * @param \Cake\Filesystem\Folder $Folder
+     * @param \Cake\Filesystem\Folder $Folder The directory
      *
      * @return array
      */
@@ -65,8 +65,8 @@ class TaskFinder
 
     /**
      *
-     * @param \Cake\Filesystem\Folder $Folder
-     * @param string $plugin
+     * @param \Cake\Filesystem\Folder $Folder The directory
+     * @param string $plugin The plugin name
      *
      * @return array
      */
