@@ -7,7 +7,7 @@
     <rule ref="rulesets/cleancode.xml/StaticAccess">
         <properties>
             <property name="exceptions"
-                      value="\Cake\Codeception\Console\Installer,\Cake\Utility\Security,\Cake\Core\Configure,\Cake\Log\Log,\Cake\Utility\Hash,\App\Utility\Cache" />
+                      value="\Cake\Codeception\Console\Installer,\Cake\Datasource\ConnectionManager,\Cake\Utility\Hash,\Cake\Utility\Inflector,\Cake\Utility\Security,\Cake\Utility\Text,\App\Utility\Cache,\Cake\Core\Configure,\Cake\Log\Log,\Cake\I18n\Number,\Queue\Queue\Config" />
         </properties>
     </rule>
     <rule ref="rulesets/codesize.xml/CyclomaticComplexity" />
