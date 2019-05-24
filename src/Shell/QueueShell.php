@@ -158,18 +158,6 @@ TEXT;
      */
     public function runworker()
     {
-        try {
-            $pid = $this->_initPid();
-        } catch (PersistenceFailedException $exception) {
-            $this->err($exception->getMessage());
-            $limit = (int)Configure::read('Queue.maxWorkers');
-            if ($limit) {
-                $this->out('Cannot start worker: Too many workers already/still running on this server (' . $limit . '/' . $limit . ')');
-            }
-
-            return static::CODE_ERROR;
-        }
-
         // Enable Garbage Collector (PHP >= 5.3)
         if (function_exists('gc_enable')) {
             gc_enable();
@@ -203,19 +191,19 @@ TEXT;
             $QueuedTask = $this->QueuedTasks->requestJob($this->_getTaskConf(), $types);
 
             if ($QueuedTask) {
-                $this->runJob($QueuedTask, $pid);
+                $this->runJob($QueuedTask);
             } elseif (Configure::read('Queue.exitWhenNothingToDo')) {
-                $this->out('nothing to do, exiting.');
+                $this->out(__d('queue', 'nothing to do, exiting.'));
                 $this->_exit = true;
             } else {
-                $this->out('nothing to do, sleeping.');
+                $this->out(__d('queue', 'nothing to do, sleeping.'));
                 sleep(Config::sleepTime());
             }
 
             // check if we are over the maximum runtime and end processing if so.
             if (Configure::readOrFail('Queue.workerMaxRuntime') && (time() - $startTime) >= Configure::readOrFail('Queue.workerMaxRuntime')) {
                 $this->_exit = true;
-                $this->out('queue', 'Reached runtime of ' . (time() - $startTime) . ' Seconds (Max ' . Configure::readOrFail('Queue.workerMaxRuntime') . '), terminating.');
+                $this->out(__d('queue', 'Reached runtime of ' . (time() - $startTime) . ' Seconds (Max ' . Configure::readOrFail('Queue.workerMaxRuntime') . '), terminating.'));
             }
             if ($this->_exit || mt_rand(0, 100) > (100 - (int)Config::gcprob())) {
                 $this->out(__d('queue', 'Performing old job cleanup.'));
@@ -224,23 +212,20 @@ TEXT;
             $this->hr();
         }
 
-        $this->_deletePid($pid);
-
         if ($this->param('verbose')) {
-            $this->_log('endworker', $pid);
+            $this->_log('endworker');
         }
     }
 
     /**
      *
      * @param \Queue\Model\Entity\QueuedTask $QueuedTask Queued task
-     * @param string $pid PID of the process
      * @return void
      */
-    protected function runJob(QueuedTask $QueuedTask, $pid)
+    protected function runJob(QueuedTask $QueuedTask)
     {
         $this->out('Running Job of type "' . $QueuedTask->task . '"');
-        $this->_log('job ' . $QueuedTask->task . ', id ' . $QueuedTask->id, $pid, false);
+        $this->_log('job ' . $QueuedTask->task . ', id ' . $QueuedTask->id, null, false);
         $taskName = 'Queue' . $QueuedTask->task;
 
         try {
@@ -266,18 +251,18 @@ TEXT;
                 $failureMessage .= "\n" . $e->getTraceAsString();
             }
 
-            $this->_logError($taskName . ' (job ' . $QueuedTask->id . ')' . "\n" . $failureMessage, $pid);
+            $this->_logError($taskName . ' (job ' . $QueuedTask->id . ')' . "\n" . $failureMessage);
         } catch (Exception $e) {
             $return = false;
 
             $failureMessage = get_class($e) . ': ' . $e->getMessage();
-            $this->_logError($taskName . "\n" . $failureMessage, $pid);
+            $this->_logError($taskName . "\n" . $failureMessage);
         }
 
         if ($return === false) {
             $this->QueuedTasks->markJobFailed($QueuedTask, $failureMessage);
             $failedStatus = $this->QueuedTasks->getFailedStatus($QueuedTask, $this->_getTaskConf());
-            $this->_log('job ' . $QueuedTask->task . ', id ' . $QueuedTask->id . ' failed and ' . $failedStatus, $pid);
+            $this->_log('job ' . $QueuedTask->task . ', id ' . $QueuedTask->id . ' failed and ' . $failedStatus);
             $this->out('Job did not finish, ' . $failedStatus . ' after try ' . $QueuedTask->failed . '.');
 
             return;
@@ -507,32 +492,6 @@ TEXT;
 
     /**
      *
-     * @return string
-     */
-    protected function _initPid()
-    {
-        $this->_pid = $this->_retrievePid();
-
-        return $this->_pid;
-    }
-
-    /**
-     *
-     * @return string
-     */
-    protected function _retrievePid()
-    {
-        if (function_exists('posix_getpid')) {
-            $pid = (string)posix_getpid();
-        } else {
-            $pid = $this->QueuedTasks->key();
-        }
-
-        return $pid;
-    }
-
-    /**
-     *
      * @return string Memory usage in MB.
      */
     protected function _memoryUsage()
@@ -545,22 +504,6 @@ TEXT;
         }
 
         return $used;
-    }
-
-    /**
-     *
-     * @param string|null $pid PID of the process
-     *
-     * @return void
-     */
-    protected function _deletePid($pid)
-    {
-        if (!$pid) {
-            $pid = $this->_pid;
-        }
-        if (!$pid) {
-            return;
-        }
     }
 
     /**
@@ -583,7 +526,7 @@ TEXT;
      */
     protected function _time($providedTime = null)
     {
-        if ($providedTime) {
+        if ($providedTime !== null) {
             return $providedTime;
         }
 
