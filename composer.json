@@ -23,7 +23,8 @@
         "phpstan/phpstan": "^0.10.3",
 		"phpunit/phpunit": "^5.7.14|^6.0",
         "psy/psysh": "@stable",
-        "sebastian/phpcpd": "^3.0"
+        "sebastian/phpcpd": "^3.0",
+		"dereuromark/cakephp-tools": "^1.9"
 	},
 	"support": {
 		"issues": "https://github.com/Oefenweb/cakephp-queue/issues",

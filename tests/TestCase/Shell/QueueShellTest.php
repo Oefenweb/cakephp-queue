@@ -1,101 +1,35 @@
 <?php
 namespace Queue\Test\TestCase\Shell;
 
-use Cake\Console\Shell;
+use Cake\Console\ConsoleIo;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
 use Cake\TestSuite\TestCase;
 use Queue\Shell\QueueShell;
-
-/**
- * QueueShell Wrapper.
- */
-class QueueShellWrapper extends QueueShell
-{
-
-    /**
-     * A list with error messages.
-     *
-     * @var array
-     */
-    protected $_err = [];
-
-    /**
-     * A list with out messages.
-     *
-     * @var array
-     */
-    protected $_out = [];
-
-    /**
-     * Test double of `parent::err`.
-     *
-     * @return void
-     */
-    public function err($message = null, $newlines = 1)
-    {
-        $this->_err[] = $message;
-    }
-
-    /**
-     * Test double of `parent::out`.
-     *
-     * @return void
-     */
-    public function out($message = null, $newlines = 1, $level = Shell::NORMAL)
-    {
-        $this->_out[] = $message;
-    }
-
-    /**
-     *
-     * {@inheritdoc}
-     * @see \Cake\Console\Shell::_stop()
-     */
-    protected function _stop($status = 0)
-    {
-        return $status;
-    }
-
-    /**
-     *
-     * {@inheritDoc}
-     * @see \Queue\Shell\QueueShell::_timeNeeded()
-     */
-    public function timeNeeded()
-    {
-        return parent::_timeNeeded();
-    }
-
-    /**
-     *
-     * {@inheritDoc}
-     * @see \Queue\Shell\QueueShell::_memoryUsage()
-     */
-    public function memoryUsage()
-    {
-        return parent::_memoryUsage();
-    }
-
-    /**
-     *
-     * {@inheritDoc}
-     * @see \Queue\Shell\QueueShell::_stringToArray()
-     */
-    public function stringToArray($param)
-    {
-        return parent::_stringToArray($param);
-    }
-}
+use Tools\TestSuite\ConsoleOutput;
+use Tools\TestSuite\ToolsTestTrait;
 
 class QueueShellTest extends TestCase
 {
+    use ToolsTestTrait;
 
     /**
      *
-     * @var QueueShellWrapper
+     * @var \Queue\Shell\QueueShell|\PHPUnit_Framework_MockObject_MockObject
      */
     public $QueueShell;
+
+    /**
+     *
+     * @var \Tools\TestSuite\ConsoleOutput
+     */
+    public $out;
+
+    /**
+     *
+     * @var \Tools\TestSuite\ConsoleOutput
+     */
+    public $err;
 
     /**
      * Fixtures to load
@@ -114,15 +48,21 @@ class QueueShellTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-
-        $this->QueueShell = $this->getMockBuilder(QueueShellWrapper::class)
+        
+        $this->out = new ConsoleOutput();
+        $this->err = new ConsoleOutput();
+        $io = new ConsoleIo($this->out, $this->err);
+        
+        $this->QueueShell = $this->getMockBuilder(QueueShell::class)
             ->setMethods([
                 'in',
                 'err',
                 '_stop'
             ])
+            ->setConstructorArgs([
+                $io
+            ])
             ->getMock();
-
         $this->QueueShell->initialize();
 
         Configure::write('Queue', [
@@ -154,7 +94,7 @@ class QueueShellTest extends TestCase
         $this->_needsConnection();
 
         $this->QueueShell->stats();
-        $this->assertContains('Total unfinished jobs: 0', $this->QueueShell->_out);
+        $this->assertContains('Total unfinished jobs: 0', $this->out->output());
     }
 
     /**
@@ -164,7 +104,7 @@ class QueueShellTest extends TestCase
     public function testSettings()
     {
         $this->QueueShell->settings();
-        $this->assertContains('* cleanupTimeout: 10', $this->QueueShell->_out);
+        $this->assertContains('* cleanupTimeout: 10', $this->out->output());
     }
 
     /**
@@ -175,7 +115,7 @@ class QueueShellTest extends TestCase
     {
         $this->QueueShell->args[] = 'FooBar';
         $this->QueueShell->add();
-        $this->assertContains('Error: Task not found: FooBar', $this->QueueShell->_out);
+        $this->assertContains('Error: Task not found: FooBar', $this->out->output());
     }
 
     /**
@@ -187,7 +127,7 @@ class QueueShellTest extends TestCase
         $this->QueueShell->args[] = 'Example';
         $this->QueueShell->add();
 
-        $this->assertContains('OK, job created, now run the worker', $this->QueueShell->_out, print_r($this->QueueShell->_out, true));
+        $this->assertContains('OK, job created, now run the worker', $this->out->output(), print_r($this->out->output(), true));
     }
 
     /**
@@ -196,7 +136,7 @@ class QueueShellTest extends TestCase
      */
     public function testTimeNeeded()
     {
-        $this->QueueShell = $this->getMockBuilder(QueueShellWrapper::class)
+        $this->QueueShell = $this->getMockBuilder(QueueShell::class)
             ->setMethods([
                 '_time'
             ])

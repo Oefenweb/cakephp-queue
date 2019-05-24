@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ff87800f17a59523fd8e6b786b386f36",
+    "content-hash": "f663c551d5b6fc1033498653818dad18",
     "packages": [
         {
             "name": "aura/intl",
@@ -497,6 +497,116 @@
                 "performance"
             ],
             "time": "2019-01-28T20:25:53+00:00"
+        },
+        {
+            "name": "dereuromark/cakephp-shim",
+            "version": "1.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dereuromark/cakephp-shim.git",
+                "reference": "943a7125175ea10e1a49f94c75b0405095f1f511"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dereuromark/cakephp-shim/zipball/943a7125175ea10e1a49f94c75b0405095f1f511",
+                "reference": "943a7125175ea10e1a49f94c75b0405095f1f511",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "^3.7.0",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "dereuromark/cakephp-ide-helper": "^0.13.11",
+                "fig-r/psr2r-sniffer": "dev-master"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Shim\\": "src/",
+                    "Shim\\Test\\Fixture\\": "tests/Fixture/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Scherer",
+                    "homepage": "https://www.dereuromark.de",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "A CakePHP plugin to shim applications between major framework versions.",
+            "homepage": "https://github.com/dereuromark/cakephp-shim",
+            "keywords": [
+                "cakephp",
+                "helpers",
+                "plugin",
+                "shim"
+            ],
+            "time": "2019-05-11T21:06:20+00:00"
+        },
+        {
+            "name": "dereuromark/cakephp-tools",
+            "version": "1.9.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dereuromark/cakephp-tools.git",
+                "reference": "4f720ea4a0e3454cff5f5240c8e59cc267ec3fb6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dereuromark/cakephp-tools/zipball/4f720ea4a0e3454cff5f5240c8e59cc267ec3fb6",
+                "reference": "4f720ea4a0e3454cff5f5240c8e59cc267ec3fb6",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "^3.7.0",
+                "dereuromark/cakephp-shim": "^1.7.0",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "cakephp/chronos": "^1.0.1",
+                "fig-r/psr2r-sniffer": "dev-master",
+                "mobiledetect/mobiledetectlib": "^2.8",
+                "yangqi/htmldom": "^1.0"
+            },
+            "suggest": {
+                "yangqi/htmldom": "For HtmlDom usage"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Tools\\": "src/",
+                    "Tools\\Test\\Fixture\\": "tests/Fixture/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Scherer",
+                    "homepage": "https://www.dereuromark.de",
+                    "role": "Author"
+                }
+            ],
+            "description": "A CakePHP plugin containing lots of useful and reusable tools",
+            "homepage": "https://github.com/dereuromark/cakephp-tools",
+            "keywords": [
+                "behaviors",
+                "cakephp",
+                "components",
+                "datasources",
+                "helpers",
+                "plugin",
+                "tools",
+                "utils"
+            ],
+            "time": "2019-03-25T13:03:23+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
