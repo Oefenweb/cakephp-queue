@@ -5,7 +5,6 @@ use Cake\Console\Shell;
 use Cake\Core\Configure;
 use Cake\I18n\Number;
 use Cake\Log\Log;
-use Cake\ORM\Exception\PersistenceFailedException;
 use Cake\Utility\Inflector;
 use Cake\Utility\Text;
 use Exception;
@@ -154,7 +153,7 @@ TEXT;
      * Runs a Queue Worker process which will try to find unassigned jobs in the queue
      * which it may run and try to fetch and execute them.
      *
-     * @return int|null
+     * @return void
      */
     public function runworker()
     {

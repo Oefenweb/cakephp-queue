@@ -7,9 +7,7 @@ use Cake\Event\Event;
 use Cake\I18n\FrozenTime;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
-use InvalidArgumentException;
 use Queue\Model\Entity\QueuedTask;
-use RuntimeException;
 
 /**
  * QueuedTasks Model
