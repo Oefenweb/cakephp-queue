@@ -324,7 +324,7 @@ class QueuedTasksTable extends Table
                 'AND' => [
                     [
                         'OR' => [
-                            'not_before <' => $nowStr,
+                            'not_before <=' => $nowStr,
                             'not_before IS' => null
                         ]
                     ],
@@ -339,8 +339,7 @@ class QueuedTasksTable extends Table
             ];
             $options['conditions']['OR'][] = $tmp;
         }
-        debug($query);
-        debug($options);
+
         /** @var \Queue\Model\Entity\QueuedTask|null $task */
         $task = $this->getConnection()->transactional(function () use ($query, $options, $now) {
             $task = $query->find('all', $options)
