@@ -138,7 +138,7 @@ class QueuedTasksTableTest extends TestCase
         $job = $this->QueuedTasks->requestJob($capabilities);
         $this->assertSame(1, $job->id);
         $this->assertSame('task1', $job->task);
-        $this->assertSame(0, $job->failed);
+        $this->assertSame(0, $job->failed_count);
         $this->assertNull($job->completed);
         $this->assertSame($testData, unserialize($job->data));
 

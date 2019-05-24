@@ -48,11 +48,11 @@ class QueueShellTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        
+
         $this->out = new ConsoleOutput();
         $this->err = new ConsoleOutput();
         $io = new ConsoleIo($this->out, $this->err);
-        
+
         $this->QueueShell = $this->getMockBuilder(QueueShell::class)
             ->setMethods([
                 'in',
