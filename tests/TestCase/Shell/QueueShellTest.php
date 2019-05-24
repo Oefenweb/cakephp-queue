@@ -154,7 +154,7 @@ class QueueShellTest extends TestCase
             ->method('_time')
             ->withAnyParameters();
 
-        $result = $this->QueueShell->timeNeeded();
+        $result = $this->invokeMethod($this->QueueShell, '_timeNeeded');
         $this->assertSame('3540s', $result);
     }
 
@@ -164,7 +164,7 @@ class QueueShellTest extends TestCase
      */
     public function testMemoryUsage()
     {
-        $result = $this->QueueShell->memoryUsage();
+        $result = $this->invokeMethod($this->QueueShell, '_memoryUsage');
         $this->assertRegExp('/^\d+MB/', $result, 'Should be e.g. `17MB` or `17MB/1GB` etc.');
     }
 
@@ -175,7 +175,7 @@ class QueueShellTest extends TestCase
     public function testStringToArray()
     {
         $string = 'Foo,Bar,';
-        $result = $this->QueueShell->stringToArray($string);
+        $result = $this->invokeMethod($this->QueueShell, '_stringToArray', [$string]);
 
         $expected = [
             'Foo',
