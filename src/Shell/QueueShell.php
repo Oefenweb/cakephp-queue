@@ -7,13 +7,13 @@ use Cake\I18n\Number;
 use Cake\Log\Log;
 use Cake\Utility\Inflector;
 use Cake\Utility\Text;
-use Exception;
-use Queue\Model\Entity\QueuedTask;
 use Queue\Model\QueueException;
+use Queue\Model\Entity\QueuedTask;
 use Queue\Queue\Config;
 use Queue\Queue\TaskFinder;
 use Queue\Shell\Task\AddInterface;
 use Queue\Shell\Task\QueueTaskInterface;
+use Exception;
 use RuntimeException;
 use Throwable;
 

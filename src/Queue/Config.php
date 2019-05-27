@@ -59,13 +59,4 @@ class Config
     {
         return Configure::read('Queue.defaultWorkerRetries', 1);
     }
-
-    /**
-     *
-     * @return int
-     */
-    public static function maxWorkers()
-    {
-        return Configure::read('Queue.maxWorkers', 1);
-    }
 }
