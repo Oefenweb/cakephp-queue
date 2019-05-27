@@ -29,7 +29,7 @@ elif [ "${PHP_MD}" = '1' ]; then
     excludePathsJoined=$(printf ",%s" "${excludePaths[@]}");
     excludePathsJoined=${excludePathsJoined:1};
 
-    vendor/bin/phpmd . text phpmd.xml --suffixes php --exclude "${excludePathsJoined}";
+    vendor/bin/phpmd . text phpmd.xml --suffixes php --exclude "${excludePathsJoined}" || true;
 elif [ "${PHP_COVERAGE}" = '1' ]; then
     vendor/bin/phpunit --coverage-clover=clover.xml;
 else
