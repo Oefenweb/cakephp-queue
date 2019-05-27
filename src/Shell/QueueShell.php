@@ -187,10 +187,10 @@ TEXT;
         while (!$this->_exit) {
             $this->out(__d('queue', 'Looking for a job.'), 1, Shell::VERBOSE);
 
-            $QueuedTask = $this->QueuedTasks->requestJob($this->_getTaskConf(), $types);
+            $queuedTask = $this->QueuedTasks->requestJob($this->_getTaskConf(), $types);
 
-            if ($QueuedTask) {
-                $this->runJob($QueuedTask);
+            if ($queuedTask) {
+                $this->runJob($queuedTask);
             } elseif (Configure::read('Queue.exitWhenNothingToDo')) {
                 $this->out(__d('queue', 'nothing to do, exiting.'));
                 $this->_exit = true;
@@ -218,26 +218,26 @@ TEXT;
 
     /**
      *
-     * @param \Queue\Model\Entity\QueuedTask $QueuedTask Queued task
+     * @param \Queue\Model\Entity\QueuedTask $queuedTask Queued task
      * @return void
      */
-    protected function runJob(QueuedTask $QueuedTask)
+    protected function runJob(QueuedTask $queuedTask)
     {
-        $this->out('Running Job of type "' . $QueuedTask->task . '"');
-        $this->_log('job ' . $QueuedTask->task . ', id ' . $QueuedTask->id, null, false);
-        $taskName = 'Queue' . $QueuedTask->task;
+        $this->out('Running Job of type "' . $queuedTask->task . '"');
+        $this->_log('job ' . $queuedTask->task . ', id ' . $queuedTask->id, null, false);
+        $taskName = 'Queue' . $queuedTask->task;
 
         try {
             $this->_time = time();
 
-            $data = unserialize($QueuedTask->data);
+            $data = unserialize($queuedTask->data);
             /** @var \Queue\Shell\Task\QueueTask $task */
             $task = $this->{$taskName};
             if (!$task instanceof QueueTaskInterface) {
                 throw new RuntimeException('Task must implement ' . QueueTaskInterface::class);
             }
 
-            $return = $task->run((array)$data, $QueuedTask->id);
+            $return = $task->run((array)$data, $queuedTask->id);
             if ($return !== null) {
                 trigger_error('run() should be void and throw exception in error case now.', E_USER_DEPRECATED);
             }
@@ -250,7 +250,7 @@ TEXT;
                 $failureMessage .= "\n" . $e->getTraceAsString();
             }
 
-            $this->_logError($taskName . ' (job ' . $QueuedTask->id . ')' . "\n" . $failureMessage);
+            $this->_logError($taskName . ' (job ' . $queuedTask->id . ')' . "\n" . $failureMessage);
         } catch (Exception $e) {
             $return = false;
 
@@ -259,15 +259,15 @@ TEXT;
         }
 
         if ($return === false) {
-            $this->QueuedTasks->markJobFailed($QueuedTask, $failureMessage);
-            $failedStatus = $this->QueuedTasks->getFailedStatus($QueuedTask, $this->_getTaskConf());
-            $this->_log('job ' . $QueuedTask->task . ', id ' . $QueuedTask->id . ' failed and ' . $failedStatus);
-            $this->out('Job did not finish, ' . $failedStatus . ' after try ' . $QueuedTask->failed . '.');
+            $this->QueuedTasks->markJobFailed($queuedTask, $failureMessage);
+            $failedStatus = $this->QueuedTasks->getFailedStatus($queuedTask, $this->_getTaskConf());
+            $this->_log('job ' . $queuedTask->task . ', id ' . $queuedTask->id . ' failed and ' . $failedStatus);
+            $this->out('Job did not finish, ' . $failedStatus . ' after try ' . $queuedTask->failed . '.');
 
             return;
         }
 
-        $this->QueuedTasks->markJobDone($QueuedTask);
+        $this->QueuedTasks->markJobDone($queuedTask);
         $this->out('Job Finished.');
     }
 
@@ -473,7 +473,7 @@ TEXT;
      */
     protected function _exit($signal)
     {
-        $this->out(__d('queue', 'Caught %d signal, exiting.', $signal));
+        $this->out(__d('queue', 'Caught signal {0}, exiting.', $signal));
         $this->_exit = true;
     }
 

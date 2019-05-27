@@ -31,15 +31,15 @@ class TaskFinder
         $this->tasks = [];
 
         foreach ($paths as $path) {
-            $Folder = new Folder($path);
-            $this->tasks = $this->getAppPaths($Folder);
+            $folder = new Folder($path);
+            $this->tasks = $this->getAppPaths($folder);
         }
         $plugins = Plugin::loaded();
         foreach ($plugins as $plugin) {
             $pluginPaths = App::path('Shell/Task', $plugin);
             foreach ($pluginPaths as $pluginPath) {
-                $Folder = new Folder($pluginPath);
-                $pluginTasks = $this->getPluginPaths($Folder, $plugin);
+                $folder = new Folder($pluginPath);
+                $pluginTasks = $this->getPluginPaths($folder, $plugin);
                 $this->tasks = array_merge($this->tasks, $pluginTasks);
             }
         }
@@ -49,13 +49,13 @@ class TaskFinder
 
     /**
      *
-     * @param \Cake\Filesystem\Folder $Folder The directory
+     * @param \Cake\Filesystem\Folder $folder The directory
      *
      * @return array
      */
-    protected function getAppPaths(Folder $Folder)
+    protected function getAppPaths(Folder $folder)
     {
-        $res = array_merge($this->tasks, $Folder->find('Queue.+\.php'));
+        $res = array_merge($this->tasks, $folder->find('Queue.+\.php'));
         foreach ($res as &$r) {
             $r = basename($r, 'Task.php');
         }
@@ -65,14 +65,14 @@ class TaskFinder
 
     /**
      *
-     * @param \Cake\Filesystem\Folder $Folder The directory
+     * @param \Cake\Filesystem\Folder $folder The directory
      * @param string $plugin The plugin name
      *
      * @return array
      */
-    protected function getPluginPaths(Folder $Folder, $plugin)
+    protected function getPluginPaths(Folder $folder, $plugin)
     {
-        $res = $Folder->find('Queue.+Task\.php');
+        $res = $folder->find('Queue.+Task\.php');
         foreach ($res as $key => $r) {
             $name = basename($r, 'Task.php');
             if (in_array($name, $this->tasks)) {
