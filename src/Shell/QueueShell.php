@@ -204,7 +204,7 @@ TEXT;
                 $this->_exit = true;
                 $this->out(__d('queue', 'Reached runtime of ' . (time() - $startTime) . ' Seconds (Max ' . Configure::readOrFail('Queue.workerMaxRuntime') . '), terminating.'));
             }
-            if ($this->_exit || mt_rand(0, 100) > (100 - (int)Config::gcprob())) {
+            if ($this->_exit || mt_rand(0, 100) > (100 - Config::gcprob())) {
                 $this->out(__d('queue', 'Performing old job cleanup.'));
                 $this->QueuedTasks->cleanOldJobs();
             }
@@ -262,7 +262,7 @@ TEXT;
             $this->QueuedTasks->markJobFailed($queuedTask, $failureMessage);
             $failedStatus = $this->QueuedTasks->getFailedStatus($queuedTask, $this->_getTaskConf());
             $this->_log('job ' . $queuedTask->task . ', id ' . $queuedTask->id . ' failed and ' . $failedStatus);
-            $this->out('Job did not finish, ' . $failedStatus . ' after try ' . $queuedTask->failed . '.');
+            $this->out('Job did not finish, ' . $failedStatus . ' after try ' . $queuedTask->failed_count . '.');
 
             return;
         }

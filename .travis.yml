@@ -26,6 +26,9 @@ matrix:
         - PHP_MD=1
     - php: 7.1
       env:
+        - PHP_STAN=1
+    - php: 7.1
+      env:
         - PHP_COVERAGE=1
 
 branches:

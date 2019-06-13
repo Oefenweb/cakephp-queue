@@ -1,6 +1,8 @@
 <?php
 namespace Queue\Shell\Task;
 
+use RuntimeException;
+
 /**
  * A Simple QueueTask example.
  */
@@ -60,9 +62,10 @@ class QueueExampleTask extends QueueTask implements AddInterface
         $this->out(' ');
 
         // Adding a task of type 'example' with no additionally passed data
-        if ($this->QueuedTasks->createJob('Example')) {
+        try {
+            $this->QueuedTasks->createJob('Example');
             $this->out(__d('queue', 'OK, job created, now run the worker'));
-        } else {
+        } catch(RuntimeException $e) {
             $this->err(__d('queue', 'Could not create Job'));
         }
     }
