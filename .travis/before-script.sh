@@ -17,6 +17,8 @@ elif [ "${PHP_CPD}" = '1' ]; then
     exit 0;
 elif [ "${PHP_MD}" = '1' ]; then
     exit 0;
+elif [ "${PHP_STAN}" = '1' ]; then
+    exit 0;
 fi
 
 composer require "cakephp/cakephp:${CAKE_VERSION}"  --dev --no-ansi --no-progress --no-interaction;
