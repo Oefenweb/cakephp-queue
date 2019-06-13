@@ -65,7 +65,7 @@ class QueueExampleTask extends QueueTask implements AddInterface
         try {
             $this->QueuedTasks->createJob('Example');
             $this->out(__d('queue', 'OK, job created, now run the worker'));
-        } catch(RuntimeException $e) {
+        } catch (RuntimeException $e) {
             $this->err(__d('queue', 'Could not create Job'));
         }
     }
