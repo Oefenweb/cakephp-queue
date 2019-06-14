@@ -7,7 +7,6 @@ use Cake\I18n\Number;
 use Cake\Log\Log;
 use Cake\Utility\Inflector;
 use Cake\Utility\Text;
-use Exception;
 use Queue\Model\Entity\QueuedTask;
 use Queue\Model\QueueException;
 use Queue\Queue\Config;
@@ -142,7 +141,7 @@ TEXT;
     protected function _taskName($task)
     {
         if (strpos($task, 'Queue') === 0) {
-            return substr($task, 5);
+            return substr($task, 5) ?: '';
         }
 
         return $task;
@@ -182,7 +181,9 @@ TEXT;
         $this->_exit = false;
 
         $startTime = time();
-        $types = $this->_stringToArray($this->param('type'));
+
+        $typesParam = $this->param('type');
+        $types = is_string($typesParam) ? $this->_stringToArray($typesParam) : [];
 
         while (!$this->_exit) {
             $this->out(__d('queue', 'Looking for a job.'), 1, Shell::VERBOSE);
@@ -237,6 +238,7 @@ TEXT;
                 throw new RuntimeException('Task must implement ' . QueueTaskInterface::class);
             }
 
+            /* @phan-suppress-next-line PhanTypeVoidAssignment */
             $return = $task->run((array)$data, $queuedTask->id);
             if ($return !== null) {
                 trigger_error('run() should be void and throw exception in error case now.', E_USER_DEPRECATED);
@@ -251,11 +253,6 @@ TEXT;
             }
 
             $this->_logError($taskName . ' (job ' . $queuedTask->id . ')' . "\n" . $failureMessage);
-        } catch (Exception $e) {
-            $return = false;
-
-            $failureMessage = get_class($e) . ': ' . $e->getMessage();
-            $this->_logError($taskName . "\n" . $failureMessage);
         }
 
         if ($return === false) {
@@ -473,7 +470,7 @@ TEXT;
      */
     protected function _exit($signal)
     {
-        $this->out(__d('queue', 'Caught signal {0}, exiting.', $signal));
+        $this->out(__d('queue', 'Caught signal {0}, exiting.', [$signal]));
         $this->_exit = true;
     }
 
@@ -544,6 +541,9 @@ TEXT;
         }
 
         $array = Text::tokenize($param);
+        if (is_string($array)) {
+            return [$array];
+        }
 
         return array_filter($array);
     }

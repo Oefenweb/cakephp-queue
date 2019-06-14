@@ -85,7 +85,7 @@ class QueuedTasksTable extends Table
      *
      * @param string $taskName Task name
      * @param array|null $data Array of data
-     * @param string $notBefore A datetime which indicates when the job may be executed
+     * @param string|null $notBefore A datetime which indicates when the job may be executed
      * @return \Queue\Model\Entity\QueuedTask Saved job entity
      */
     public function createJob($taskName, array $data = null, string $notBefore = null)
@@ -157,7 +157,7 @@ class QueuedTasksTable extends Table
     {
         $driverName = $this->_getDriverName();
         $options = [
-            'fields' => function (Query $query) use ($driverName) {
+            'fields' => function (Query $query) use ($driverName): array {
                 $alltime = $query->func()->avg('UNIX_TIMESTAMP(completed) - UNIX_TIMESTAMP(created)');
                 $runtime = $query->func()->avg('UNIX_TIMESTAMP(completed) - UNIX_TIMESTAMP(fetched)');
                 $fetchdelay = $query->func()->avg('UNIX_TIMESTAMP(fetched) - IF(not_before is NULL, UNIX_TIMESTAMP(created), UNIX_TIMESTAMP(not_before))');
@@ -205,7 +205,7 @@ class QueuedTasksTable extends Table
     public function getFullStats($taskName = null)
     {
         $driverName = $this->_getDriverName();
-        $fields = function (Query $query) use ($driverName) {
+        $fields = function (Query $query) use ($driverName): array {
             $runtime = $query->newExpr('UNIX_TIMESTAMP(completed) - UNIX_TIMESTAMP(fetched)');
             switch ($driverName) {
                 case static::DRIVER_SQLSERVER:
@@ -339,7 +339,7 @@ class QueuedTasksTable extends Table
         }
 
         /** @var \Queue\Model\Entity\QueuedTask|null $task */
-        $task = $this->getConnection()->transactional(function () use ($query, $options, $now) {
+        $task = $this->getConnection()->transactional(function () use ($query, $options, $now): ?QueuedTask {
             $task = $query->find('all', $options)
                 ->enableAutoFields(true)
                 ->epilog('FOR UPDATE')
@@ -350,6 +350,7 @@ class QueuedTasksTable extends Table
             }
 
             $key = sha1(microtime());
+            /* @phan-suppress-next-line PhanPartialTypeMismatchArgument */
             $task = $this->patchEntity($task, [
                 'worker_key' => $key,
                 'fetched' => $now
@@ -507,7 +508,7 @@ class QueuedTasksTable extends Table
     protected function _getDriverName()
     {
         $className = explode('\\', $this->getConnection()->config()['driver']);
-        $name = end($className);
+        $name = end($className) ?: '';
 
         return $name;
     }
