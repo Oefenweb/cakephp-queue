@@ -12,7 +12,7 @@ class Config
      */
     public static function defaultWorkerTimeout(): int
     {
-        return Configure::read('Queue.defaultWorkerTimeout', 600); // 10min
+        return Configure::read('Queue.defaultWorkerTimeout', 2 * MINUTE); // 2min
     }
 
     /**
@@ -21,7 +21,7 @@ class Config
      */
     public static function workerMaxRuntime(): int
     {
-        return Configure::read('Queue.workerMaxRuntime', 120);
+        return Configure::read('Queue.workerMaxRuntime', 0);
     }
 
     /**
@@ -30,7 +30,7 @@ class Config
      */
     public static function cleanupTimeout(): int
     {
-        return Configure::read('Queue.cleanupTimeout', 2592000); // 30 days
+        return Configure::read('Queue.cleanupTimeout', DAY); // 1 day
     }
 
     /**
@@ -57,6 +57,6 @@ class Config
      */
     public static function defaultWorkerRetries(): int
     {
-        return Configure::read('Queue.defaultWorkerRetries', 1);
+        return Configure::read('Queue.defaultWorkerRetries', 4);
     }
 }
