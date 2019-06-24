@@ -21,7 +21,7 @@ class TaskFinder
      *
      * @return array
      */
-    public function allAppAndPluginTasks()
+    public function allAppAndPluginTasks(): array
     {
         if ($this->tasks !== null) {
             return $this->tasks;
@@ -53,7 +53,7 @@ class TaskFinder
      *
      * @return array
      */
-    protected function getAppPaths(Folder $folder)
+    protected function getAppPaths(Folder $folder): array
     {
         $res = array_merge($this->tasks, $folder->find('Queue.+\.php'));
         foreach ($res as &$r) {
@@ -70,7 +70,7 @@ class TaskFinder
      *
      * @return array
      */
-    protected function getPluginPaths(Folder $folder, $plugin)
+    protected function getPluginPaths(Folder $folder, $plugin): array
     {
         $res = $folder->find('Queue.+Task\.php');
         foreach ($res as $key => $r) {

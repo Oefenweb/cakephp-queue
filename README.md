@@ -10,7 +10,7 @@
 ## Requirements
 
 * CakePHP 3.7.0 or greater.
-* PHP 7.0.0 or greater.
+* PHP 7.1.0 or greater.
 
 ## Installation
 ```

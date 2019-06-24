@@ -60,7 +60,7 @@ abstract class QueueTask extends Shell implements QueueTaskInterface
      * @return string
      * @throws \InvalidArgumentException
      */
-    protected function queueTaskName()
+    protected function queueTaskName(): string
     {
         $class = get_class($this);
 

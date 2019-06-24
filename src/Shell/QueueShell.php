@@ -1,6 +1,7 @@
 <?php
 namespace Queue\Shell;
 
+use Cake\Console\ConsoleOptionParser;
 use Cake\Console\Shell;
 use Cake\Core\Configure;
 use Cake\I18n\Number;
@@ -58,7 +59,7 @@ class QueueShell extends Shell
      *
      * @return void
      */
-    public function initialize()
+    public function initialize(): void
     {
         $taskFinder = new TaskFinder();
         $this->tasks = $taskFinder->allAppAndPluginTasks();
@@ -70,7 +71,7 @@ class QueueShell extends Shell
      *
      * @return void
      */
-    public function startup()
+    public function startup(): void
     {
         if ($this->param('quiet')) {
             $this->interactive = false;
@@ -83,7 +84,7 @@ class QueueShell extends Shell
      *
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         $tasks = [];
         foreach ($this->taskNames as $loadedTask) {
@@ -107,7 +108,7 @@ TEXT;
      *
      * @return void
      */
-    public function add()
+    public function add(): void
     {
         if (count($this->args) < 1) {
             $this->out('Please call like this:');
@@ -138,7 +139,7 @@ TEXT;
      * @param string $task Task name
      * @return string Cleaned task name
      */
-    protected function _taskName($task)
+    protected function _taskName($task): string
     {
         if (strpos($task, 'Queue') === 0) {
             return substr($task, 5) ?: '';
@@ -154,7 +155,7 @@ TEXT;
      *
      * @return void
      */
-    public function runworker()
+    public function runworker(): void
     {
         // Enable Garbage Collector (PHP >= 5.3)
         if (function_exists('gc_enable')) {
@@ -222,7 +223,7 @@ TEXT;
      * @param \Queue\Model\Entity\QueuedTask $queuedTask Queued task
      * @return void
      */
-    protected function runJob(QueuedTask $queuedTask)
+    protected function runJob(QueuedTask $queuedTask): void
     {
         $this->out('Running Job of type "' . $queuedTask->task . '"');
         $this->_log('job ' . $queuedTask->task . ', id ' . $queuedTask->id, null, false);
@@ -273,7 +274,7 @@ TEXT;
      *
      * @return void
      */
-    public function clean()
+    public function clean(): void
     {
         if (!Configure::read('Queue.cleanupTimeout')) {
             $this->abort('You disabled cleanuptimout in config. Aborting.');
@@ -288,7 +289,7 @@ TEXT;
      *
      * @return void
      */
-    public function settings()
+    public function settings(): void
     {
         $this->out('Current Settings:');
         $conf = (array)Configure::read('Queue');
@@ -310,7 +311,7 @@ TEXT;
      *
      * @return void
      */
-    public function stats()
+    public function stats(): void
     {
         $this->out('Jobs currently in the queue:');
 
@@ -337,7 +338,7 @@ TEXT;
      *
      * @return \Cake\Console\ConsoleOptionParser
      */
-    public function getOptionParser()
+    public function getOptionParser(): ConsoleOptionParser
     {
         $subcommandParser = [
             'options' => [
@@ -388,7 +389,7 @@ TEXT;
      * @param bool $addDetails Details
      * @return void
      */
-    protected function _log($message, $pid = null, $addDetails = true)
+    protected function _log($message, $pid = null, $addDetails = true): void
     {
         if (!Configure::read('Queue.log')) {
             return;
@@ -414,7 +415,7 @@ TEXT;
      * @param string|null $pid PID of the process
      * @return void
      */
-    protected function _logError($message, $pid = null)
+    protected function _logError($message, $pid = null): void
     {
         $timeNeeded = $this->_timeNeeded();
         $memoryUsage = $this->_memoryUsage();
@@ -432,7 +433,7 @@ TEXT;
      *
      * @return array
      */
-    protected function _getTaskConf()
+    protected function _getTaskConf(): array
     {
         if (!is_array($this->_taskConf)) {
             $this->_taskConf = [];
@@ -468,7 +469,7 @@ TEXT;
      * @param int $signal The signal
      * @return void
      */
-    protected function _exit($signal)
+    protected function _exit($signal): void
     {
         $this->out(__d('queue', 'Caught signal {0}, exiting.', [$signal]));
         $this->_exit = true;
@@ -478,7 +479,7 @@ TEXT;
      *
      * @return void
      */
-    protected function _displayAvailableTasks()
+    protected function _displayAvailableTasks(): void
     {
         $this->out('Available Tasks:');
         foreach ($this->taskNames as $loadedTask) {
@@ -490,7 +491,7 @@ TEXT;
      *
      * @return string Memory usage in MB.
      */
-    protected function _memoryUsage()
+    protected function _memoryUsage(): string
     {
         $limit = ini_get('memory_limit');
 
@@ -506,7 +507,7 @@ TEXT;
      *
      * @return string
      */
-    protected function _timeNeeded()
+    protected function _timeNeeded(): string
     {
         $diff = $this->_time() - $this->_time($this->_time);
         $seconds = max($diff, 1);
@@ -520,7 +521,7 @@ TEXT;
      *
      * @return int
      */
-    protected function _time($providedTime = null)
+    protected function _time($providedTime = null): int
     {
         if ($providedTime !== null) {
             return $providedTime;
@@ -534,7 +535,7 @@ TEXT;
      * @param string|null $param String to convert
      * @return array
      */
-    protected function _stringToArray($param)
+    protected function _stringToArray($param): array
     {
         if (!$param) {
             return [];

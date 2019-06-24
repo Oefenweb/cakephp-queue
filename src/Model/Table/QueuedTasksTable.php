@@ -40,7 +40,7 @@ class QueuedTasksTable extends Table
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -56,7 +56,7 @@ class QueuedTasksTable extends Table
      *
      * @return string
      */
-    public static function defaultConnectionName()
+    public static function defaultConnectionName(): string
     {
         $connection = Configure::read('Queue.connection');
         if (!empty($connection)) {
@@ -73,7 +73,7 @@ class QueuedTasksTable extends Table
      * @param \ArrayObject $options The options
      * @return void
      */
-    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options): void
     {
         if (isset($data['data']) && $data['data'] === '') {
             $data['data'] = null;
@@ -88,7 +88,7 @@ class QueuedTasksTable extends Table
      * @param string|null $notBefore A datetime which indicates when the job may be executed
      * @return \Queue\Model\Entity\QueuedTask Saved job entity
      */
-    public function createJob($taskName, array $data = null, string $notBefore = null)
+    public function createJob($taskName, array $data = null, string $notBefore = null): QueuedTask
     {
         $task = [
             'task' => $taskName,
@@ -112,7 +112,7 @@ class QueuedTasksTable extends Table
      * @param string|null $taskName Task type to Count
      * @return int
      */
-    public function getLength($taskName = null)
+    public function getLength($taskName = null): int
     {
         $findConf = [
             'conditions' => [
@@ -131,7 +131,7 @@ class QueuedTasksTable extends Table
      *
      * @return \Cake\ORM\Query
      */
-    public function getTypes()
+    public function getTypes(): Query
     {
         $findCond = [
             'fields' => [
@@ -153,7 +153,7 @@ class QueuedTasksTable extends Table
      *
      * @return \Cake\ORM\Query
      */
-    public function getStats()
+    public function getStats(): Query
     {
         $driverName = $this->_getDriverName();
         $options = [
@@ -202,7 +202,7 @@ class QueuedTasksTable extends Table
      * @param string|null $taskName The task name
      * @return array
      */
-    public function getFullStats($taskName = null)
+    public function getFullStats($taskName = null): array
     {
         $driverName = $this->_getDriverName();
         $fields = function (Query $query) use ($driverName): array {
@@ -279,7 +279,7 @@ class QueuedTasksTable extends Table
      * @param array $types Request a job from these types (or exclude certain types), or any otherwise.
      * @return \Queue\Model\Entity\QueuedTask|null
      */
-    public function requestJob(array $capabilities, array $types = [])
+    public function requestJob(array $capabilities, array $types = []): ?QueuedTask
     {
         $now = $this->getDateTime();
         $nowStr = $now->toDateTimeString();
@@ -372,7 +372,7 @@ class QueuedTasksTable extends Table
      * @param \Queue\Model\Entity\QueuedTask $task Task
      * @return bool Success
      */
-    public function markJobDone(QueuedTask $task)
+    public function markJobDone(QueuedTask $task): bool
     {
         $fields = [
             'completed' => $this->getDateTime()
@@ -389,7 +389,7 @@ class QueuedTasksTable extends Table
      * @param string|null $failureMessage Optional message to append to the failure_message field.
      * @return bool Success
      */
-    public function markJobFailed(QueuedTask $task, $failureMessage = null)
+    public function markJobFailed(QueuedTask $task, $failureMessage = null): bool
     {
         $fields = [
             'failed_count' => $task->failed_count + 1,
@@ -407,7 +407,7 @@ class QueuedTasksTable extends Table
      *
      * @return int Success
      */
-    public function reset($id = null)
+    public function reset($id = null): int
     {
         $fields = [
             'completed' => null,
@@ -432,7 +432,7 @@ class QueuedTasksTable extends Table
      *
      * @return int
      */
-    public function rerun($taskName)
+    public function rerun($taskName): int
     {
         $fields = [
             'completed' => null,
@@ -454,7 +454,7 @@ class QueuedTasksTable extends Table
      *
      * @return void
      */
-    public function cleanOldJobs()
+    public function cleanOldJobs(): void
     {
         if (!Configure::read('Queue.cleanuptimeout')) {
             return;
@@ -471,7 +471,7 @@ class QueuedTasksTable extends Table
      * @param array $taskConfiguration Task configuration
      * @return string
      */
-    public function getFailedStatus($queuedTask, array $taskConfiguration)
+    public function getFailedStatus($queuedTask, array $taskConfiguration): string
     {
         $failureMessageRequeued = 'requeued';
 
@@ -492,7 +492,7 @@ class QueuedTasksTable extends Table
      *
      * @return void
      */
-    public function truncate()
+    public function truncate(): void
     {
         $sql = $this->getSchema()->truncateSql($this->_connection);
         foreach ($sql as $snippet) {
@@ -505,7 +505,7 @@ class QueuedTasksTable extends Table
      *
      * @return string
      */
-    protected function _getDriverName()
+    protected function _getDriverName(): string
     {
         $className = explode('\\', $this->getConnection()->config()['driver']);
         $name = end($className) ?: '';
@@ -520,7 +520,7 @@ class QueuedTasksTable extends Table
      * @param array $values Values
      * @return array
      */
-    protected function addFilter(array $conditions, $key, array $values)
+    protected function addFilter(array $conditions, $key, array $values): array
     {
         $include = [];
         $exclude = [];
