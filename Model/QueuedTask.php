@@ -252,11 +252,12 @@ class QueuedTask extends AppModel {
 	}
 
 /**
+ * Filters field `key` based on the provided values. Values prefixed with '-' are excluded.
  *
  * @param array $conditions Conditions
  * @param string $key Key
  * @param array $values Values
- * @return array
+ * @return array the conditions
  */
 	protected function _addFilter(array $conditions, $key, array $values): array {
 		$include = [];
