@@ -399,7 +399,7 @@ class QueueShell extends AppShell {
  * @param string|null $param String to convert
  * @return array
  */
-	protected function _stringToArray(string $param = null): array {
+	protected function _stringToArray(string $param = null) : array {
 		if (!$param) {
 			return [];
 		}

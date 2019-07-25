@@ -259,7 +259,7 @@ class QueuedTask extends AppModel {
  * @param array $values Values
  * @return array the conditions
  */
-	protected function _addFilter(array $conditions, $key, array $values): array {
+	protected function _addFilter(array $conditions, $key, array $values) : array {
 		$include = [];
 		$exclude = [];
 		foreach ($values as $value) {
