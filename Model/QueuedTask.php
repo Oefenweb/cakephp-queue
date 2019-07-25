@@ -184,7 +184,7 @@ class QueuedTask extends AppModel {
  * @return array A list of task names
  */
 	public function getTypes() {
-		$fields = ['task'];
+		$fields = ['task', 'task'];
 		$group = ['task'];
 
 		return $this->find('list', compact('fields', 'group'));
