@@ -73,3 +73,16 @@ Console/cake Queue.queue clean;
 # Manually call cleanup_failed function to delete task data of failed tasks.
 Console/cake Queue.queue clean_failed;
 ```
+
+#### Running only specific tasks per worker
+You can filter "running" by type:
+
+```
+Console/cake Queue.queue runworker -t MyType,AnotherType,-ThisOneToo
+Console/cake Queue.queue runworker -t "-ThisOneNot"
+```
+
+Use `-` prefix to exclude. Note that you might need to use `""` around the value then to avoid it being seen as option key.
+
+That can be helpful when migrating servers and you only want to execute certain ones on the new system or want to test specific servers.
+

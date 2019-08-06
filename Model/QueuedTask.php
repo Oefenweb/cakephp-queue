@@ -42,9 +42,10 @@ class QueuedTask extends AppModel {
  * Looks for a new job that can be processed with the current abilities
  *
  * @param array $capabilities Available queue worker tasks.
+ * @param array $types Request a job from these types (or exclude certain types), or any otherwise.
  * @return mixed Job data or false.
  */
-	public function requestJob($capabilities) {
+	public function requestJob($capabilities, array $types = []) {
 		$idlist = [];
 		$wasFetched = [];
 
@@ -63,6 +64,10 @@ class QueuedTask extends AppModel {
 			'id' => 'ASC'
 		];
 		$limit = Configure::read('Queue.workers');
+
+		if ($types) {
+			$conditions = $this->_addFilter($conditions, 'task', $types);
+		}
 
 		// Generate the job specific conditions.
 		foreach ($capabilities as $task) {
@@ -179,7 +184,7 @@ class QueuedTask extends AppModel {
  * @return array A list of task names
  */
 	public function getTypes() {
-		$fields = ['task'];
+		$fields = ['task', 'task'];
 		$group = ['task'];
 
 		return $this->find('list', compact('fields', 'group'));
@@ -244,6 +249,35 @@ class QueuedTask extends AppModel {
 		}
 
 		return $this->deleteAll($conditions, false);
+	}
+
+/**
+ * Filters field `key` based on the provided values. Values prefixed with '-' are excluded.
+ *
+ * @param array $conditions Conditions
+ * @param string $key Key
+ * @param array $values Values
+ * @return array the conditions
+ */
+	protected function _addFilter(array $conditions, $key, array $values) : array {
+		$include = [];
+		$exclude = [];
+		foreach ($values as $value) {
+			if (substr($value, 0, 1) === '-') {
+				$exclude[] = substr($value, 1);
+			} else {
+				$include[] = $value;
+			}
+		}
+
+		if ($include) {
+			$conditions[$key . ' IN'] = $include;
+		}
+		if ($exclude) {
+			$conditions[$key . ' NOT IN'] = $exclude;
+		}
+
+		return $conditions;
 	}
 
 }

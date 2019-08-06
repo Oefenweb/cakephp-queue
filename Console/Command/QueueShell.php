@@ -2,6 +2,7 @@
 App::uses('Folder', 'Utility');
 App::uses('QueuedTask', 'Model');
 App::uses('AppShell', 'Console/Command');
+App::uses('CakeText', 'Utility');
 
 declare(ticks = 1);
 
@@ -119,7 +120,14 @@ class QueueShell extends AppShell {
 		])->addSubcommand('runworker', [
 			'help' => __d('queue', 'Run a queue worker.'),
 			'parser' => [
-				'description' => [__d('queue', 'Run a queue worker, which will look for a pending task it can execute.')]
+				'description' => [__d('queue', 'Run a queue worker, which will look for a pending task it can execute.')],
+				'options' => [
+					'type' => [
+						'short' => 't',
+						'help' => 'Type (comma separated list possible)',
+						'default' => null
+					]
+				]
 			]
 		])->addSubcommand('stats', [
 			'help' => __d('queue', 'Display general statistics.'),
@@ -204,10 +212,14 @@ class QueueShell extends AppShell {
 		$this->__exit = false;
 
 		$workerStartTime = time();
+
+		$typesParam = $this->param('type');
+		$types = is_string($typesParam) ? $this->_stringToArray($typesParam) : [];
+
 		while (!$this->__exit) {
 			$this->out(__d('queue', 'Looking for a job.'), 1, Shell::VERBOSE);
 
-			$data = $this->QueuedTask->requestJob($this->_getTaskConf());
+			$data = $this->QueuedTask->requestJob($this->_getTaskConf(), $types);
 			if ($this->QueuedTask->exit === true) {
 				$this->__exit = true;
 			} else {
@@ -379,6 +391,27 @@ class QueueShell extends AppShell {
 				$this->__exit = true;
 				break;
 		}
+	}
+
+/**
+ * Converts string to array
+ *
+ * @param string|null $param String to convert
+ * @return array
+ */
+	protected function _stringToArray(string $param = null) : array {
+		if (!$param) {
+			return [];
+		}
+
+		$array = CakeText::tokenize($param);
+		if (is_string($array)) {
+			return [
+				$array
+			];
+		}
+
+		return array_filter($array);
 	}
 
 }
