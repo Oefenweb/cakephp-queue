@@ -53,6 +53,6 @@ after_success:
 
 notifications:
   email: false
-  hipchat:
+  slack:
     rooms:
-      secure: bTreDxMYliZtwL5N4MjGrf7Zfu/Wi934vFgtZ2TNxoV3ZRWmoSqoWI7TW/SmMYgnSVHEifPutYFA6H6jKMzNaEyqiH8Fq/7ZIVuRb9pfGyXj8+qGBfXyGnPUnqz+ra2j1AewCjfxAJtx7yNi2LBm7eDze8g5j/g0EblkQP7LkzY=
+      secure: "UH0zEV8YgA/cDCxXRoym6/zTYwy7YC1yiAxAYgancnaOFbi3Gsn3IoD9yYr+SNMdl0QnLFRIPxEUH+YCM8EL9Q1233fTf+x27LtSPTiCpjppmdFlrxt5AxKP6kw4Q2eKNO+YXywwUyK+KuuhYC+xLo7h6cA9DIGy14CilK5DeEM="
