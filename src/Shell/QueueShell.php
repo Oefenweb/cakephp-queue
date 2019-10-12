@@ -285,7 +285,9 @@ TEXT;
      *
      * @return void
      */
-    public function clean_failed() {
+    //@codingStandardsIgnoreLine
+    public function clean_failed(): void
+    {
         $this->out(__d('queue', 'Deleting failed jobs, that have had maximum worker retries.'));
         $this->QueuedTasks->cleanFailedJobs($this->_getTaskConf());
     }

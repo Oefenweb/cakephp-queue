@@ -464,11 +464,11 @@ class QueuedTasksTable extends Table
             list ($plugin, $name) = pluginSplit($task['name']);
             $conditions['OR'][] = [
                 'task' => $name,
-                'completed <' => date('Y-m-d H:i:s', time() - $task['cleanupTimeout'])
+                'completed <' => date('Y-m-d H:i:s', time() - (int)$task['cleanupTimeout'])
             ];
         }
 
-        $this->deleteAll($conditions, false);
+        $this->deleteAll($conditions);
     }
 
     /**
@@ -490,7 +490,7 @@ class QueuedTasksTable extends Table
             ];
         }
 
-        $this->deleteAll($conditions, false);
+        $this->deleteAll($conditions);
     }
 
     /**
