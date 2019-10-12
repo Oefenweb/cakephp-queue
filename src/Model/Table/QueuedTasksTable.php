@@ -452,17 +452,45 @@ class QueuedTasksTable extends Table
     /**
      * Cleanup/Delete Completed Tasks.
      *
+     * @param array $capabilities Available QueueWorkerTasks.
      * @return void
      */
-    public function cleanOldJobs(): void
+    public function cleanOldJobs(array $capabilities): void
     {
-        if (!Configure::read('Queue.cleanuptimeout')) {
-            return;
+        $conditions = [];
+
+        // Generate the job specific conditions
+        foreach ($capabilities as $task) {
+            list ($plugin, $name) = pluginSplit($task['name']);
+            $conditions['OR'][] = [
+                'task' => $name,
+                'completed <' => date('Y-m-d H:i:s', time() - $task['cleanupTimeout'])
+            ];
         }
 
-        $this->deleteAll([
-            'completed <' => time() - (int)Configure::read('Queue.cleanuptimeout')
-        ]);
+        $this->deleteAll($conditions, false);
+    }
+
+    /**
+     * Cleanups / delete failed jobs with given capabilities after maximum retries.
+     *
+     * @param array $capabilities Available QueueWorkerTasks.
+     * @return void
+     */
+    public function cleanFailedJobs(array $capabilities): void
+    {
+        $conditions = [];
+
+        // Generate the job specific conditions.
+        foreach ($capabilities as $task) {
+            list ($plugin, $name) = pluginSplit($task['name']);
+            $conditions['OR'][] = [
+                'task' => $name,
+                'failed_count >' => $task['retries']
+            ];
+        }
+
+        $this->deleteAll($conditions, false);
     }
 
     /**
