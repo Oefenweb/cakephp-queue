@@ -315,7 +315,7 @@ class QueuedTasksTable extends Table
 
         // Generate the task specific conditions.
         foreach ($capabilities as $task) {
-            list ($plugin, $name) = pluginSplit($task['name']);
+            list (, $name) = pluginSplit($task['name']);
             $timeoutAt = $now->copy();
             $tmp = [
                 'task' => $name,
@@ -457,18 +457,14 @@ class QueuedTasksTable extends Table
      */
     public function cleanOldJobs(array $capabilities): void
     {
-        $conditions = [];
-
-        // Generate the job specific conditions
         foreach ($capabilities as $task) {
-            list ($plugin, $name) = pluginSplit($task['name']);
-            $conditions['OR'][] = [
+            list (, $name) = pluginSplit($task['name']);
+            $conditions = [
                 'task' => $name,
                 'completed <' => date('Y-m-d H:i:s', time() - (int)$task['cleanupTimeout'])
             ];
+            $this->deleteAll($conditions);
         }
-
-        $this->deleteAll($conditions);
     }
 
     /**
@@ -479,18 +475,14 @@ class QueuedTasksTable extends Table
      */
     public function cleanFailedJobs(array $capabilities): void
     {
-        $conditions = [];
-
-        // Generate the job specific conditions.
         foreach ($capabilities as $task) {
-            list ($plugin, $name) = pluginSplit($task['name']);
-            $conditions['OR'][] = [
+            list (, $name) = pluginSplit($task['name']);
+            $conditions = [
                 'task' => $name,
                 'failed_count >' => $task['retries']
             ];
+            $this->deleteAll($conditions);
         }
-
-        $this->deleteAll($conditions);
     }
 
     /**
