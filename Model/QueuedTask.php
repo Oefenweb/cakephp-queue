@@ -216,17 +216,17 @@ class QueuedTask extends AppModel {
  * @return bool Success
  */
 	public function cleanOldJobs(array $capabilities) : bool {
-        $success = true;
+		$success = true;
 		foreach ($capabilities as $task) {
 			list(, $name) = pluginSplit($task['name']);
 			$conditions = [
 				'task' => $name,
 				'completed <' => date('Y-m-d H:i:s', time() - $task['cleanupTimeout'])
 			];
-            if (!$this->deleteAll($conditions, false)) {
-                $success = false;
-                break;
-            }
+			if (!$this->deleteAll($conditions, false)) {
+					$success = false;
+					break;
+			}
 		}
 
 		return $success;
@@ -239,17 +239,17 @@ class QueuedTask extends AppModel {
  * @return bool Success
  */
 	public function cleanFailedJobs(array $capabilities) : bool {
-        $success = true;
+		$success = true;
 		foreach ($capabilities as $task) {
 			list(, $name) = pluginSplit($task['name']);
 			$conditions = [
 				'task' => $name,
 				'failed_count >' => $task['retries']
 			];
-            if (!$this->deleteAll($conditions, false)) {
-                $success = false;
-                break;
-            }
+			if (!$this->deleteAll($conditions, false)) {
+					$success = false;
+					break;
+			}
 		}
 
 		return $success;
