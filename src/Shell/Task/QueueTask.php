@@ -31,20 +31,6 @@ abstract class QueueTask extends Shell implements QueueTaskInterface
     public $QueuedTasks;
 
     /**
-     * Timeout for run, after which the Task is reassigned to a new worker.
-     *
-     * @var int
-     */
-    public $timeout = 120;
-
-    /**
-     * Number of times a failed instance of this task should be restarted before giving up.
-     *
-     * @var int
-     */
-    public $retries = 1;
-
-    /**
      *
      * @param \Cake\Console\ConsoleIo|null $io IO
      */

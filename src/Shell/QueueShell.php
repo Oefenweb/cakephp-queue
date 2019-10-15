@@ -208,7 +208,7 @@ TEXT;
             }
             if ($this->_exit || mt_rand(0, 100) > (100 - Config::gcprob())) {
                 $this->out(__d('queue', 'Performing old job cleanup.'));
-                $this->QueuedTasks->cleanOldJobs();
+                $this->QueuedTasks->cleanOldJobs($this->_getTaskConf());
             }
             $this->hr();
         }
@@ -276,12 +276,20 @@ TEXT;
      */
     public function clean(): void
     {
-        if (!Configure::read('Queue.cleanupTimeout')) {
-            $this->abort('You disabled cleanuptimout in config. Aborting.');
-        }
+        $this->out(__d('queue', 'Deleting old completed jobs, that have had cleanup timeout.'));
+        $this->QueuedTasks->cleanOldJobs($this->_getTaskConf());
+    }
 
-        $this->out('Deleting old jobs, that have finished before ' . date('Y-m-d H:i:s', time() - (int)Configure::read('Queue.cleanupTimeout')));
-        $this->QueuedTasks->cleanOldJobs();
+    /**
+     * Manually trigger a Failed job cleanup.
+     *
+     * @return void
+     */
+    //@codingStandardsIgnoreLine
+    public function clean_failed(): void
+    {
+        $this->out(__d('queue', 'Deleting failed jobs, that have had maximum worker retries.'));
+        $this->QueuedTasks->cleanFailedJobs($this->_getTaskConf());
     }
 
     /**
@@ -361,6 +369,10 @@ TEXT;
         return parent::getOptionParser()->setDescription($this->getDescription())
             ->addSubcommand('clean', [
                 'help' => 'Remove old jobs (cleanup)',
+                'parser' => $subcommandParser
+            ])
+            ->addSubcommand('clean_failed', [
+                'help' => 'Remove old failed jobs (cleanup)',
                 'parser' => $subcommandParser
             ])
             ->addSubcommand('add', [
