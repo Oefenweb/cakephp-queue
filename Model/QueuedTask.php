@@ -169,7 +169,7 @@ class QueuedTask extends AppModel {
  * @param string $taskName A task name to count
  * @return int The number of pending jobs
  */
-	public function getLength($taskName = null) {
+	public function getLength($taskName = null) : int {
 		$conditions = ['completed' => null];
 		if (!empty($taskName)) {
 			$conditions['task'] = $taskName;
@@ -183,7 +183,7 @@ class QueuedTask extends AppModel {
  *
  * @return array A list of task names
  */
-	public function getTypes() {
+	public function getTypes() : array {
 		$fields = ['task', 'task'];
 		$group = ['task'];
 
@@ -195,7 +195,7 @@ class QueuedTask extends AppModel {
  *
  * @return array An array with statistics
  */
-	public function getStats() {
+	public function getStats() : array {
 		$fields = [
 			'task',
 			'COUNT(id) AS num',
@@ -215,19 +215,21 @@ class QueuedTask extends AppModel {
  * @param array $capabilities Available queue worker tasks.
  * @return bool Success
  */
-	public function cleanOldJobs($capabilities) {
-		$conditions = [];
-
-		// Generate the job specific conditions
+	public function cleanOldJobs(array $capabilities) : bool {
+        $success = true;
 		foreach ($capabilities as $task) {
-			list($plugin, $name) = pluginSplit($task['name']);
-			$conditions['OR'][] = [
+			list(, $name) = pluginSplit($task['name']);
+			$conditions = [
 				'task' => $name,
 				'completed <' => date('Y-m-d H:i:s', time() - $task['cleanupTimeout'])
 			];
+            if (!$this->deleteAll($conditions, false)) {
+                $success = false;
+                break;
+            }
 		}
 
-		return $this->deleteAll($conditions, false);
+		return $success;
 	}
 
 /**
@@ -236,19 +238,21 @@ class QueuedTask extends AppModel {
  * @param array $capabilities Available queue worker tasks.
  * @return bool Success
  */
-	public function cleanFailedJobs($capabilities) {
-		$conditions = [];
-
-		// Generate the job specific conditions.
+	public function cleanFailedJobs(array $capabilities) : bool {
+        $success = true;
 		foreach ($capabilities as $task) {
-			list($plugin, $name) = pluginSplit($task['name']);
-			$conditions['OR'][] = [
+			list(, $name) = pluginSplit($task['name']);
+			$conditions = [
 				'task' => $name,
 				'failed_count >' => $task['retries']
 			];
+            if (!$this->deleteAll($conditions, false)) {
+                $success = false;
+                break;
+            }
 		}
 
-		return $this->deleteAll($conditions, false);
+		return $success;
 	}
 
 /**
