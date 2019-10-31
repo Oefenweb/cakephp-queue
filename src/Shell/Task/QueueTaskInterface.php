@@ -16,9 +16,9 @@ interface QueueTaskInterface
     /**
      * Main execution of the task.
      *
-     * @param array $data The array passed to QueuedTasksTable::createJob()
+     * @param mixed $data The data passed to QueuedTasksTable::createJob()
      * @param int $taskId The id of the QueuedTask entity
      * @return void
      */
-    public function run(array $data, $taskId): void;
+    public function run($data, $taskId): void;
 }

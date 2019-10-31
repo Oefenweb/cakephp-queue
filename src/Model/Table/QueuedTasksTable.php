@@ -84,11 +84,11 @@ class QueuedTasksTable extends Table
      * Adds a new job to the queue.
      *
      * @param string $taskName Task name
-     * @param array|null $data Array of data
+     * @param mixed $data Any data
      * @param string|null $notBefore A datetime which indicates when the job may be executed
      * @return \Queue\Model\Entity\QueuedTask Saved job entity
      */
-    public function createJob($taskName, array $data = null, string $notBefore = null): QueuedTask
+    public function createJob($taskName, $data = null, string $notBefore = null): QueuedTask
     {
         $task = [
             'task' => $taskName,

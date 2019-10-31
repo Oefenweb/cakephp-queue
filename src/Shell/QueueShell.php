@@ -240,7 +240,7 @@ TEXT;
             }
 
             /* @phan-suppress-next-line PhanTypeVoidAssignment */
-            $return = $task->run((array)$data, $queuedTask->id);
+            $return = $task->run($data, $queuedTask->id);
             if ($return !== null) {
                 trigger_error('run() should be void and throw exception in error case now.', E_USER_DEPRECATED);
             }
