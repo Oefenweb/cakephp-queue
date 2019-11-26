@@ -183,9 +183,9 @@ class QueuedTaskTest extends CakeTestCase {
  * @return void
  */
 	public function testNotBefore() {
-		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', null, '+ 1 Min'));
-		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', null, '+ 1 Day'));
-		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', null, '2009-07-01 12:00:00'));
+		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', [], '+ 1 Min'));
+		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', [], '+ 1 Day'));
+		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', [], '2009-07-01 12:00:00'));
 		$data = $this->QueuedTask->find('all');
 		$this->assertEqual($data[4]['QueuedTask']['not_before'], date('Y-m-d H:i:s', strtotime('+ 1 Min')));
 		$this->assertEqual($data[5]['QueuedTask']['not_before'], date('Y-m-d H:i:s', strtotime('+ 1 Day')));
@@ -212,12 +212,12 @@ class QueuedTaskTest extends CakeTestCase {
 				'retries' => 2
 			]
 		];
-		$this->assertTrue((bool)$this->QueuedTask->createJob('dummytask', null));
-		$this->assertTrue((bool)$this->QueuedTask->createJob('dummytask', null));
+		$this->assertTrue((bool)$this->QueuedTask->createJob('dummytask', []));
+		$this->assertTrue((bool)$this->QueuedTask->createJob('dummytask', []));
 		// Create a task with it's execution target some seconds in the past, so it should jump to the top of the list
-		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', 'three', '- 3 Seconds'));
-		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', 'two', '- 4 Seconds'));
-		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', 'one', '- 5 Seconds'));
+		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', [], '- 3 Seconds'));
+		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', [], '- 4 Seconds'));
+		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', [], '- 5 Seconds'));
 
 		// When usin requestJob, the jobs we just created should be delivered in this order,
 		// NOT the order in which they where created
@@ -284,7 +284,7 @@ class QueuedTaskTest extends CakeTestCase {
  * @return void
  */
 	public function testMarkJobFailed() {
-		$this->QueuedTask->createJob('dummytask', null);
+		$this->QueuedTask->createJob('dummytask', []);
 		$id = $this->QueuedTask->id;
 		$expected = 'Timeout: 100';
 		$this->QueuedTask->markJobFailed($id, $expected);

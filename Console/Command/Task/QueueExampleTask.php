@@ -63,7 +63,7 @@ class QueueExampleTask extends Shell {
 		$this->out(' ');
 
 		// Adding a task of type 'example' with no additionally passed data
-		if ($this->QueuedTask->createJob('Example', null)) {
+		if ($this->QueuedTask->createJob('Example', [])) {
 			$this->out(__d('queue', 'OK, job created, now run the worker'));
 		} else {
 			$this->err(__d('queue', 'Could not create Job'));
@@ -76,10 +76,10 @@ class QueueExampleTask extends Shell {
  *	This function is executed, when a worker is executing a task.
  *	The return parameter will determine, if the task will be marked completed, or be requeued.
  *
- * @param mixed $data Job data (passed on creation)
+ * @param array $data Job data (passed on creation)
  * @return bool Success
  */
-	public function run($data) {
+	public function run(array $data) {
 		$this->hr();
 		$this->out(__d('queue', 'CakePHP Queue Example task.'));
 		$this->hr();
