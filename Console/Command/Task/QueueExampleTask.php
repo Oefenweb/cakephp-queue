@@ -79,7 +79,7 @@ class QueueExampleTask extends Shell {
  * @param array $data Job data (passed on creation)
  * @return bool Success
  */
-	public function run(array $data) {
+	public function run(array $data) : bool {
 		$this->hr();
 		$this->out(__d('queue', 'CakePHP Queue Example task.'));
 		$this->hr();
