@@ -19,10 +19,10 @@ class QueuedTask extends AppModel {
  *
  * @param string $taskName A queue task name
  * @param array $data Any data
- * @param string $notBefore A datetime which indicates when the job may be executed
+ * @param ?string $notBefore A datetime which indicates when the job may be executed
  * @return mixed On success `Model::$data` if its not empty or true, false on failure
  */
-	public function createJob($taskName, array $data, $notBefore = null) {
+	public function createJob(string $taskName, array $data, ?string $notBefore = null) {
 		$data = [
 			'task' => $taskName,
 			'data' => serialize($data),

@@ -215,32 +215,32 @@ class QueuedTaskTest extends CakeTestCase {
 		$this->assertTrue((bool)$this->QueuedTask->createJob('dummytask', []));
 		$this->assertTrue((bool)$this->QueuedTask->createJob('dummytask', []));
 		// Create a task with it's execution target some seconds in the past, so it should jump to the top of the list
-		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', [], '- 3 Seconds'));
-		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', [], '- 4 Seconds'));
-		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', [], '- 5 Seconds'));
+		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', ['three'], '- 3 Seconds'));
+		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', ['two'], '- 4 Seconds'));
+		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', ['one'], '- 5 Seconds'));
 
 		// When usin requestJob, the jobs we just created should be delivered in this order,
 		// NOT the order in which they where created
 		$expected = [
 			[
 				'name' => 'task1',
-				'data' => 'one'
+				'data' => ['one']
 			],
 			[
 				'name' => 'task1',
-				'data' => 'two'
+				'data' => ['two']
 			],
 			[
 				'name' => 'task1',
-				'data' => 'three'
+				'data' => ['three']
 			],
 			[
 				'name' => 'dummytask',
-				'data' => ''
+				'data' => ['']
 			],
 			[
 				'name' => 'dummytask',
-				'data' => ''
+				'data' => ['']
 			]
 		];
 
@@ -265,15 +265,15 @@ class QueuedTaskTest extends CakeTestCase {
 			]
 		];
 
-		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', '1'));
+		$this->assertTrue((bool)$this->QueuedTask->createJob('task1', ['1']));
 		$tmp = $this->QueuedTask->requestJob($capabilities);
 		$this->assertEqual($tmp['task'], 'task1');
-		$this->assertEqual(unserialize($tmp['data']), '1');
+		$this->assertEqual(unserialize($tmp['data']), ['1']);
 		$this->assertEqual($tmp['failed_count'], '0');
 		sleep(2);
 		$tmp = $this->QueuedTask->requestJob($capabilities);
 		$this->assertEqual($tmp['task'], 'task1');
-		$this->assertEqual(unserialize($tmp['data']), '1');
+		$this->assertEqual(unserialize($tmp['data']), ['1']);
 		$this->assertEqual($tmp['failed_count'], '1');
 		$this->assertEqual($tmp['failure_message'], 'Restart after timeout');
 	}
