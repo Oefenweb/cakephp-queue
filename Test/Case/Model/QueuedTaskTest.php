@@ -236,11 +236,11 @@ class QueuedTaskTest extends CakeTestCase {
 			],
 			[
 				'name' => 'dummytask',
-				'data' => ['']
+				'data' => []
 			],
 			[
 				'name' => 'dummytask',
-				'data' => ['']
+				'data' => []
 			]
 		];
 
