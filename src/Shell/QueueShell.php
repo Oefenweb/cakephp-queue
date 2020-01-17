@@ -17,7 +17,7 @@ use Queue\Shell\Task\QueueTaskInterface;
 use RuntimeException;
 use Throwable;
 
-declare(ticks = 1);
+declare(ticks=1);
 
 /**
  * Main shell to init and run queue workers.
@@ -164,19 +164,19 @@ TEXT;
         if (function_exists('pcntl_signal')) {
             pcntl_signal(SIGTERM, [
                 &$this,
-                '_exit'
+                '_exit',
             ]);
             pcntl_signal(SIGINT, [
                 &$this,
-                '_exit'
+                '_exit',
             ]);
             pcntl_signal(SIGTSTP, [
                 &$this,
-                '_exit'
+                '_exit',
             ]);
             pcntl_signal(SIGQUIT, [
                 &$this,
-                '_exit'
+                '_exit',
             ]);
         }
         $this->_exit = false;
@@ -357,39 +357,39 @@ TEXT;
                  * 'boolean' => true
                  * ),
                  */
-            ]
+            ],
         ];
         $subcommandParserFull = $subcommandParser;
         $subcommandParserFull['options']['type'] = [
             'short' => 't',
             'help' => 'Type (comma separated list possible)',
-            'default' => null
+            'default' => null,
         ];
 
         return parent::getOptionParser()->setDescription($this->getDescription())
             ->addSubcommand('clean', [
                 'help' => 'Remove old jobs (cleanup)',
-                'parser' => $subcommandParser
+                'parser' => $subcommandParser,
             ])
             ->addSubcommand('clean_failed', [
                 'help' => 'Remove old failed jobs (cleanup)',
-                'parser' => $subcommandParser
+                'parser' => $subcommandParser,
             ])
             ->addSubcommand('add', [
                 'help' => 'Add Job',
-                'parser' => $subcommandParser
+                'parser' => $subcommandParser,
             ])
             ->addSubcommand('stats', [
                 'help' => 'Stats',
-                'parser' => $subcommandParserFull
+                'parser' => $subcommandParserFull,
             ])
             ->addSubcommand('settings', [
                 'help' => 'Settings',
-                'parser' => $subcommandParserFull
+                'parser' => $subcommandParserFull,
             ])
             ->addSubcommand('runworker', [
                 'help' => 'Run Worker',
-                'parser' => $subcommandParserFull
+                'parser' => $subcommandParserFull,
             ]);
     }
 
@@ -417,7 +417,7 @@ TEXT;
             $message .= ' (pid ' . $pid . ')';
         }
         Log::write('info', $message, [
-            'scope' => 'queue'
+            'scope' => 'queue',
         ]);
     }
 

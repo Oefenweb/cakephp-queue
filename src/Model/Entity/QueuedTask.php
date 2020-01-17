@@ -35,6 +35,6 @@ class QueuedTask extends Entity
         'failed_count' => true,
         'failure_message' => true,
         'worker_key' => true,
-        'created' => true
+        'created' => true,
     ];
 }

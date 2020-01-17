@@ -31,7 +31,7 @@ class QueuedTasksTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.Queue.QueuedTasks'
+        'plugin.Queue.QueuedTasks',
     ];
 
     /**
@@ -43,7 +43,7 @@ class QueuedTasksTableTest extends TestCase
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('QueuedTasks') ? [] : [
-            'className' => QueuedTasksTable::class
+            'className' => QueuedTasksTable::class,
         ];
         $this->QueuedTasks = TableRegistry::getTableLocator()->get('QueuedTasks', $config);
     }
@@ -71,7 +71,7 @@ class QueuedTasksTableTest extends TestCase
         // create a job
         $this->assertTrue((bool)$this->QueuedTasks->createJob('test1', [
             'some' => 'random',
-            'test' => 'data'
+            'test' => 'data',
         ]));
 
         // test if queue Length is 1 now.
@@ -80,15 +80,15 @@ class QueuedTasksTableTest extends TestCase
         // create some more jobs
         $this->assertTrue((bool)$this->QueuedTasks->createJob('test2', [
             'some' => 'random',
-            'test' => 'data2'
+            'test' => 'data2',
         ]));
         $this->assertTrue((bool)$this->QueuedTasks->createJob('test2', [
             'some' => 'random',
-            'test' => 'data3'
+            'test' => 'data3',
         ]));
         $this->assertTrue((bool)$this->QueuedTasks->createJob('test3', [
             'some' => 'random',
-            'test' => 'data4'
+            'test' => 'data4',
         ]));
 
         // overall queueLength shpould now be 4
@@ -114,14 +114,14 @@ class QueuedTasksTableTest extends TestCase
             'task1' => [
                 'name' => 'task1',
                 'timeout' => 100,
-                'retries' => 2
-            ]
+                'retries' => 2,
+            ],
         ];
         $testData = [
             'x1' => 'y1',
             'x2' => 'y2',
             'x3' => 'y3',
-            'x4' => 'y4'
+            'x4' => 'y4',
         ];
 
         // start off empty.
@@ -170,15 +170,15 @@ class QueuedTasksTableTest extends TestCase
             'task1' => [
                 'name' => 'task1',
                 'timeout' => 100,
-                'retries' => 2
-            ]
+                'retries' => 2,
+            ],
         ];
         // at first, the queue should contain 0 items.
         $this->assertSame(0, $this->QueuedTasks->getLength());
         // create some more jobs
         foreach (range(0, 9) as $num) {
             $this->assertTrue((bool)$this->QueuedTasks->createJob('task1', [
-                'tasknum' => $num
+                'tasknum' => $num,
             ]));
         }
         // 10 jobs in the queue.
@@ -238,25 +238,25 @@ class QueuedTasksTableTest extends TestCase
             'task1' => [
                 'name' => 'task1',
                 'timeout' => 100,
-                'retries' => 2
+                'retries' => 2,
             ],
             'dummytask' => [
                 'name' => 'dummytask',
                 'timeout' => 100,
-                'retries' => 2
-            ]
+                'retries' => 2,
+            ],
         ];
         $this->assertTrue((bool)$this->QueuedTasks->createJob('dummytask'));
         $this->assertTrue((bool)$this->QueuedTasks->createJob('dummytask'));
         // create a task with it's execution target some seconds in the past, so it should jump to the top of the testCreateAndFetchlist.
         $this->assertTrue((bool)$this->QueuedTasks->createJob('task1', [
-            'three'
+            'three',
         ], '- 3 Seconds'));
         $this->assertTrue((bool)$this->QueuedTasks->createJob('task1', [
-            'two'
+            'two',
         ], '- 5 Seconds'));
         $this->assertTrue((bool)$this->QueuedTasks->createJob('task1', [
-            'one'
+            'one',
         ], '- 7 Seconds'));
 
         // when using requestJob, the jobs we just created should be delivered in this order, NOT the order in which they where created.
@@ -264,29 +264,29 @@ class QueuedTasksTableTest extends TestCase
             [
                 'name' => 'task1',
                 'data' => [
-                    'one'
-                ]
+                    'one',
+                ],
             ],
             [
                 'name' => 'task1',
                 'data' => [
-                    'two'
-                ]
+                    'two',
+                ],
             ],
             [
                 'name' => 'task1',
                 'data' => [
-                    'three'
-                ]
+                    'three',
+                ],
             ],
             [
                 'name' => 'dummytask',
-                'data' => null
+                'data' => null,
             ],
             [
                 'name' => 'dummytask',
-                'data' => null
-            ]
+                'data' => null,
+            ],
         ];
 
         foreach ($expected as $item) {

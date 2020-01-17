@@ -37,7 +37,7 @@ class QueueShellTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.Queue.QueuedTasks'
+        'plugin.Queue.QueuedTasks',
     ];
 
     /**
@@ -57,10 +57,10 @@ class QueueShellTest extends TestCase
             ->setMethods([
                 'in',
                 'err',
-                '_stop'
+                '_stop',
             ])
             ->setConstructorArgs([
-                $io
+                $io,
             ])
             ->getMock();
         $this->QueueShell->initialize();
@@ -71,7 +71,7 @@ class QueueShellTest extends TestCase
             'workerMaxRuntime' => 5,
             'cleanupTimeout' => 10,
             'exitWhenNothingToDo' => false,
-            'log' => false
+            'log' => false,
         ]);
     }
 
@@ -138,7 +138,7 @@ class QueueShellTest extends TestCase
     {
         $this->QueueShell = $this->getMockBuilder(QueueShell::class)
             ->setMethods([
-                '_time'
+                '_time',
             ])
             ->getMock();
 
@@ -179,7 +179,7 @@ class QueueShellTest extends TestCase
 
         $expected = [
             'Foo',
-            'Bar'
+            'Bar',
         ];
         $this->assertSame($expected, $result);
     }

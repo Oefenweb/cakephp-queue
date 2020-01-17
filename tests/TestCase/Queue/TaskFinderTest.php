@@ -49,7 +49,7 @@ class TaskFinderTest extends TestCase
         $result = $this->taskFinder->allAppAndPluginTasks();
         $this->assertCount(1, $result);
         $this->assertArraySubset([
-            'Queue.QueueExample'
+            'Queue.QueueExample',
         ], $result);
         $this->assertTrue(!in_array('Foo.QueueFoo', $result));
     }

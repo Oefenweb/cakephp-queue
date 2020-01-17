@@ -93,7 +93,7 @@ class QueuedTasksTable extends Table
         $task = [
             'task' => $taskName,
             'data' => serialize($data),
-            'not_before' => $this->getDateTime()
+            'not_before' => $this->getDateTime(),
         ];
 
         if (!empty($notBefore)) {
@@ -116,8 +116,8 @@ class QueuedTasksTable extends Table
     {
         $findConf = [
             'conditions' => [
-                'completed IS' => null
-            ]
+                'completed IS' => null,
+            ],
         ];
         if ($taskName !== null) {
             $findConf['conditions']['task'] = $taskName;
@@ -135,13 +135,13 @@ class QueuedTasksTable extends Table
     {
         $findCond = [
             'fields' => [
-                'task'
+                'task',
             ],
             'group' => [
-                'task'
+                'task',
             ],
             'keyField' => 'task',
-            'valueField' => 'task'
+            'valueField' => 'task',
         ];
 
         return $this->find('list', $findCond);
@@ -177,15 +177,15 @@ class QueuedTasksTable extends Table
                     'num' => $query->func()->count('*'),
                     'alltime' => $alltime,
                     'runtime' => $runtime,
-                    'fetchdelay' => $fetchdelay
+                    'fetchdelay' => $fetchdelay,
                 ];
             },
             'conditions' => [
-                'completed IS NOT' => null
+                'completed IS NOT' => null,
             ],
             'group' => [
-                'task'
-            ]
+                'task',
+            ],
         ];
 
         return $this->find('all', $options);
@@ -216,12 +216,12 @@ class QueuedTasksTable extends Table
             return [
                 'task',
                 'created',
-                'duration' => $runtime
+                'duration' => $runtime,
             ];
         };
 
         $conditions = [
-            'completed IS NOT' => null
+            'completed IS NOT' => null,
         ];
         if ($taskName) {
             $conditions['task'] = $taskName;
@@ -298,15 +298,15 @@ class QueuedTasksTable extends Table
         $options = [
             'conditions' => [
                 'completed IS' => null,
-                'OR' => []
+                'OR' => [],
             ],
             'fields' => [
-                'age' => $age
+                'age' => $age,
             ],
             'order' => [
                 'age' => 'ASC',
-                'id' => 'ASC'
-            ]
+                'id' => 'ASC',
+            ],
         ];
 
         if ($types) {
@@ -323,17 +323,17 @@ class QueuedTasksTable extends Table
                     [
                         'OR' => [
                             'not_before <=' => $nowStr,
-                            'not_before IS' => null
-                        ]
+                            'not_before IS' => null,
+                        ],
                     ],
                     [
                         'OR' => [
                             'fetched <' => $timeoutAt->subSeconds($task['timeout']),
-                            'fetched IS' => null
-                        ]
-                    ]
+                            'fetched IS' => null,
+                        ],
+                    ],
                 ],
-                'failed_count <' => ($task['retries'] + 1)
+                'failed_count <' => ($task['retries'] + 1),
             ];
             $options['conditions']['OR'][] = $tmp;
         }
@@ -353,7 +353,7 @@ class QueuedTasksTable extends Table
             /* @phan-suppress-next-line PhanPartialTypeMismatchArgument */
             $task = $this->patchEntity($task, [
                 'worker_key' => $key,
-                'fetched' => $now
+                'fetched' => $now,
             ]);
 
             return $this->saveOrFail($task);
@@ -375,7 +375,7 @@ class QueuedTasksTable extends Table
     public function markJobDone(QueuedTask $task): bool
     {
         $fields = [
-            'completed' => $this->getDateTime()
+            'completed' => $this->getDateTime(),
         ];
         $task = $this->patchEntity($task, $fields);
 
@@ -393,7 +393,7 @@ class QueuedTasksTable extends Table
     {
         $fields = [
             'failed_count' => $task->failed_count + 1,
-            'failure_message' => $failureMessage
+            'failure_message' => $failureMessage,
         ];
         $task = $this->patchEntity($task, $fields);
 
@@ -414,10 +414,10 @@ class QueuedTasksTable extends Table
             'fetched' => null,
             'failed_count' => 0,
             'worker_key' => null,
-            'failure_message' => null
+            'failure_message' => null,
         ];
         $conditions = [
-            'completed IS' => null
+            'completed IS' => null,
         ];
         if ($id) {
             $conditions['id'] = $id;
@@ -439,11 +439,11 @@ class QueuedTasksTable extends Table
             'fetched' => null,
             'failed_count' => 0,
             'worker_key' => null,
-            'failure_message' => null
+            'failure_message' => null,
         ];
         $conditions = [
             'completed IS NOT' => null,
-            'task' => $taskName
+            'task' => $taskName,
         ];
 
         return $this->updateAll($fields, $conditions);
@@ -461,7 +461,7 @@ class QueuedTasksTable extends Table
             list (, $name) = pluginSplit($task['name']);
             $conditions = [
                 'task' => $name,
-                'completed <' => date('Y-m-d H:i:s', time() - (int)$task['cleanupTimeout'])
+                'completed <' => date('Y-m-d H:i:s', time() - (int)$task['cleanupTimeout']),
             ];
             $this->deleteAll($conditions);
         }
@@ -479,7 +479,7 @@ class QueuedTasksTable extends Table
             list (, $name) = pluginSplit($task['name']);
             $conditions = [
                 'task' => $name,
-                'failed_count >' => $task['retries']
+                'failed_count >' => $task['retries'],
             ];
             $this->deleteAll($conditions);
         }
