@@ -97,7 +97,7 @@ class QueuedTasksTable extends Table
         ];
 
         if (!empty($notBefore)) {
-            $task['not_before'] = $this->getDateTime(strtotime($notBefore));
+            $task['not_before'] = $this->getDateTime($notBefore);
         }
 
         $queuedTask = $this->newEntity($task);
