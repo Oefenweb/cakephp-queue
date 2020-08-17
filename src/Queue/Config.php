@@ -62,7 +62,7 @@ class Config
 
     /**
      *
-     * @return int
+     * @return bool
      */
     public static function gcOnExit(): bool
     {
