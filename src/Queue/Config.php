@@ -59,4 +59,13 @@ class Config
     {
         return Configure::read('Queue.defaultWorkerRetries', 4);
     }
+
+    /**
+     *
+     * @return int
+     */
+    public static function gcOnExit(): bool
+    {
+        return Configure::read('Queue.gcOnExit', true);
+    }
 }

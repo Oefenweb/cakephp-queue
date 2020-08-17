@@ -26,7 +26,7 @@ Enable the plugin within your src/Application.php bootstrap function:
 $this->addPlugin('Queue');
 ```
 
-It is also advised to have the `posix` PHP extension enabled. 
+It is also advised to have the `posix` PHP extension enabled.
 
 
 ## Configuration
@@ -79,6 +79,12 @@ You may create a file called `app_queue.php` inside your `config` folder (NOT th
     $config['Queue']['cleanupTimeout'] = 2592000; // 30 days
     ```
 
+- Whether or not to cleanup on exit:
+
+    ```php
+    $config['Queue']['gcOnExit'] = true;
+    ```
+
 Don't forget to load that config file with `Configure::load('app_queue');` in your bootstrap.
 You can also use `Plugin::load('Queue', ['bootstrap' => true]);` which will load your `app_queue.php` config file automatically.
 
@@ -106,7 +112,7 @@ You can set two main things on each task as property: timeout and retries.
      * @var int
      */
     public $timeout = 120;
-    
+
     /**
      * Number of times a failed instance of this task should be restarted before giving up.
      *
