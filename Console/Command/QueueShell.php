@@ -274,7 +274,7 @@ class QueueShell extends AppShell {
 					));
 				}
 
-				if (($this->_exit && Configure::read('Queue.gcOnExit')) || rand(0, 100) > (100 - Configure::read('Queue.gcprop'))) {
+				if (($this->__exit && Configure::read('Queue.gcOnExit')) || rand(0, 100) > (100 - Configure::read('Queue.gcprop'))) {
 					$this->out(__d('queue', 'Performing old job cleanup.'));
 					$this->QueuedTask->cleanOldJobs($this->_getTaskConf());
 				}
