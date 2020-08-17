@@ -35,6 +35,7 @@ Configure::write('Queue.defaultWorkerRetries', 4);
 Configure::write('Queue.workerMaxRuntime', 0);
 Configure::write('Queue.cleanupTimeout', DAY);
 Configure::write('Queue.exitWhenNothingToDo', false);
+Configure::write('Queue.gcOnExit', true);
 ```
 
 Load schema:
