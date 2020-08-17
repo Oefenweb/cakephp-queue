@@ -206,7 +206,7 @@ TEXT;
                 $this->_exit = true;
                 $this->out(__d('queue', 'Reached runtime of ' . (time() - $startTime) . ' Seconds (Max ' . Configure::readOrFail('Queue.workerMaxRuntime') . '), terminating.'));
             }
-            if ($this->_exit || mt_rand(0, 100) > (100 - Config::gcprob())) {
+            if (mt_rand(0, 100) > (100 - Config::gcprob())) {
                 $this->out(__d('queue', 'Performing old job cleanup.'));
                 $this->QueuedTasks->cleanOldJobs($this->_getTaskConf());
             }
